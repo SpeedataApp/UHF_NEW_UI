@@ -42,6 +42,7 @@ public class MyApp extends Application {
         Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
 
         startService(new Intent(this,MyService.class));
+        Log.d("UHFService","MyApp onCreate");
     }
 
 

@@ -61,6 +61,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private int init_progress = 0;
     private String modle;
     private CheckBox checkBox;
+    private CheckBox checkBoxService;
     private BufferedWriter CtrlFile;
     private long mkeyTime = 0;
 
@@ -99,6 +100,7 @@ public class MainActivity extends Activity implements OnClickListener {
             btn_inv_set.setEnabled(true);
         }
 
+        Log.d("UHFService","sendUpddateService()");
         sendUpddateService();
     }
 
@@ -136,6 +138,9 @@ public class MainActivity extends Activity implements OnClickListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if (checkBoxService.isChecked()){
+            stopService(new Intent(this,MyService.class));
         }
     }
 
@@ -209,6 +214,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private void initUI() {
         setContentView(R.layout.main);
         checkBox = (CheckBox) findViewById(R.id.checkbox_close);
+        checkBoxService = (CheckBox) findViewById(R.id.checkbox_close_service);
         Write_Tag = (Button) findViewById(R.id.btn_write);
         Write_Tag.setOnClickListener(this);
         Read_Tag = (Button) findViewById(R.id.btn_read);
@@ -261,6 +267,12 @@ public class MainActivity extends Activity implements OnClickListener {
         if (checkBox.isChecked()) {
             //注销广播、对象制空
             UHFManager.closeUHFService();
+        }
+        if (checkBoxService.isChecked()){
+            // 停止服务
+            stopService(new Intent(this,MyService.class));
+            // 销毁application
+            System.exit(0);
         }
 
         EventBus.getDefault().unregister(this);
