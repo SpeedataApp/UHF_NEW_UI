@@ -10,9 +10,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,29 +38,20 @@ public class MyService extends Service {
     private boolean isScan = false;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, final Intent intent) {
+        public void onReceive(Context context, Intent intent) {
 
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            }).start();
+            String action = intent.getAction();
 
-            synchronized (intent) {
-                String action = intent.getAction();
-                //            SendData("");
-                Log.d(TAG, "===rece===action" + action);
-                if (action.equals(SCAN)) {
-                    //启动超高频扫描
-                    if (!openDev()) {
-                        Log.d(TAG, "===inventoryStart===");
-                        iuhfService.inventoryStart();
-                        isScan = true;
-                    }
-                } else if (action.equals(update)) {
-                    initUHF();
+            Log.d(TAG, "===rece===action" + action);
+            if (action.equals(SCAN)) {
+                //启动超高频扫描
+                if (openDev()) {
+
+                    iuhfService.inventoryStart();
+                    isScan = true;
                 }
+            } else if (action.equals(update)) {
+                initUHF();
             }
         }
     };
@@ -83,14 +72,14 @@ public class MyService extends Service {
         public int releaseUHF() {
             Log.d("MyService", "getProgress executed");
             return 0;
-        }
+        }//在服务中自定义getProgress()方法，待会活动中调用此方法
 
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
-    }
+    }//普通服务的不同之处，onBind()方法不在打酱油，而是会返回一个实例
 
 
     @Override
@@ -110,6 +99,7 @@ public class MyService extends Service {
     }
 
     private void initUHF() {
+        Log.e(TAG, "initUHF");
         try {
             iuhfService = UHFManager.getUHFService(this);
         } catch (Exception e) {
@@ -127,7 +117,6 @@ public class MyService extends Service {
             public void getInventoryData(SpdInventoryData var1) {
 
                 String epc = var1.getEpc();
-                Log.d(TAG, "===getEpc==="+epc);
                 if (!epc.isEmpty() && isScan) {
                     isScan = false;
                     Log.d(TAG, "===inventoryStop===");
@@ -177,11 +166,14 @@ public class MyService extends Service {
                         Log.d(TAG, "===openDev===失败" + i);
                     }
                 }).show();
-
+                isOpen = false;
+                return false;
+            } else {
+                Log.d(TAG, "===openDev===成功");
+                isOpen = true;
                 return true;
             }
-            Log.d(TAG, "===openDev===成功");
-            return false;
+
         } else {
             return true;
         }
