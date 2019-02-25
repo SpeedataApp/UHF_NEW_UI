@@ -2,6 +2,7 @@ package com.speedata.uhf.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -113,6 +114,7 @@ public class SearchTagDialog extends Dialog implements
             @Override
             public void getInventoryData(SpdInventoryData var1) {
                 handler.sendMessage(handler.obtainMessage(1, var1));
+                Log.d("UHFService","回调");
             }
         });
     }
@@ -185,9 +187,15 @@ public class SearchTagDialog extends Dialog implements
         super.onStop();
     }
 
+    private void sendUpddateService() {
+        Intent intent = new Intent();
+        intent.setAction("uhf.update");
+        cont.sendBroadcast(intent);
+    }
     @Override
     public void onClick(View v) {
         if (v == Cancle) {
+            sendUpddateService();
             soundPool.release();
             dismiss();
         } else if (v == Action) {

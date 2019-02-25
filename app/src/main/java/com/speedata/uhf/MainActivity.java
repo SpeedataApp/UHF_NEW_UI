@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements OnClickListener {
         modle = SharedXmlUtil.getInstance(MainActivity.this).read("modle", "");
         initUI();
         Version.append("-" + modle);
-        newWakeLock();
+//        newWakeLock();
         EventBus.getDefault().register(this);
         Set_Tag.setEnabled(true);
         Search_Tag.setEnabled(true);
@@ -101,8 +101,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
         sendUpddateService();
     }
-    private void sendUpddateService(){
-        Intent intent=new Intent();
+
+    private void sendUpddateService() {
+        Intent intent = new Intent();
         intent.setAction("uhf.update");
         sendBroadcast(intent);
     }
