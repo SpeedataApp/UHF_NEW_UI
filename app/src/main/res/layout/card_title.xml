@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/card_title_shape">
+
+        <ImageView
+            android:id="@+id/title_exit"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginLeft="14dp"
+            android:background="@drawable/exit_ico" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/card_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="8dp"
+                android:text="Reserved"
+                android:textColor="@color/text_white"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/sp_title"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/select_ico"
+                android:entries="@array/way" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

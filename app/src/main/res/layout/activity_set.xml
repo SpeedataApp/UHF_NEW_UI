@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/set_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/text_white2">
+
+        <TableLayout
+            android:id="@+id/set_tab1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/text_white">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="设置定频"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/set_freq_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/icon_fh"
+                    android:gravity="center_vertical"
+                    android:hint="选择合适的定频"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="S2"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/set_s2_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/icon_fh"
+                    android:gravity="center_vertical"
+                    android:hint="选择"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="天线功率"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_power"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="填写功率大小"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow android:visibility="gone">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="设置频点"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_freq_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="设置频点大小"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/set_tab2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_tab1"
+            android:layout_marginTop="10dp"
+            android:background="@color/text_white">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="盘点内容"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/set_onlyepc_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/icon_fh"
+                    android:gravity="center_vertical"
+                    android:hint="选择"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="地址"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="填写地址位置"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:padding="14dp"
+                    android:text="块数"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="填写块数信息"
+                    android:padding="14dp"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_tab2"
+            android:layout_marginTop="10dp"
+            android:background="@color/text_white"
+            android:paddingLeft="14dp"
+            android:visibility="gone">
+
+            <TableRow>
+
+                <CheckBox
+                    android:id="@+id/check_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="开启快捷盘点服务" />
+            </TableRow>
+        </TableLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/text_white"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_set_ok"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_blue_shape"
+                android:text="确认"
+                android:textColor="@color/text_white"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

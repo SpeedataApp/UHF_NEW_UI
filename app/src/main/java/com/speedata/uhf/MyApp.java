@@ -6,19 +6,21 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.speedata.libuhf.IUHFService;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Created by 张明_ on 2018/3/15.
+ *
+ * @author 张明_
+ * @date 2018/3/15
  */
-
 public class MyApp extends Application {
-    private static MyApp m_application; // 单例
+    private static MyApp m_application;
+    // 单例
 
 
     public static MyApp getInstance() {

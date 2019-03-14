@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.speedata.uhf"
-    android:sharedUserId="android.uid.system">
+    coreApp="true"
+    package="com.speedata.uhf">
+    <!--android:sharedUserId="android.uid.system">-->
 
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 在新更新需要的权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -22,10 +23,10 @@
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".NewMainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +38,67 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".PopSetFreqActivity"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".PopSetS2Activity"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".PopSetInvContentActivity"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".PopAttrSetActivity"
+            android:theme="@style/MyDialogStyleRight" />
+        <activity android:name=".CurrentCardActivity" />
+        <activity android:name=".SetActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="spd.intent.action.UHF" />
+            </intent-filter>
+            <intent-filter android:priority="6">
+                <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+                <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@mipmap/icon_uhf"/>
+            <meta-data
+                android:name="com.android.settings.title"
+                android:resource="@string/uhf_config" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/uhf_config_summary" />
+        </activity>
+        <activity android:name=".SearchDirectionActivity" />
+
+        <activity android:name=".PikestaffActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="spd.intent.action.PIKESTAFF"/>
+            </intent-filter>
+            <intent-filter android:priority="6">
+                <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@mipmap/icon_qb"/>
+            <meta-data
+                android:name="com.android.settings.title"
+                android:resource="@string/qb_config" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/qb_config_summary" />
+        </activity>
+
     </application>
 
 </manifest>

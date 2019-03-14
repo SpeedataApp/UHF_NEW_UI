@@ -54,8 +54,8 @@
     <string name="Item_New_EPC">新的EPC</string>
     <string name="Item_Lock_Area">Memory Space</string>
     <string name="Item_Lock_Action">Action</string>
-    <string name="Start_Search_Btn">开始</string>
-    <string name="Stop_Search_Btn">停止</string>
+    <string name="Start_Search_Btn">寻卡</string>
+    <string name="Stop_Search_Btn">暂停</string>
     <string name="Status_Passwd_Length_Error">密码长度错误</string>
     <string name="Status_Content_Length_Error">内容长度错误</string>
     <string name="Status_Write_Error">写卡错误</string>
@@ -101,4 +101,9 @@
     <string name="set_success">设置成功</string>
     <string name="dialog_dir_epc">填入要寻找的EPC</string>
     <string name="dialog_dir_seek">开始寻找</string>
+
+    <string name="uhf_config">UHF</string>
+    <string name="uhf_config_summary">UHF设置</string>
+    <string name="qb_config">枪柄</string>
+    <string name="qb_config_summary">枪柄设置</string>
 </resources>

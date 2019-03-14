@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="110dp"
+        android:background="@drawable/bg_title_rw"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写卡"
+            android:textColor="@color/text_white"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rwcard_shape"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="密码"
+                android:textColor="@color/text_set_dark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText_write_passwd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="填写密码"
+                android:padding="5dp"
+                android:text="@string/VALUE_ZERO"
+                android:textColor="@color/text_set_dark"
+                android:textColorHint="@color/text_gray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="地址"
+                android:textColor="@color/text_set_dark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText_write_addr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="填写地址位置"
+                android:padding="5dp"
+                android:textColor="@color/text_set_dark"
+                android:textColorHint="@color/text_gray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="块数"
+                android:textColor="@color/text_set_dark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText_write_count"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="填写块数信息"
+                android:padding="5dp"
+                android:textColor="@color/text_set_dark"
+                android:textColorHint="@color/text_gray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="内容"
+                android:textColor="@color/text_set_dark"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="填写写卡内容"
+                android:padding="5dp"
+                android:textColor="@color/text_set_dark"
+                android:textColorHint="@color/text_gray"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textView_write_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/TextView_Null"
+            android:textColor="#f40404" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/btn_write_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_blue_shape"
+                android:text="写卡"
+                android:textColor="@color/text_white"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:background="@color/transparent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_write_cancle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/icon_qx" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

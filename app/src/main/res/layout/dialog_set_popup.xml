@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/pop_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#00ffffff"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/popup_set_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/text_white"
+            android:divider="@color/text_white2"
+            android:dividerHeight="1dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="#60808080" />
+
+        <TextView
+            android:id="@+id/tv_pop_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/text_white"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/text_set_dark" />
+
+    </LinearLayout>
+
+</RelativeLayout>

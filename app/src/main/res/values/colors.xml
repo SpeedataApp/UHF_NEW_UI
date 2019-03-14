@@ -3,6 +3,20 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="read_card_info">#ea0404</color>
     <color name="commom_text_color">#000000</color>
     <color name="text_white">#FFFFFF</color>
+    <color name="text_white2">#f4f4f4</color>
+    <color name="text_gray">#bebebe</color>
+    <color name="text_card_gray">#9b9b9b</color>
+    <color name="text_set_dark">#464646</color>
+    <color name="btn_blue">#5ac9fc</color>
+    <color name="btn_blue2">#a9e5ff</color>
+    <color name="btn_gray">#e4e4e4</color>
+    <color name="btn_deep_blue">#5a9bfc</color>
+
+    <!--半透明-->
+    <color name="tran_blue">#50c5edfd</color>
+    <!--透明-->
+    <color name="transparent">#00000000</color>
 </resources>

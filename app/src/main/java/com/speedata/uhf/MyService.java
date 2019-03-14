@@ -22,21 +22,24 @@ import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 
 /**
  * 接受广播  触发盘点，返回EPC
+ *
+ * @author My_PC
  */
 public class MyService extends Service {
 
     /**
      * 按设备侧键触发的扫描广播
      */
-    public static final String SCAN = "com.geomobile.se4500barcode";
-    public static final String update = "uhf.update";
+    public static final String START_SCAN = "com.spd.action.start_uhf";
+    public static final String STOP_SCAN = "com.spd.action.stop_uhf";
+    public static final String ACTION_SEND_DATA = "com.se4500.onDecodeComplete";
+    public static final String UPDATE = "uhf.update";
     private static final String TAG = "UHFService";
     boolean isOpen = false;
     private IUHFService iuhfService;
-    private String ACTION_SEND_DATA = "com.se4500.onDecodeComplete";
     private SoundPool soundPool;
     private int soundId;
-    private boolean isScan = false;
+    private boolean isStart = false;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -44,15 +47,29 @@ public class MyService extends Service {
             String action = intent.getAction();
 
             Log.d(TAG, "===rece===action" + action);
-            if (action.equals(SCAN)) {
-                //启动超高频扫描
-                if (openDev()) {
-
-                    iuhfService.inventoryStart();
-                    isScan = true;
-                }
-            } else if (action.equals(update)) {
-                initUHF();
+            assert action != null;
+            switch (action) {
+                case START_SCAN:
+                    //启动超高频扫描
+                    if (openDev()) {
+                        if (isStart) {
+                            return;
+                        }
+                        iuhfService.inventoryStart();
+                        isStart = true;
+                    }
+                    break;
+                case STOP_SCAN:
+                    if (isStart) {
+                        iuhfService.inventoryStop();
+                        isStart = false;
+                    }
+                    break;
+                case UPDATE:
+                    initUHF();
+                    break;
+                default:
+                    break;
             }
         }
     };
@@ -61,11 +78,11 @@ public class MyService extends Service {
     }
 
 
-    private UHFBinder mBinder = new UHFBinder();
+    private UhfBinder mBinder = new UhfBinder();
 
-    class UHFBinder extends Binder {
+    class UhfBinder extends Binder {
 
-        public void initUHF() {
+        void initUHF() {
             Log.d(TAG, "initUHF");
             initUHF();
         }
@@ -73,7 +90,8 @@ public class MyService extends Service {
         public int releaseUHF() {
             Log.d("MyService", "getProgress executed");
             return 0;
-        }//在服务中自定义getProgress()方法，待会活动中调用此方法
+        }
+        //在服务中自定义getProgress()方法，待会活动中调用此方法
 
     }
 
@@ -89,9 +107,6 @@ public class MyService extends Service {
         Log.d(TAG, "===onCreate===");
         initReceive();
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-        if (soundPool == null) {
-            Log.e("as3992", "Open sound failed");
-        }
         soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         Log.w("as3992_6C", "id is " + soundId);
 
@@ -105,7 +120,7 @@ public class MyService extends Service {
             iuhfService = UHFManager.getUHFService(this);
         } catch (Exception e) {
             e.printStackTrace();
-            boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
+            boolean cn = "CN".equals(getApplicationContext().getResources().getConfiguration().locale.getCountry());
             if (cn) {
                 Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
             } else {
@@ -118,11 +133,9 @@ public class MyService extends Service {
             public void getInventoryData(SpdInventoryData var1) {
 
                 String epc = var1.getEpc();
-                if (!epc.isEmpty() && isScan) {
-                    isScan = false;
+                if (!epc.isEmpty() && isStart) {
                     Log.d(TAG, "===inventoryStop===");
-                    iuhfService.inventoryStop();
-                    SendData(epc);
+                    sendData(epc);
                 }
             }
         });
@@ -134,12 +147,13 @@ public class MyService extends Service {
      */
     private void initReceive() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(SCAN);
-        filter.addAction(update);
+        filter.addAction(START_SCAN);
+        filter.addAction(STOP_SCAN);
+        filter.addAction(UPDATE);
         registerReceiver(receiver, filter);
     }
 
-    private void SendData(String data) {
+    private void sendData(String data) {
         soundPool.play(soundId, 1, 1, 0, 0, 1);
         Intent intent = new Intent();
         intent.setAction(ACTION_SEND_DATA);
@@ -153,13 +167,11 @@ public class MyService extends Service {
     /**
      * 上电开串口
      *
-     * @return
      */
     private boolean openDev() {
         if (!isOpen) {
             final int i = iuhfService.openDev();
             if (i != 0) {
-                //            Cur_Tag_Info.setText("Open serialport failed");
                 new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
 
                     @Override

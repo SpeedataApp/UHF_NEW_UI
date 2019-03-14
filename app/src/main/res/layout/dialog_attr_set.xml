@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/text_white">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="密码设置"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="初始密码"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/et_pwdset_init"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入初始密码"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="@string/VALUE_ZERO"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="密码类型"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <RadioGroup
+                            android:id="@+id/pwd_set_rg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rbtn_pwd_kill"
+                                android:layout_width="80dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:checked="true"
+                                android:gravity="center"
+                                android:text="死亡密码"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbtn_pwd_acc"
+                                android:layout_width="80dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="访问密码"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="新密码"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/et_pwdset_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入新密码"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="EPC设置"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="初始密码"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/editText_epc_passwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入初始密码"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="@string/VALUE_ZERO"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="EPC长度"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/editText_epc_epclength"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入EPC长度"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="新的EPC"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/editText_epc_newepc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入新的EPC"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="锁设置"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="存储空间"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <RadioGroup
+                            android:id="@+id/space_rg1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rbtn_kill"
+                                android:layout_width="80dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:checked="true"
+                                android:gravity="center"
+                                android:text="死亡密码"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbtn_acc"
+                                android:layout_width="80dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="访问密码"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <RadioGroup
+                            android:id="@+id/space_rg2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/rbtn_epc"
+                                android:layout_width="60dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="EPC"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbtn_tid"
+                                android:layout_width="60dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="TID"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbtn_user"
+                                android:layout_width="70dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="USER"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="密码类型"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入初始密码"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="新密码"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/et_lock_pwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="输入新密码"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/text_set_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp">
+
+                    <Button
+                        android:id="@+id/btn_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_gray2_shape"
+                        android:text="重置"
+                        android:textColor="@color/text_white"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/btn_ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_b_g_select"
+                        android:text="确定"
+                        android:textColor="@color/text_white"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

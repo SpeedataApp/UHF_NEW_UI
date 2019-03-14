@@ -55,7 +55,7 @@
     <string name="Item_Lock_Area">Memory Space</string>
     <string name="Item_Lock_Action">Action</string>
     <string name="Start_Search_Btn">Start</string>
-    <string name="Stop_Search_Btn">Stop</string>
+    <string name="Stop_Search_Btn">Pause</string>
     <string name="Status_Passwd_Length_Error">Password Length is Wrong</string>
     <string name="Status_Content_Length_Error">Content Length is Wrong</string>
     <string name="Status_Write_Error">Write Card Error</string>
@@ -101,4 +101,9 @@
     <string name="set_success">Setting Success</string>
     <string name="dialog_dir_epc">Fill in the EPC you are looking for</string>
     <string name="dialog_dir_seek">Find Now</string>
+
+    <string name="uhf_config">UHF</string>
+    <string name="uhf_config_summary">UHF Settings</string>
+    <string name="qb_config">Pikestaff</string>
+    <string name="qb_config_summary">Pikestaff Settings</string>
 </resources>

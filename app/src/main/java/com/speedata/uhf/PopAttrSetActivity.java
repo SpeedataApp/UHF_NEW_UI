@@ -1,0 +1,321 @@
+package com.speedata.uhf;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
+import com.speedata.libuhf.bean.SpdWriteData;
+import com.speedata.libuhf.interfaces.OnSpdWriteListener;
+import com.speedata.libuhf.utils.StringUtils;
+
+/**
+ * 卡片属性设置弹框
+ * Created by 张智超 on 2019/3/6
+ *
+ * @author My_PC
+ */
+public class PopAttrSetActivity extends Activity {
+
+    /**
+     * password
+     */
+    private EditText pwdinit, pwdnew;
+    private RadioButton rbtnPwdKill,rbtnPwdAcc;
+    /**
+     * epc
+     */
+    private EditText passwd;
+    private EditText newepc;
+    private EditText newepclength;
+    /**
+     * lock
+     */
+    private RadioGroup rgSpace1,rgSpace2;
+    private RadioButton rbSpaceKill,rbSpaceAcc,rbSpaceEpc,rbSpaceTid,rbSpaceUser;
+    private EditText newLockPwd;
+
+    private IUHFService iuhfService;
+
+    private boolean isSetPassword = false;
+    private boolean isSetEpc = false;
+    private boolean isSetLock = false;
+
+    private boolean isSuccess = false;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_attr_set);
+        // 让此界面的宽度撑满整个屏幕
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        initView();
+        initData();
+    }
+
+    public void initView() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
+        relativeLayout.setOnClickListener(new Click());
+
+        pwdinit = (EditText) findViewById(R.id.et_pwdset_init);
+        pwdnew = (EditText) findViewById(R.id.et_pwdset_new);
+        rbtnPwdAcc = (RadioButton) findViewById(R.id.rbtn_pwd_acc);
+        rbtnPwdKill = (RadioButton) findViewById(R.id.rbtn_pwd_kill);
+
+        passwd = (EditText) findViewById(R.id.editText_epc_passwd);
+        newepc = (EditText) findViewById(R.id.editText_epc_newepc);
+        newepclength = (EditText) findViewById(R.id.editText_epc_epclength);
+
+        rgSpace1 = (RadioGroup) findViewById(R.id.space_rg1);
+        rgSpace2 = (RadioGroup) findViewById(R.id.space_rg2);
+        rbSpaceKill = (RadioButton) findViewById(R.id.rbtn_kill);
+        rbSpaceKill.setOnCheckedChangeListener(new ChangeChecked());
+        rbSpaceAcc = (RadioButton) findViewById(R.id.rbtn_acc);
+        rbSpaceAcc.setOnCheckedChangeListener(new ChangeChecked());
+        rbSpaceEpc = (RadioButton) findViewById(R.id.rbtn_epc);
+        rbSpaceEpc.setOnCheckedChangeListener(new ChangeChecked());
+        rbSpaceTid = (RadioButton) findViewById(R.id.rbtn_tid);
+        rbSpaceTid.setOnCheckedChangeListener(new ChangeChecked());
+        rbSpaceUser = (RadioButton) findViewById(R.id.rbtn_user);
+        rbSpaceUser.setOnCheckedChangeListener(new ChangeChecked());
+        newLockPwd = (EditText) findViewById(R.id.et_lock_pwd);
+
+        Button ok = (Button) findViewById(R.id.btn_ok);
+        Button reset = (Button) findViewById(R.id.btn_reset);
+        ok.setOnClickListener(new Click());
+        reset.setOnClickListener(new Click());
+    }
+
+    public void initData() {
+        iuhfService = UHFManager.getUHFService(this);
+
+        iuhfService.setOnWriteListener(new OnSpdWriteListener() {
+            @Override
+            public void getWriteData(SpdWriteData var1) {
+                StringBuilder stringBuilder = new StringBuilder();
+                byte[] epcData = var1.getEPCData();
+                String hexString = StringUtils.byteToHexString(epcData, var1.getEPCLen());
+                if (!TextUtils.isEmpty(hexString)) {
+                    stringBuilder.append("EPC：").append(hexString).append("\n");
+                }
+                if (var1.getStatus() == 0) {
+                    //状态判断，已经写卡成功了就不返回错误码了
+                    isSuccess = true;
+                    stringBuilder.append("WriteSuccess" + "\n");
+                    handler.sendMessage(handler.obtainMessage(1, stringBuilder));
+                } else {
+                    stringBuilder.append("WriteError：").append(var1.getStatus()).append("\n");
+                }
+                if (!isSuccess) {
+                    handler.sendMessage(handler.obtainMessage(1, stringBuilder));
+                }
+            }
+        });
+    }
+
+    public class Click implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_ok:
+                    //确认
+                    setCheck();
+                    if (isSetPassword) {
+                        setPassword();
+                    }
+                    if (isSetEpc) {
+                        setEpc();
+                    }
+                    if (isSetLock) {
+                        setLock();
+                    }
+                    break;
+                case R.id.btn_reset:
+                    //重置
+                    pwdinit.setText(getResources().getString(R.string.VALUE_ZERO));
+                    rbtnPwdKill.setChecked(true);
+                    pwdnew.setText("");
+                    passwd.setText(getResources().getString(R.string.VALUE_ZERO));
+                    newepc.setText("");
+                    newepclength.setText("");
+                    rbSpaceKill.setChecked(true);
+
+                    break;
+                case R.id.relative_layout:
+                    //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 检测修改哪项
+     */
+    private void setCheck() {
+        String pwdnewStr = pwdnew.getText().toString();
+        isSetPassword = !TextUtils.isEmpty(pwdnewStr);
+
+        String newepcStr = newepc.getText().toString();
+        String newepclengthStr = newepclength.getText().toString();
+        isSetEpc = !TextUtils.isEmpty(newepcStr) || !TextUtils.isEmpty(newepclengthStr);
+
+        isSetLock = false;
+    }
+
+    /**
+     * 设置密码
+     */
+    private void setPassword() {
+        final String curpass = pwdinit.getText().toString();
+        final String newpass = pwdnew.getText().toString();
+        if (TextUtils.isEmpty(curpass) || TextUtils.isEmpty(newpass)) {
+            Toast.makeText(this, "参数不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int whichint = 0;
+        if (rbtnPwdAcc.isChecked()) {
+            whichint = 1;
+        }
+        final int which = whichint;
+
+        isSuccess = false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int setPassword = iuhfService.setPassword(which, curpass, newpass);
+                if (setPassword != 0) {
+                    handler.sendMessage(handler.obtainMessage(1, "参数不正确"));
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 设置EPC
+     */
+    private void setEpc() {
+        final String password = passwd.getText().toString().replace(" ", "");
+        final String epcstr = newepc.getText().toString().replace(" ", "");
+        String countstr = newepclength.getText().toString();
+        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(epcstr) || TextUtils.isEmpty(countstr)) {
+            Toast.makeText(PopAttrSetActivity.this, "参数不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final byte[] write = StringUtils.stringToByte(epcstr);
+        final int epcl;
+        try {
+            epcl = Integer.parseInt(countstr, 10);
+        } catch (NumberFormatException e) {
+            return;
+        }
+
+        isSuccess = false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int writeArea = setEPC(epcl, password, write);
+                if (writeArea != 0) {
+                    handler.sendMessage(handler.obtainMessage(1, "参数不正确"));
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 设置锁
+     */
+    private void setLock() {
+
+    }
+
+    int setEPC(int epclength, String passwd, byte[] ePC) {
+        byte[] res;
+        int len = 31;
+        if (epclength > len) {
+            return -3;
+        }
+        len = 2;
+        if (epclength * len < ePC.length) {
+            return -3;
+        }
+        res = iuhfService.read_area(IUHFService.EPC_A, 1, 1, passwd);
+        if (res == null) {
+            return -5;
+        }
+        res[0] = (byte) ((res[0] & 0x7) | (epclength << 3));
+        byte[] f = new byte[2 + epclength * 2];
+        try {
+            System.arraycopy(res, 0, f, 0, 2);
+            System.arraycopy(ePC, 0, f, 2, epclength * 2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        SystemClock.sleep(500);
+        return iuhfService.writeArea(IUHFService.EPC_A, 1, f.length / 2, passwd, f);
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                Toast.makeText(PopAttrSetActivity.this, "" + msg.obj, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    public class ChangeChecked implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            switch (buttonView.getId()){
+                case R.id.rbtn_kill:
+                case R.id.rbtn_acc:
+                    if (isChecked){
+                        //通过设置组check，实现两组不同行的单选按钮互斥
+                        rgSpace2.check(-1);
+                    }
+                    break;
+                case R.id.rbtn_epc:
+                case R.id.rbtn_tid:
+                case R.id.rbtn_user:
+                    if (isChecked){
+                        rgSpace1.check(-1);
+                    }
+                    break;
+                default:break;
+            }
+        }
+    }
+
+
+    /**
+     * 实现onTouchEvent触屏函数但点击屏幕时销毁本Activity
+     *
+     * @param event 点击事件
+     * @return 返回值
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        finish();
+        return true;
+    }
+
+}
