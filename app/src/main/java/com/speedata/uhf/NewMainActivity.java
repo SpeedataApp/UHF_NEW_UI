@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +101,8 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //全屏显示
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         UHFManager.setStipulationLevel(0);
 
         try {
@@ -338,7 +341,7 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
                             for (UhfCardBean uhfCardBean : uhfCardBeanList) {
                                 EPCBean epcBean = new EPCBean();
                                 epcBean.setEPC(uhfCardBean.getEpc());
-                                epcBean.setTID_USER(uhfCardBean.getTid_user());
+                                epcBean.setTID_USER(uhfCardBean.getTidUser());
                                 epcBeanList.add(epcBean);
                             }
                             if (epcBeanList.size() > 0) {
@@ -441,14 +444,9 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onDestroy() {
-        try {
-            if (iuhfService != null) {
-                iuhfService.closeDev();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (iuhfService!=null){
+            iuhfService.closeDev();
         }
-
         super.onDestroy();
     }
 

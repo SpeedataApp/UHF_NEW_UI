@@ -13,7 +13,7 @@
         android:background="@drawable/bg_a"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="14dp">
+        android:paddingTop="20dp">
 
         <include layout="@layout/search_title" />
 

@@ -36,7 +36,7 @@ public class PopAttrSetActivity extends Activity {
      * password
      */
     private EditText pwdinit, pwdnew;
-    private RadioButton rbtnPwdKill,rbtnPwdAcc;
+    private RadioButton rbtnPwdKill, rbtnPwdAcc;
     /**
      * epc
      */
@@ -46,8 +46,10 @@ public class PopAttrSetActivity extends Activity {
     /**
      * lock
      */
-    private RadioGroup rgSpace1,rgSpace2;
-    private RadioButton rbSpaceKill,rbSpaceAcc,rbSpaceEpc,rbSpaceTid,rbSpaceUser;
+    private RadioGroup rgSpace1, rgSpace2;
+    private RadioGroup rgType1, rgType2;
+    private RadioButton rbSpaceKill, rbSpaceAcc, rbSpaceEpc, rbSpaceTid, rbSpaceUser;
+    private RadioButton typeUnlock, typeLock, typePermaUnlock, typePermaLock;
     private EditText newLockPwd;
 
     private IUHFService iuhfService;
@@ -93,6 +95,16 @@ public class PopAttrSetActivity extends Activity {
         rbSpaceTid.setOnCheckedChangeListener(new ChangeChecked());
         rbSpaceUser = (RadioButton) findViewById(R.id.rbtn_user);
         rbSpaceUser.setOnCheckedChangeListener(new ChangeChecked());
+        rgType1 = (RadioGroup) findViewById(R.id.type_rg1);
+        rgType2 = (RadioGroup) findViewById(R.id.type_rg2);
+        typeUnlock = (RadioButton) findViewById(R.id.type_unlock);
+        typeUnlock.setOnCheckedChangeListener(new ChangeChecked());
+        typeLock = (RadioButton) findViewById(R.id.type_lock);
+        typeLock.setOnCheckedChangeListener(new ChangeChecked());
+        typePermaUnlock = (RadioButton) findViewById(R.id.type_perma_unlock);
+        typePermaUnlock.setOnCheckedChangeListener(new ChangeChecked());
+        typePermaLock = (RadioButton) findViewById(R.id.type_perma_lock);
+        typePermaLock.setOnCheckedChangeListener(new ChangeChecked());
         newLockPwd = (EditText) findViewById(R.id.et_lock_pwd);
 
         Button ok = (Button) findViewById(R.id.btn_ok);
@@ -135,15 +147,20 @@ public class PopAttrSetActivity extends Activity {
                 case R.id.btn_ok:
                     //确认
                     setCheck();
-                    if (isSetPassword) {
-                        setPassword();
+                    if (!isSetPassword && !isSetEpc && !isSetLock) {
+                        Toast.makeText(PopAttrSetActivity.this, "参数不能为空", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (isSetPassword) {
+                            setPassword();
+                        }
+                        if (isSetEpc) {
+                            setEpc();
+                        }
+                        if (isSetLock) {
+                            setLock();
+                        }
                     }
-                    if (isSetEpc) {
-                        setEpc();
-                    }
-                    if (isSetLock) {
-                        setLock();
-                    }
+
                     break;
                 case R.id.btn_reset:
                     //重置
@@ -154,7 +171,7 @@ public class PopAttrSetActivity extends Activity {
                     newepc.setText("");
                     newepclength.setText("");
                     rbSpaceKill.setChecked(true);
-
+                    newLockPwd.setText("");
                     break;
                 case R.id.relative_layout:
                     //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数
@@ -176,7 +193,8 @@ public class PopAttrSetActivity extends Activity {
         String newepclengthStr = newepclength.getText().toString();
         isSetEpc = !TextUtils.isEmpty(newepcStr) || !TextUtils.isEmpty(newepclengthStr);
 
-        isSetLock = false;
+        String nweLockPwdStr = newLockPwd.getText().toString();
+        isSetLock = !TextUtils.isEmpty(nweLockPwdStr);
     }
 
     /**
@@ -242,6 +260,36 @@ public class PopAttrSetActivity extends Activity {
      * 设置锁
      */
     private void setLock() {
+        int space = 0;
+        int type = 0;
+        if (rbSpaceAcc.isChecked()) {
+            space = 1;
+        } else if (rbSpaceEpc.isChecked()) {
+            space = 2;
+        } else if (rbSpaceTid.isChecked()) {
+            space = 3;
+        } else if (rbSpaceUser.isChecked()) {
+            space = 4;
+        }
+        final int lockSpace = space;
+        if (typeLock.isChecked()) {
+            space = 1;
+        } else if (typePermaUnlock.isChecked()) {
+            space = 2;
+        } else if (typePermaLock.isChecked()) {
+            space = 3;
+        }
+        final int lockType = type;
+        final String lockNewPwd = newLockPwd.getText().toString();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int reval = iuhfService.setLock(lockType, lockSpace, lockNewPwd);
+                if (reval != 0) {
+                    handler.sendMessage(handler.obtainMessage(1,"参数不正确"));
+                }
+            }
+        }).start();
 
     }
 
@@ -285,10 +333,10 @@ public class PopAttrSetActivity extends Activity {
     public class ChangeChecked implements CompoundButton.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            switch (buttonView.getId()){
+            switch (buttonView.getId()) {
                 case R.id.rbtn_kill:
                 case R.id.rbtn_acc:
-                    if (isChecked){
+                    if (isChecked) {
                         //通过设置组check，实现两组不同行的单选按钮互斥
                         rgSpace2.check(-1);
                     }
@@ -296,11 +344,24 @@ public class PopAttrSetActivity extends Activity {
                 case R.id.rbtn_epc:
                 case R.id.rbtn_tid:
                 case R.id.rbtn_user:
-                    if (isChecked){
+                    if (isChecked) {
                         rgSpace1.check(-1);
                     }
                     break;
-                default:break;
+                case R.id.type_unlock:
+                case R.id.type_lock:
+                    if (isChecked) {
+                        rgType2.check(-1);
+                    }
+                    break;
+                case R.id.type_perma_unlock:
+                case R.id.type_perma_lock:
+                    if (isChecked) {
+                        rgType1.check(-1);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }

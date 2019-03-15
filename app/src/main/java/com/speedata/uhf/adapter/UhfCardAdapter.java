@@ -15,8 +15,8 @@ import java.util.List;
 
 /**
  * 寻卡列表适配器
- * Created by 张智超 on 2019/3/7
  * @author 张智超
+ * @date 2019/3/7
  */
 public class UhfCardAdapter extends ArrayAdapter<UhfCardBean> {
     private int newResourceId;
@@ -36,6 +36,7 @@ public class UhfCardAdapter extends ArrayAdapter<UhfCardBean> {
         TextView tvepc = (TextView) view.findViewById(R.id.item_epc_tv);
         TextView tvvRssi = (TextView) view.findViewById(R.id.item_valid_rssi_tv);
 
+        assert uhfCardBean != null;
         tvepc.setText(uhfCardBean.getTvepc());
         tvvRssi.setText(uhfCardBean.getTvvRssi());
 

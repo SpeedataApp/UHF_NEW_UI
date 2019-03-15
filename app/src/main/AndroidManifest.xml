@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     coreApp="true"
-    package="com.speedata.uhf">
-    <!--android:sharedUserId="android.uid.system">-->
+    package="com.speedata.uhf"
+    android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 在新更新需要的权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -64,9 +64,9 @@
             <meta-data
                 android:name="com.android.settings.category"
                 android:value="com.android.settings.category.ia.homepage" />
-                <meta-data
+            <meta-data
                 android:name="com.android.settings.icon"
-                android:resource="@mipmap/icon_uhf"/>
+                android:resource="@mipmap/icon_uhf" />
             <meta-data
                 android:name="com.android.settings.title"
                 android:resource="@string/uhf_config" />
@@ -78,8 +78,8 @@
 
         <activity android:name=".PikestaffActivity">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="spd.intent.action.PIKESTAFF"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="spd.intent.action.PIKESTAFF" />
             </intent-filter>
             <intent-filter android:priority="6">
                 <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
@@ -90,7 +90,7 @@
                 android:value="com.android.settings.category.ia.homepage" />
             <meta-data
                 android:name="com.android.settings.icon"
-                android:resource="@mipmap/icon_qb"/>
+                android:resource="@mipmap/icon_qb" />
             <meta-data
                 android:name="com.android.settings.title"
                 android:resource="@string/qb_config" />

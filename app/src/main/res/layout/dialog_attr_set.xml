@@ -354,7 +354,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp">
+                        >
 
                         <TextView
                             android:layout_width="70dp"
@@ -363,15 +363,75 @@
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
-                        <EditText
-                            android:layout_width="match_parent"
+                        <RadioGroup
+                            android:id="@+id/type_rg1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="输入初始密码"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:textColor="@color/text_set_dark"
-                            android:textSize="14sp" />
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/type_unlock"
+                                android:layout_width="80dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:checked="true"
+                                android:gravity="center"
+                                android:text="Unlock"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/type_lock"
+                                android:layout_width="80dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="Lock"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <RadioGroup
+                            android:id="@+id/type_rg2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/type_perma_unlock"
+                                android:layout_width="100dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="Permaunlock"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/type_perma_lock"
+                                android:layout_width="90dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/btn_bg_blue_select"
+                                android:button="@null"
+                                android:gravity="center"
+                                android:text="Permalock"
+                                android:textColor="@color/btn_blue"
+                                android:textSize="14sp" />
+
+                        </RadioGroup>
 
                     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.speedata.uhf.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,54 +20,58 @@ import com.speedata.libuhf.interfaces.OnSpdReadListener;
 import com.speedata.libuhf.utils.StringUtils;
 import com.speedata.uhf.R;
 
+import java.util.Objects;
+
 /**
  * 读卡
- * Created by 张智超_ on 2019/3/13.
+ *
+ * @author 张智超_
+ * @date 2019/3/13
  */
 
 public class ReadCardDialog extends Dialog implements
         View.OnClickListener {
 
-    private Button Ok;
-    private ImageView Cancle;
-//    private TextView EPC;
-    private TextView Status;
-    private EditText Read_Addr;
-    private EditText Read_Count;
-    private EditText Password;
+    private Button ok;
+    private ImageView cancel;
+    private TextView status;
+    private EditText readAddr;
+    private EditText readCount;
+    private EditText password;
     private IUHFService iuhfService;
-    private String current_tag_epc;
-    private int which_choose;
+    private String currentTagEpc;
+    private int whichChoose;
     private String model;
     private Context mContext;
 
     public ReadCardDialog(Context context, IUHFService iuhfService
-            , int which_choose, String current_tag_epc, String model) {
+            , int whichChoose, String currentTagEpc, String model) {
         super(context);
         // TODO Auto-generated constructor stub
         this.iuhfService = iuhfService;
-        this.current_tag_epc = current_tag_epc;
-        this.which_choose = which_choose;
+        this.currentTagEpc = currentTagEpc;
+        this.whichChoose = whichChoose;
         this.model = model;
         this.mContext = context;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置背景为透明
-        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        Objects.requireNonNull(getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
         setContentView(R.layout.dialog_read);
 
-        Ok = (Button) findViewById(R.id.btn_read_ok);
-        Ok.setOnClickListener(this);
-        Cancle = (ImageView) findViewById(R.id.iv_read_cancle);
-        Cancle.setOnClickListener(this);
+        ok = (Button) findViewById(R.id.btn_read_ok);
+        ok.setOnClickListener(this);
+        cancel = (ImageView) findViewById(R.id.iv_read_cancle);
+        cancel.setOnClickListener(this);
 
-        Status = (TextView) findViewById(R.id.textView_read_status);
-        Read_Addr = (EditText) findViewById(R.id.editText_read_addr);
-        Read_Count = (EditText) findViewById(R.id.editText_read_count);
-        Password = (EditText) findViewById(R.id.editText_rp);
+        status = (TextView) findViewById(R.id.textView_read_status);
+        readAddr = (EditText) findViewById(R.id.editText_read_addr);
+        readCount = (EditText) findViewById(R.id.editText_read_count);
+        password = (EditText) findViewById(R.id.editText_rp);
 
         iuhfService.setOnReadListener(new OnSpdReadListener() {
             @Override
@@ -75,14 +80,14 @@ public class ReadCardDialog extends Dialog implements
                 byte[] epcData = var1.getEPCData();
                 String hexString = StringUtils.byteToHexString(epcData, var1.getEPCLen());
                 if (!TextUtils.isEmpty(hexString)) {
-                    stringBuilder.append("EPC：" + hexString + "\n");
+                    stringBuilder.append("EPC：").append(hexString).append("\n");
                 }
                 if (var1.getStatus() == 0) {
                     byte[] readData = var1.getReadData();
                     String readHexString = StringUtils.byteToHexString(readData, var1.getDataLen());
-                    stringBuilder.append("ReadData：" + readHexString + "\n");
+                    stringBuilder.append("ReadData：").append(readHexString).append("\n");
                 } else {
-                    stringBuilder.append("ReadError：" + var1.getStatus() + "\n");
+                    stringBuilder.append("ReadError：").append(var1.getStatus()).append("\n");
                 }
                 handler.sendMessage(handler.obtainMessage(1, stringBuilder));
             }
@@ -92,39 +97,43 @@ public class ReadCardDialog extends Dialog implements
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
-        if (v == Ok) {
-            final String str_addr = Read_Addr.getText().toString();
-            final String str_count = Read_Count.getText().toString();
-            final String str_passwd = Password.getText().toString();
-            if (TextUtils.isEmpty(str_addr) || TextUtils.isEmpty(str_count) || TextUtils.isEmpty(str_passwd)) {
+        if (v == ok) {
+            final String strAddr = readAddr.getText().toString();
+            final String strCount = readCount.getText().toString();
+            final String strPasswd = password.getText().toString();
+            if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)) {
                 Toast.makeText(mContext, "参数不能为空", Toast.LENGTH_SHORT).show();
                 return;
             }
-            final int addr = Integer.parseInt(str_addr);
-            final int count = Integer.parseInt(str_count);
-            Status.setText("正在读卡中....");
+            final int addr = Integer.parseInt(strAddr);
+            final int count = Integer.parseInt(strCount);
+            status.setText("正在读卡中....");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int readArea = iuhfService.readArea(which_choose, addr, count, str_passwd);
+                    int readArea = iuhfService.readArea(whichChoose, addr, count, strPasswd);
                     if (readArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1,"参数不正确"));
+                        handler.sendMessage(handler.obtainMessage(1, "参数不正确"));
                     }
                 }
             }).start();
 
-        } else if (v == Cancle) {
+        } else if (v == cancel) {
             dismiss();
         }
     }
 
-    Handler handler = new Handler() {
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    Status.setText(msg.obj + "");
+                    status.setText(msg.obj+"");
+                    break;
+                default:
                     break;
             }
         }

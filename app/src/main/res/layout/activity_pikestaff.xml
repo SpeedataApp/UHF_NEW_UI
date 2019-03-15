@@ -4,63 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/text_white2"
     android:orientation="vertical"
     tools:context=".PikestaffActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp">
+    <include layout="@layout/set_pikestaff_title" />
 
-        <TextView
-            android:id="@+id/start_scan_tv"
-            android:layout_width="100dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:gravity="center_vertical"
-            android:text="启动扫描"
-            android:textColor="@color/commom_text_color"
-            android:textSize="18sp" />
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/cb_start_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/text_gray" />
+                <TextView
+                    android:id="@+id/start_scan_tv"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center_vertical"
+                    android:text="启动扫描"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="18sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+                <CheckBox
+                    android:id="@+id/cb_start_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/start_uhf_tv"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:gravity="center_vertical"
-            android:text="启动UHF"
-            android:textColor="@color/commom_text_color"
-            android:textSize="18sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_gray" />
 
-        <CheckBox
-            android:id="@+id/cb_start_uhf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/text_gray" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
 
+                <TextView
+                    android:id="@+id/start_uhf_tv"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center_vertical"
+                    android:text="启动UHF"
+                    android:textColor="@color/commom_text_color"
+                    android:textSize="18sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_start_uhf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_gray" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

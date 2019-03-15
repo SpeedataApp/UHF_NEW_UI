@@ -1,10 +1,9 @@
 package com.speedata.uhf.adapter;
 
-import android.widget.TextView;
-
 /**
  * 寻卡列表管理类
- * Created by 张智超 on 2019/3/7
+ * @author 张智超
+ * @date 2019/3/7
  */
 public class UhfCardBean {
     private String tvepc;
@@ -12,21 +11,29 @@ public class UhfCardBean {
     private String epc;
     private int valid;
     private String rssi;
-    private String tid_user;
+    private String tidUser;
 
-    public UhfCardBean(String epc, int valid, String rssi, String tid_user) {
+    public UhfCardBean(String epc, int valid, String rssi, String tidUser) {
         this.epc = epc;
         this.valid = valid;
         this.rssi = rssi;
-        this.tid_user = tid_user;
+        this.tidUser = tidUser;
     }
-    // 匹配item的TextView
-    public String getTvepc() {
+
+    /**
+     * 匹配item的TextView
+     * @return tvepc
+     */
+    String getTvepc() {
         tvepc = epc;
         return tvepc;
     }
-    // 匹配item的TextView
-    public String getTvvRssi() {
+
+    /**
+     * 匹配item的TextView
+     * @return tvvRssi
+     */
+    String getTvvRssi() {
         tvvRssi = "COUNT:"+valid+"  RSSI:"+rssi;
         return tvvRssi;
     }
@@ -55,12 +62,12 @@ public class UhfCardBean {
         return valid;
     }
 
-    public void setTid_user(String tid_user) {
-        this.tid_user = tid_user;
+    public void setTidUser(String tidUser) {
+        this.tidUser = tidUser;
     }
 
-    public String getTid_user() {
-        return tid_user;
+    public String getTidUser() {
+        return tidUser;
     }
 
 }
