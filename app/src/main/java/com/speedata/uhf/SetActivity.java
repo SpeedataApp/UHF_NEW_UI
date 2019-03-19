@@ -62,6 +62,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_set);
+        Log.e("zzc:","onCreate()");
         initView();
         initData();
     }

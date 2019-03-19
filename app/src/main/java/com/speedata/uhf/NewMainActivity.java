@@ -446,6 +446,7 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
     public void onDestroy() {
         if (iuhfService!=null){
             iuhfService.closeDev();
+            Log.e("zzc:","==onDestroy()==下电");
         }
         super.onDestroy();
     }

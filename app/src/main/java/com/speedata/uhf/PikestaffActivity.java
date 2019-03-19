@@ -1,10 +1,8 @@
 package com.speedata.uhf;
 
 import android.app.Activity;
-import android.os.SystemProperties;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
+import android.os.SystemProperties;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
