@@ -23,7 +23,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
-            android:text="搜索"
+            android:text="@string/search_title"
             android:textColor="@color/text_white"
             android:textSize="22sp" />
     </LinearLayout>
@@ -42,7 +42,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="135dp"
             android:background="@drawable/btn_blue_border_shape"
-            android:text="停止"
+            android:text="@string/btn_stop"
             android:textColor="@color/text_white"
             android:textSize="20sp" />
 
@@ -52,7 +52,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="87dp"
-            android:text="加大音量可以更快速的找到"
+            android:text="@string/search_info1"
             android:textColor="@color/text_white"
             android:textSize="14sp" />
 
@@ -62,7 +62,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="60dp"
-            android:text="你想要找的卡片"
+            android:text="@string/search_info2"
             android:textColor="@color/text_white"
             android:textSize="14sp" />
 

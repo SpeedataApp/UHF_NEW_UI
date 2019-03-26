@@ -55,6 +55,7 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
      * 搜索输入框
      */
     private EditText mEtSearch;
+    private AlertDialog alertDialog1;
     /**
      * 寻卡
      */
@@ -133,6 +134,7 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
         //搜索按钮
         Button mBtSearch = (Button) findViewById(R.id.bt_search);
         mEtSearch = (EditText) findViewById(R.id.et_search);
+        mEtSearch.setOnClickListener(this);
         mIvSet.setOnClickListener(this);
         mBtSearch.setOnClickListener(this);
         mFindBtn = (Button) findViewById(R.id.btn_find);
@@ -376,6 +378,28 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
                     }
                 }
                 break;
+            case R.id.et_search:
+                String[] items = {getResources().getString(R.string.search_dialog_item)};
+                Log.d("zzc", "changdu " + uhfCardBeanList.size());
+                if (uhfCardBeanList.size() != 0) {
+                    items = new String[uhfCardBeanList.size()];
+                    for (int i = 0; i < uhfCardBeanList.size(); i++) {
+                        items[i] = uhfCardBeanList.get(i).getEpc();
+                    }
+                }
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+                alertBuilder.setTitle(getResources().getString(R.string.search_dialog_title));
+                alertBuilder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(uhfCardBeanList.size() != 0){
+                            mEtSearch.setText(uhfCardBeanList.get(i).getEpc());
+                        }
+                        alertDialog1.dismiss();
+                    }
+                });
+                alertDialog1 = alertBuilder.create();
+                alertDialog1.show();
             default:
                 break;
         }
@@ -420,11 +444,11 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
 
         long totalTimeCount = mlEndTime - startCheckingTime;
 
-        speedTv.setText(String.format("%s次/s", String.valueOf(rate)));
+        speedTv.setText(String.format("%s" + getResources().getString(R.string.num), String.valueOf(rate)));
 
         tagNumTv.setText(String.format("%s", String.valueOf(uhfCardBeanList.size())));
 
-        totalTime.setText(String.format("耗时%ss", String.valueOf(getTimeFromMillisecond(totalTimeCount))));
+        totalTime.setText(String.format(getResources().getString(R.string.spend_time) + "%ss", String.valueOf(getTimeFromMillisecond(totalTimeCount))));
 
 
     }
@@ -444,9 +468,9 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onDestroy() {
-        if (iuhfService!=null){
+        if (iuhfService != null) {
             iuhfService.closeDev();
-            Log.e("zzc:","==onDestroy()==下电");
+            Log.e("zzc:", "==onDestroy()==下电");
         }
         super.onDestroy();
     }

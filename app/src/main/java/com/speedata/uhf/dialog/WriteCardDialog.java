@@ -112,20 +112,20 @@ public class WriteCardDialog extends Dialog implements
             final String strContent = writeContent.getText().toString();
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)
                     || TextUtils.isEmpty(strContent)) {
-                Toast.makeText(mContext, "参数不能为空", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
                 return;
             }
             final byte[] write = StringUtils.stringToByte(strContent);
             final int addr = Integer.parseInt(strAddr);
             final int count = Integer.parseInt(strCount);
-            status.setText("正在写卡中....");
+            status.setText(R.string.write_status);
             isSuccess = false;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
                     if (writeArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1,"参数不正确"));
+                        handler.sendMessage(handler.obtainMessage(1,R.string.toast2));
                     }
                 }
             }).start();

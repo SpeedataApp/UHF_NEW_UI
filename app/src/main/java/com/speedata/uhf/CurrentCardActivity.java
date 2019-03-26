@@ -60,25 +60,9 @@ public class CurrentCardActivity extends Activity implements View.OnClickListene
         mIvExit.setOnClickListener(this);
         areaSelect = (Spinner) findViewById(R.id.sp_title);
         areaSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        mTitleTv.setText("Reserved");
-                        break;
-                    case 1:
-                        mTitleTv.setText("EPC");
-                        break;
-                    case 2:
-                        mTitleTv.setText("TID");
-                        break;
-                    case 3:
-                        mTitleTv.setText("USER");
-                        break;
-                    default:
-                        break;
-                }
+                mTitleTv.setText(parent.getSelectedItem().toString());
             }
 
             @Override

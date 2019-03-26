@@ -106,4 +106,86 @@
     <string name="uhf_config_summary">UHF Settings</string>
     <string name="qb_config">Pikestaff</string>
     <string name="qb_config_summary">Pikestaff Settings</string>
+
+
+
+    <!--NEW-->
+    <string name="set_freq_item1">Freq band mode</string>
+    <string name="set_etpower">0 RF off 1 RF on</string>
+    <string name="set_failed">failed</string>
+    <string name="set_freq">band setting</string>
+    <string name="set_freq_hint">set freq</string>
+    <string name="set_s2">session</string>
+    <string name="set_s2_hint">select</string>
+    <string name="antenna_p_hint">antenna power</string>
+    <string name="set_inv">inventory</string>
+    <string name="set_freq_point">set freq point</string>
+    <string name="set_freq_point_hint">input freq point</string>
+    <string name="set_addr">address</string>
+    <string name="set_addr_hint">input address</string>
+    <string name="set_count">block</string>
+    <string name="set_count_hint">input block count</string>
+    <string name="btn_ok">Confirm</string>
+    <!--主界面-->
+    <string name="search_dialog_item">Please find the card</string>
+    <string name="search_dialog_title">Select the card to look for</string>
+    <string name="num">times/s</string>
+    <string name="spend_time">time</string>
+    <string name="main_info1">input card number find card by prompt tone</string>
+    <string name="main_info2">Welcome to UHF App</string>
+    <string name="main_info3">search all then select card</string>
+    <string name="main_rl_info1">/searched</string>
+    <string name="main_rl_info2">time 0.000s</string>
+    <string name="main_rl_info3">0 times/s</string>
+    <string name="card_list">card list</string>
+    <string name="card_list_info">select one for operation</string>
+    <string name="voice">sound </string>
+    <string name="main_info4">No card please search</string>
+    <!--搜索页面-->
+    <string name="search_title">search</string>
+    <string name="btn_stop">stop</string>
+    <string name="search_info1">Turn up volume for quick find</string>
+    <string name="search_info2">target card</string>
+    <!--CurrentCardActivity-->
+    <string name="current_card">UHF card(EPC)</string>
+    <string name="read_card">read</string>
+
+    <string name="read_card_info">information</string>
+    <string name="write_card">write</string>
+    <string name="write_card_info">content</string>
+    <string name="card_attr_set">card attribution</string>
+    <string name="card_attr_info"> all attribution</string>
+    <!--读卡、写卡-->
+    <string name="toast1">can not empty</string>
+    <string name="toast2">incorrect</string>
+    <string name="read_status">reading....</string>
+    <string name="read_password">password</string>
+    <string name="read_password_hint">input password</string>
+    <string name="write_status">wrirting....</string>
+    <string name="card_content">content</string>
+    <string name="card_content_hint">input content</string>
+
+    <string name="set_password">Password</string>
+    <string name="init_password">Initial Password</string>
+    <string name="init_password_hint">input initial password</string>
+    <string name="kill_password">KillPwd</string>
+    <string name="access_password">AccPwd</string>
+    <string name="new_password">New Password</string>
+    <string name="new_password_hint">input new password</string>
+
+    <string name="set_epc">EPC</string>
+    <string name="set_epc_length">EPC length</string>
+    <string name="set_epc_length_hint">set EPC length</string>
+    <string name="input_new_epc_hint">set new EPC</string>
+
+    <string name="set_lock">Lock</string>
+    <string name="save_space">Memory</string>
+    <string name="lock_epc">EPC</string>
+    <string name="lock_tid">TID</string>
+    <string name="lock_user">USER</string>
+    <string name="unlock_pwd_type">Unlock</string>
+    <string name="lock_pwd_type">Lock</string>
+    <string name="permaunlock_pwd_type">Permaunlock</string>
+    <string name="permalock_pwd_type">Permalock</string>
+    <string name="reset">Reset</string>
 </resources>

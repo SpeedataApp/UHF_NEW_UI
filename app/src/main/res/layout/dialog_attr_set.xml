@@ -32,7 +32,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:text="密码设置"
+                        android:text="@string/set_password"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -46,7 +46,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="初始密码"
+                            android:text="@string/init_password"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -55,7 +55,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入初始密码"
+                            android:hint="@string/init_password_hint"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:text="@string/VALUE_ZERO"
@@ -73,7 +73,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="密码类型"
+                            android:text="@string/Item_Pswd_Type"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -92,7 +92,7 @@
                                 android:button="@null"
                                 android:checked="true"
                                 android:gravity="center"
-                                android:text="死亡密码"
+                                android:text="@string/kill_password"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -104,7 +104,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="访问密码"
+                                android:text="@string/access_password"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
                         </RadioGroup>
@@ -120,7 +120,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="新密码"
+                            android:text="@string/new_password"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -129,7 +129,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入新密码"
+                            android:hint="@string/new_password_hint"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="@color/text_set_dark"
@@ -150,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:text="EPC设置"
+                        android:text="@string/set_epc"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -164,7 +164,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="初始密码"
+                            android:text="@string/init_password"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -173,7 +173,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入初始密码"
+                            android:hint="@string/init_password_hint"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:text="@string/VALUE_ZERO"
@@ -191,7 +191,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="EPC长度"
+                            android:text="@string/set_epc_length"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -200,7 +200,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入EPC长度"
+                            android:hint="@string/set_epc_length_hint"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="@color/text_set_dark"
@@ -217,7 +217,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="新的EPC"
+                            android:text="@string/Item_New_EPC"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -226,7 +226,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入新的EPC"
+                            android:hint="@string/input_new_epc_hint"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="@color/text_set_dark"
@@ -247,7 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:text="锁设置"
+                        android:text="@string/set_lock"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -261,7 +261,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="存储空间"
+                            android:text="@string/save_space"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -280,7 +280,7 @@
                                 android:button="@null"
                                 android:checked="true"
                                 android:gravity="center"
-                                android:text="死亡密码"
+                                android:text="@string/kill_password"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -292,7 +292,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="访问密码"
+                                android:text="@string/access_password"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
                         </RadioGroup>
@@ -318,7 +318,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="EPC"
+                                android:text="@string/lock_epc"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -330,7 +330,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="TID"
+                                android:text="@string/lock_tid"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -342,7 +342,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="USER"
+                                android:text="@string/lock_user"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
                         </RadioGroup>
@@ -359,7 +359,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="密码类型"
+                            android:text="@string/Item_Pswd_Type"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -378,7 +378,7 @@
                                 android:button="@null"
                                 android:checked="true"
                                 android:gravity="center"
-                                android:text="Unlock"
+                                android:text="@string/unlock_pwd_type"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -390,7 +390,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="Lock"
+                                android:text="@string/lock_pwd_type"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
                         </RadioGroup>
@@ -415,7 +415,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="Permaunlock"
+                                android:text="@string/permaunlock_pwd_type"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -427,7 +427,7 @@
                                 android:background="@drawable/btn_bg_blue_select"
                                 android:button="@null"
                                 android:gravity="center"
-                                android:text="Permalock"
+                                android:text="@string/permalock_pwd_type"
                                 android:textColor="@color/btn_blue"
                                 android:textSize="14sp" />
 
@@ -444,7 +444,7 @@
                         <TextView
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:text="新密码"
+                            android:text="@string/new_password"
                             android:textColor="@color/text_set_dark"
                             android:textSize="14sp" />
 
@@ -453,7 +453,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:hint="输入新密码"
+                            android:hint="@string/new_password_hint"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="@color/text_set_dark"
@@ -475,7 +475,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_gray2_shape"
-                        android:text="重置"
+                        android:text="@string/reset"
                         android:textColor="@color/text_white"
                         android:textSize="18sp" />
 
@@ -486,7 +486,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_b_g_select"
-                        android:text="确定"
+                        android:text="@string/DIA_CHECK"
                         android:textColor="@color/text_white"
                         android:textSize="18sp" />
 

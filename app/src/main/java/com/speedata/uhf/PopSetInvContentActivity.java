@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 设置盘点内容底部弹框
@@ -55,25 +54,7 @@ public class PopSetInvContentActivity extends Activity {
         lvInvCon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        invCon = "Only EPC";
-                        break;
-                    case 1:
-                        invCon = "EPC + TID";
-                        break;
-                    case 2:
-                        invCon = "EPC + USER";
-                        break;
-                    case 3:
-                        invCon = "EPC+BID";
-                        break;
-                    case 4:
-                        invCon = "EPC+BID+TID";
-                        break;
-                    default:
-                        break;
-                }
+                invCon = parent.getItemAtPosition(position).toString();
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("InvCon", invCon);
@@ -94,14 +75,17 @@ public class PopSetInvContentActivity extends Activity {
                     break;
                 case R.id.pop_content:
                     //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数，点击其他地方时执行onTouchEvent()函数销毁Activity
-                    Toast.makeText(getApplicationContext(), "提示：点击窗口外部关闭窗口！",
-                            Toast.LENGTH_SHORT).show();
+                    break;
+                default:
                     break;
             }
         }
     }
 
-    //实现onTouchEvent触屏函数但点击屏幕时销毁本Activity
+    /**
+     * @param event 点击
+     * @return 实现onTouchEvent触屏函数但点击屏幕时销毁本Activity
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         finish();

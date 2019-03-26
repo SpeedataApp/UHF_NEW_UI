@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="超高频卡片(EPC)"
+                android:text="@string/current_card"
                 android:textColor="@color/text_white"
                 android:textSize="18sp" />
 
@@ -62,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="读UHF卡"
+                    android:text="@string/read_card"
                     android:textColor="@color/commom_text_color"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="读取卡片更多信息"
+                    android:text="@string/read_card_info"
                     android:textColor="@color/text_card_gray"
                     android:textSize="12sp" />
 
@@ -89,7 +89,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="写UHF卡"
+                    android:text="@string/write_card"
                     android:textColor="@color/commom_text_color"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -97,7 +97,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="写入卡片更多内容"
+                    android:text="@string/write_card_info"
                     android:textColor="@color/text_card_gray"
                     android:textSize="12sp" />
 
@@ -116,7 +116,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="卡片属性设置"
+                android:text="@string/card_attr_set"
                 android:textColor="@color/commom_text_color"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -124,7 +124,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="卡片的所有属性信息设置"
+                android:text="@string/card_attr_info"
                 android:textColor="@color/text_card_gray"
                 android:textSize="12sp" />
 
@@ -140,7 +140,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:text="版本型号"
                 android:textColor="@color/text_card_gray" />
         </RelativeLayout>
 

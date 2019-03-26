@@ -19,7 +19,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:gravity="center_vertical"
-        android:text="设置"
+        android:text="@string/Set_Btn_set"
         android:textColor="@color/text_white"
         android:textSize="22sp" />
 </LinearLayout>

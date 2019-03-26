@@ -148,7 +148,7 @@ public class PopAttrSetActivity extends Activity {
                     //确认
                     setCheck();
                     if (!isSetPassword && !isSetEpc && !isSetLock) {
-                        Toast.makeText(PopAttrSetActivity.this, "参数不能为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
                     } else {
                         if (isSetPassword) {
                             setPassword();
@@ -204,7 +204,7 @@ public class PopAttrSetActivity extends Activity {
         final String curpass = pwdinit.getText().toString();
         final String newpass = pwdnew.getText().toString();
         if (TextUtils.isEmpty(curpass) || TextUtils.isEmpty(newpass)) {
-            Toast.makeText(this, "参数不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
             return;
         }
         int whichint = 0;
@@ -219,7 +219,7 @@ public class PopAttrSetActivity extends Activity {
             public void run() {
                 int setPassword = iuhfService.setPassword(which, curpass, newpass);
                 if (setPassword != 0) {
-                    handler.sendMessage(handler.obtainMessage(1, "参数不正确"));
+                    handler.sendMessage(handler.obtainMessage(1, getResources().getString(R.string.toast2)));
                 }
             }
         }).start();
@@ -233,7 +233,7 @@ public class PopAttrSetActivity extends Activity {
         final String epcstr = newepc.getText().toString().replace(" ", "");
         String countstr = newepclength.getText().toString();
         if (TextUtils.isEmpty(password) || TextUtils.isEmpty(epcstr) || TextUtils.isEmpty(countstr)) {
-            Toast.makeText(PopAttrSetActivity.this, "参数不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
             return;
         }
         final byte[] write = StringUtils.stringToByte(epcstr);
@@ -250,7 +250,7 @@ public class PopAttrSetActivity extends Activity {
             public void run() {
                 int writeArea = setEPC(epcl, password, write);
                 if (writeArea != 0) {
-                    handler.sendMessage(handler.obtainMessage(1, "参数不正确"));
+                    handler.sendMessage(handler.obtainMessage(1, getResources().getString(R.string.toast2)));
                 }
             }
         }).start();
@@ -273,11 +273,11 @@ public class PopAttrSetActivity extends Activity {
         }
         final int lockSpace = space;
         if (typeLock.isChecked()) {
-            space = 1;
+            type = 1;
         } else if (typePermaUnlock.isChecked()) {
-            space = 2;
+            type = 2;
         } else if (typePermaLock.isChecked()) {
-            space = 3;
+            type = 3;
         }
         final int lockType = type;
         final String lockNewPwd = newLockPwd.getText().toString();
@@ -286,7 +286,7 @@ public class PopAttrSetActivity extends Activity {
             public void run() {
                 int reval = iuhfService.setLock(lockType, lockSpace, lockNewPwd);
                 if (reval != 0) {
-                    handler.sendMessage(handler.obtainMessage(1,"参数不正确"));
+                    handler.sendMessage(handler.obtainMessage(1,getResources().getString(R.string.toast2)));
                 }
             }
         }).start();

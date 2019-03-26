@@ -102,18 +102,18 @@ public class ReadCardDialog extends Dialog implements
             final String strCount = readCount.getText().toString();
             final String strPasswd = password.getText().toString();
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)) {
-                Toast.makeText(mContext, "参数不能为空", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
                 return;
             }
             final int addr = Integer.parseInt(strAddr);
             final int count = Integer.parseInt(strCount);
-            status.setText("正在读卡中....");
+            status.setText(R.string.read_status);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     int readArea = iuhfService.readArea(whichChoose, addr, count, strPasswd);
                     if (readArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1, "参数不正确"));
+                        handler.sendMessage(handler.obtainMessage(1, R.string.toast2));
                     }
                 }
             }).start();

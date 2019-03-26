@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 设置S2底部弹框
@@ -55,22 +54,7 @@ public class PopSetS2Activity extends Activity {
         lvS2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        s2 = "s0";
-                        break;
-                    case 1:
-                        s2 = "s1";
-                        break;
-                    case 2:
-                        s2 = "s2";
-                        break;
-                    case 3:
-                        s2 = "s3";
-                        break;
-                    default:
-                        break;
-                }
+                s2 = parent.getItemAtPosition(position).toString();
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("S2", s2);
@@ -91,8 +75,6 @@ public class PopSetS2Activity extends Activity {
                     break;
                 case R.id.pop_content:
                     //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数，点击其他地方时执行onTouchEvent()函数销毁Activity
-                    Toast.makeText(getApplicationContext(), "提示：点击窗口外部关闭窗口！",
-                            Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -102,6 +84,7 @@ public class PopSetS2Activity extends Activity {
 
     /**
      * 实现onTouchEvent触屏函数但点击屏幕时销毁本Activity
+     *
      * @param event 触摸事件
      * @return 返回值
      */

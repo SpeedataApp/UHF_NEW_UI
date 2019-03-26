@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="写卡"
+            android:text="@string/Item_Write"
             android:textColor="@color/text_white"
             android:textSize="35sp"
             android:textStyle="bold" />
@@ -38,7 +38,7 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="密码"
+                android:text="@string/read_password"
                 android:textColor="@color/text_set_dark"
                 android:textSize="18sp" />
 
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="填写密码"
+                android:hint="@string/read_password_hint"
                 android:padding="5dp"
                 android:text="@string/VALUE_ZERO"
                 android:textColor="@color/text_set_dark"
@@ -64,7 +64,7 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="地址"
+                android:text="@string/set_addr"
                 android:textColor="@color/text_set_dark"
                 android:textSize="18sp" />
 
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="填写地址位置"
+                android:hint="@string/set_addr_hint"
                 android:padding="5dp"
                 android:textColor="@color/text_set_dark"
                 android:textColorHint="@color/text_gray"
@@ -89,7 +89,7 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="块数"
+                android:text="@string/set_count"
                 android:textColor="@color/text_set_dark"
                 android:textSize="18sp" />
 
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="填写块数信息"
+                android:hint="@string/set_count_hint"
                 android:padding="5dp"
                 android:textColor="@color/text_set_dark"
                 android:textColorHint="@color/text_gray"
@@ -114,7 +114,7 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="内容"
+                android:text="@string/card_content"
                 android:textColor="@color/text_set_dark"
                 android:textSize="18sp" />
 
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="填写写卡内容"
+                android:hint="@string/card_content_hint"
                 android:padding="5dp"
                 android:textColor="@color/text_set_dark"
                 android:textColorHint="@color/text_gray"
@@ -147,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_blue_shape"
-                android:text="写卡"
+                android:text="@string/Item_Write"
                 android:textColor="@color/text_white"
                 android:textSize="20sp" />
         </LinearLayout>

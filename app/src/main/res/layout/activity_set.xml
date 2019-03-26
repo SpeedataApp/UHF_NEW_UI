@@ -24,7 +24,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="设置定频"
+                    android:text="@string/set_freq"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -35,7 +35,7 @@
                     android:layout_weight="1"
                     android:drawableRight="@drawable/icon_fh"
                     android:gravity="center_vertical"
-                    android:hint="选择合适的定频"
+                    android:hint="@string/set_freq_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -48,7 +48,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="S2"
+                    android:text="@string/set_s2"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -59,7 +59,7 @@
                     android:layout_weight="1"
                     android:drawableRight="@drawable/icon_fh"
                     android:gravity="center_vertical"
-                    android:hint="选择"
+                    android:hint="@string/set_s2_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -72,7 +72,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="天线功率"
+                    android:text="@string/antenna_p"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -83,7 +83,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="填写功率大小"
+                    android:hint="@string/antenna_p_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -96,7 +96,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="设置频点"
+                    android:text="@string/set_freq_point"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -107,7 +107,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="设置频点大小"
+                    android:hint="@string/set_freq_point_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -130,7 +130,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="盘点内容"
+                    android:text="@string/set_inv"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -141,7 +141,7 @@
                     android:layout_weight="1"
                     android:drawableRight="@drawable/icon_fh"
                     android:gravity="center_vertical"
-                    android:hint="选择"
+                    android:hint="@string/set_s2_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -154,7 +154,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="地址"
+                    android:text="@string/set_addr"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -164,7 +164,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="填写地址位置"
+                    android:hint="@string/set_addr_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -177,7 +177,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:padding="14dp"
-                    android:text="块数"
+                    android:text="@string/set_count"
                     android:textColor="@color/commom_text_color"
                     android:textSize="14sp" />
 
@@ -187,7 +187,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="填写块数信息"
+                    android:hint="@string/set_count_hint"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
@@ -211,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="开启快捷盘点服务" />
+                    android:text="" />
             </TableRow>
         </TableLayout>
 
@@ -228,7 +228,7 @@
                 android:layout_width="280dp"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_blue_shape"
-                android:text="确认"
+                android:text="@string/btn_ok"
                 android:textColor="@color/text_white"
                 android:textSize="20sp" />
 

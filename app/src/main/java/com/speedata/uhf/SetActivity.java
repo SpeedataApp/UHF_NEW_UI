@@ -23,7 +23,6 @@ import com.speedata.libuhf.utils.StringUtils;
 
 import java.text.DecimalFormat;
 
-import static com.speedata.uhf.R.layout.activity_set;
 
 /**
  * 设置
@@ -61,7 +60,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(activity_set);
+        setContentView(R.layout.activity_set);
         Log.e("zzc:","onCreate()");
         initView();
         initData();
@@ -71,7 +70,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
     private void initData() {
         iuhfService = UHFManager.getUHFService(this);
         //获取设备型号
-        String model = SharedXmlUtil.getInstance(SetActivity.this).read("modle", "");
+        String model = SharedXmlUtil.getInstance(this).read("modle", "");
 
         //获取定频
         int re = iuhfService.getFreqRegion();
@@ -89,7 +88,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
                 tvSetFreq.setText("...");
                 Log.e("r2000_kt45", "read region setting read failed");
             } else {
-                tvSetFreq.setText("当前状态为定频");
+                tvSetFreq.setText(getResources().getString(R.string.set_freq_item1));
                 etFreqPoint.setText(String.valueOf(new DecimalFormat("0.000").format(re / 1000.0)));
             }
         } else {
@@ -114,7 +113,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
         }
         String as3992 = "as3992";
         if (as3992.equals(model)) {
-            etPower.setHint("0关天线1开天线");
+            etPower.setHint(getResources().getString(R.string.set_etpower));
         }
 
         getSession();
@@ -174,10 +173,10 @@ public class SetActivity extends Activity implements View.OnClickListener {
                 //设置参数
                 setData();
                 if (isOK) {
-                    Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(this, "设置失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -196,7 +195,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
             }
         }
 
-        // 设置s2
+        // 设置通话项
         int setQueryTagGroup = iuhfService.setQueryTagGroup(0, s2Region, 0);
         if (setQueryTagGroup != 0) {
             isOK = false;
