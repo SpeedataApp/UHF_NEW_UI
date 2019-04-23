@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,28 +41,14 @@ public class SetActivity extends Activity implements View.OnClickListener {
     Intent intent;
     private IUHFService iuhfService;
     private CheckBox checkBoxService;
-
-    /**
-     * 选择的定频列表位置
-     */
-    private int freqRegion;
-    /**
-     * 选择的S2列表位置
-     */
-    private int s2Region;
-    /**
-     * 选择的盘点内容列表位置
-     */
-    private int invConRegion;
-
-    private boolean isOK = true;
+    private String model;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
-        Log.e("zzc:","onCreate()");
+        Log.e("zzc:", "onCreate()");
         initView();
         initData();
     }
@@ -70,9 +57,42 @@ public class SetActivity extends Activity implements View.OnClickListener {
     private void initData() {
         iuhfService = UHFManager.getUHFService(this);
         //获取设备型号
-        String model = SharedXmlUtil.getInstance(this).read("modle", "");
+        model = SharedXmlUtil.getInstance(this).read("model", "");
 
         //获取定频
+        getFreq();
+
+        //获取天线功率
+        int ivp = iuhfService.getAntennaPower();
+        if (ivp > 0) {
+            etPower.setText("" + ivp);
+        }
+        String as3992 = "as3992";
+        if (as3992.equals(model)) {
+            etPower.setHint(getResources().getString(R.string.set_etpower));
+        }
+
+        getSession();
+    }
+
+    public void initView() {
+        ImageView mIvQuitSet = (ImageView) findViewById(R.id.set_title_iv);
+        tvSetFreq = (TextView) findViewById(R.id.set_freq_tv);
+        tvSetS2 = (TextView) findViewById(R.id.set_s2_tv);
+        tvSetInvCon = (TextView) findViewById(R.id.set_onlyepc_tv);
+        mIvQuitSet.setOnClickListener(this);
+        tvSetFreq.setOnClickListener(this);
+        tvSetS2.setOnClickListener(this);
+        tvSetInvCon.setOnClickListener(this);
+        etPower = (EditText) findViewById(R.id.et_power);
+        etFreqPoint = (EditText) findViewById(R.id.et_freq_point);
+        Button setOkBtn = (Button) findViewById(R.id.btn_set_ok);
+        setOkBtn.setOnClickListener(this);
+        checkBoxService = (CheckBox) findViewById(R.id.check_service);
+
+    }
+
+    private void getFreq() {
         int re = iuhfService.getFreqRegion();
         String r2k = "r2k";
         if (r2k.equals(model)) {
@@ -105,35 +125,6 @@ public class SetActivity extends Activity implements View.OnClickListener {
                 Log.e("r2000_kt45", "read region setting read failed");
             }
         }
-
-        //获取天线功率
-        int ivp = iuhfService.getAntennaPower();
-        if (ivp > 0) {
-            etPower.setText("" + ivp);
-        }
-        String as3992 = "as3992";
-        if (as3992.equals(model)) {
-            etPower.setHint(getResources().getString(R.string.set_etpower));
-        }
-
-        getSession();
-    }
-
-    public void initView() {
-        ImageView mIvQuitSet = (ImageView) findViewById(R.id.set_title_iv);
-        tvSetFreq = (TextView) findViewById(R.id.set_freq_tv);
-        tvSetS2 = (TextView) findViewById(R.id.set_s2_tv);
-        tvSetInvCon = (TextView) findViewById(R.id.set_onlyepc_tv);
-        mIvQuitSet.setOnClickListener(this);
-        tvSetFreq.setOnClickListener(this);
-        tvSetS2.setOnClickListener(this);
-        tvSetInvCon.setOnClickListener(this);
-        etPower = (EditText) findViewById(R.id.et_power);
-        etFreqPoint = (EditText) findViewById(R.id.et_freq_point);
-        Button setOkBtn = (Button) findViewById(R.id.btn_set_ok);
-        setOkBtn.setOnClickListener(this);
-        checkBoxService = (CheckBox) findViewById(R.id.check_service);
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -171,49 +162,65 @@ public class SetActivity extends Activity implements View.OnClickListener {
             case R.id.btn_set_ok:
                 //确定
                 //设置参数
-                setData();
-                if (isOK) {
-                    Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
-                }
+                String power = etPower.getText().toString();
+                setAntennaPower(power);
                 break;
             default:
                 break;
         }
     }
 
-    private void setData() {
-        //设置定频
+    /**
+     * @param region 设置定频
+     */
+    private void setFreq(int region) {
         int p = 4;
-        if (freqRegion >= p) {
-            isOK = false;
+        if (region >= p) {
+            return;
+        }
+        if (iuhfService.setFreqRegion(region) < 0) {
+            Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
         } else {
-            if (iuhfService.setFreqRegion(freqRegion) < 0) {
-                isOK = false;
-            }
+            Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
         }
+    }
 
-        // 设置通话项
-        int setQueryTagGroup = iuhfService.setQueryTagGroup(0, s2Region, 0);
-        if (setQueryTagGroup != 0) {
-            isOK = false;
+    /**
+     * @param session 设置通话项
+     */
+    private void setSession(int session) {
+        int setQueryTagGroup = iuhfService.setQueryTagGroup(0, session, 0);
+        if (setQueryTagGroup == 0) {
+            Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
         }
-        //设置天线功率
-        int ivp = Integer.parseInt(etPower.getText().toString());
+    }
+
+    /**
+     * @param power 设置天线功率
+     */
+    private void setAntennaPower(String power) {
+        if (TextUtils.isEmpty(power)) {
+            Toast.makeText(this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int p = Integer.parseInt(power);
         int m = 33;
-        if ((ivp < 0) || (ivp > m)) {
-            isOK = false;
+        if ((p < 0) || (p > m)) {
+            Toast.makeText(this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT).show();
         } else {
-            int rv = iuhfService.setAntennaPower(ivp);
+            int rv = iuhfService.setAntennaPower(p);
             if (rv < 0) {
-                isOK = false;
+                Toast.makeText(this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT).show();
             }
         }
+    }
 
+    private void setInvCon(int w) {
         //设置盘点内容
-        int w = invConRegion;
         int wp3 = 3;
         int wp4 = 4;
         if (w == wp3) {
@@ -247,8 +254,10 @@ public class SetActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = data.getExtras();
                     if (bundle != null) {
                         String freq = bundle.getString("freq");
-                        freqRegion = bundle.getInt("position");
+                        //选择的定频列表位置
+                        int freqRegion = bundle.getInt("position");
                         tvSetFreq.setText(freq);
+                        setFreq(freqRegion);
                     }
                 }
                 break;
@@ -257,8 +266,10 @@ public class SetActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = data.getExtras();
                     assert bundle != null;
                     String s2 = bundle.getString("S2");
-                    s2Region = bundle.getInt("position");
+                    // 选择的S2列表位置
+                    int s2Region = bundle.getInt("position");
                     tvSetS2.setText(s2);
+                    setSession(s2Region);
                 }
                 break;
             case 3:
@@ -266,15 +277,16 @@ public class SetActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = data.getExtras();
                     assert bundle != null;
                     String invCon = bundle.getString("InvCon");
-                    invConRegion = bundle.getInt("position");
+                    //选择的盘点内容列表位置
+                    int invConRegion = bundle.getInt("position");
                     tvSetInvCon.setText(invCon);
+                    setInvCon(invConRegion);
                 }
                 break;
             default:
                 break;
         }
     }
-
 
 
     @Override

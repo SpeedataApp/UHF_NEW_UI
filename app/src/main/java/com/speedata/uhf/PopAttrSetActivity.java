@@ -154,9 +154,11 @@ public class PopAttrSetActivity extends Activity {
                             setPassword();
                         }
                         if (isSetEpc) {
+                            SystemClock.sleep(500);
                             setEpc();
                         }
                         if (isSetLock) {
+                            SystemClock.sleep(500);
                             setLock();
                         }
                     }
@@ -171,7 +173,7 @@ public class PopAttrSetActivity extends Activity {
                     newepc.setText("");
                     newepclength.setText("");
                     rbSpaceKill.setChecked(true);
-                    newLockPwd.setText("");
+                    typeUnlock.setChecked(true);
                     break;
                 case R.id.relative_layout:
                     //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数
@@ -219,7 +221,9 @@ public class PopAttrSetActivity extends Activity {
             public void run() {
                 int setPassword = iuhfService.setPassword(which, curpass, newpass);
                 if (setPassword != 0) {
-                    handler.sendMessage(handler.obtainMessage(1, getResources().getString(R.string.toast2)));
+                    handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.toast2)));
+                } else {
+                    handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.set_success)));
                 }
             }
         }).start();
@@ -250,7 +254,9 @@ public class PopAttrSetActivity extends Activity {
             public void run() {
                 int writeArea = setEPC(epcl, password, write);
                 if (writeArea != 0) {
-                    handler.sendMessage(handler.obtainMessage(1, getResources().getString(R.string.toast2)));
+                    handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.toast2)));
+                } else {
+                    handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.set_success)));
                 }
             }
         }).start();
@@ -286,7 +292,9 @@ public class PopAttrSetActivity extends Activity {
             public void run() {
                 int reval = iuhfService.setLock(lockType, lockSpace, lockNewPwd);
                 if (reval != 0) {
-                    handler.sendMessage(handler.obtainMessage(1,getResources().getString(R.string.toast2)));
+                    handler.sendMessage(handler.obtainMessage(4, getResources().getString(R.string.toast2)));
+                } else {
+                    handler.sendMessage(handler.obtainMessage(4, getResources().getString(R.string.set_success)));
                 }
             }
         }).start();
@@ -326,6 +334,12 @@ public class PopAttrSetActivity extends Activity {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 Toast.makeText(PopAttrSetActivity.this, "" + msg.obj, Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 2) {
+                Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.set_password) + msg.obj, Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 3) {
+                Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.set_epc) + msg.obj, Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 4) {
+                Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.set_lock) + msg.obj, Toast.LENGTH_SHORT).show();
             }
         }
     };

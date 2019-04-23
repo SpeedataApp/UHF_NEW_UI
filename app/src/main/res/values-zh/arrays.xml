@@ -8,18 +8,18 @@
         <item>USER</item>
     </string-array>
     <string-array name="r2k_freq">
-        <item>840-845</item>
-        <item>920-925</item>
-        <item>902-928</item>
-        <item>865-868</item>
+        <item>840_845</item>
+        <item>920_925</item>
+        <item>902_928</item>
+        <item>865_868</item>
         <item>当前状态为定频</item>
         <item>...</item>
     </string-array>
     <string-array name="freq">
-        <item>840-845</item>
-        <item>920-925</item>
-        <item>902-928</item>
-        <item>865-868</item>
+        <item>840_845</item>
+        <item>920_925</item>
+        <item>902_928</item>
+        <item>865_868</item>
         <item>...</item>
     </string-array>
 

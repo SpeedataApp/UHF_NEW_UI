@@ -118,7 +118,7 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
             }
             return;
         }
-        model = SharedXmlUtil.getInstance(NewMainActivity.this).read("modle", "");
+        model = SharedXmlUtil.getInstance(NewMainActivity.this).read("model", "");
 
         initView();
         initData();

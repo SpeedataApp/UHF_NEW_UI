@@ -121,7 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/set_tab1"
             android:layout_marginTop="10dp"
-            android:background="@color/text_white">
+            android:background="@color/text_white"
+            android:visibility="gone">
 
             <TableRow>
 

@@ -188,4 +188,8 @@
     <string name="permaunlock_pwd_type">Permaunlock</string>
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">Reset</string>
+
+    <string name="power_range">antenna power value range is 0 ~ 33</string>
+    <string name="set_power_fail">set antenna power failed</string>
+    <string name="set_power_ok">set antenna power OK</string>
 </resources>
