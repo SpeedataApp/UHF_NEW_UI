@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ import jxl.write.Colour;
  *
  * @author zzc
  */
-public class NewMainActivity extends Activity implements View.OnClickListener {
+public class NewMainActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 搜索输入框
@@ -102,8 +103,8 @@ public class NewMainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //全屏显示
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //强制为竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         UHFManager.setStipulationLevel(0);
 
         try {

@@ -113,7 +113,7 @@ public class ReadCardDialog extends Dialog implements
                 public void run() {
                     int readArea = iuhfService.readArea(whichChoose, addr, count, strPasswd);
                     if (readArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1, R.string.toast2));
+                        handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
                     }
                 }
             }).start();

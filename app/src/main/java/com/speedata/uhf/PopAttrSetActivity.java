@@ -30,7 +30,7 @@ import com.speedata.libuhf.utils.StringUtils;
  *
  * @author My_PC
  */
-public class PopAttrSetActivity extends Activity {
+public class PopAttrSetActivity extends BaseActivity {
 
     /**
      * password
@@ -64,8 +64,8 @@ public class PopAttrSetActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_attr_set);
-        // 让此界面的宽度撑满整个屏幕
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 让此界面的宽度以及高度撑满整个屏幕
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         initView();
         initData();
     }
@@ -107,10 +107,17 @@ public class PopAttrSetActivity extends Activity {
         typePermaLock.setOnCheckedChangeListener(new ChangeChecked());
         newLockPwd = (EditText) findViewById(R.id.et_lock_pwd);
 
-        Button ok = (Button) findViewById(R.id.btn_ok);
+        Button btnBack = (Button) findViewById(R.id.btn_back);
         Button reset = (Button) findViewById(R.id.btn_reset);
-        ok.setOnClickListener(new Click());
+        btnBack.setOnClickListener(new Click());
         reset.setOnClickListener(new Click());
+        Button btnPasswordSet = findViewById(R.id.btn_pwd_ok);
+        Button btnEpcSet = findViewById(R.id.btn_epc_ok);
+        Button btnLockSet = findViewById(R.id.btn_lock_ok);
+        btnPasswordSet.setOnClickListener(new Click());
+        btnEpcSet.setOnClickListener(new Click());
+        btnLockSet.setOnClickListener(new Click());
+
     }
 
     public void initData() {
@@ -144,26 +151,6 @@ public class PopAttrSetActivity extends Activity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btn_ok:
-                    //确认
-                    setCheck();
-                    if (!isSetPassword && !isSetEpc && !isSetLock) {
-                        Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (isSetPassword) {
-                            setPassword();
-                        }
-                        if (isSetEpc) {
-                            SystemClock.sleep(500);
-                            setEpc();
-                        }
-                        if (isSetLock) {
-                            SystemClock.sleep(500);
-                            setLock();
-                        }
-                    }
-
-                    break;
                 case R.id.btn_reset:
                     //重置
                     pwdinit.setText(getResources().getString(R.string.VALUE_ZERO));
@@ -174,9 +161,22 @@ public class PopAttrSetActivity extends Activity {
                     newepclength.setText("");
                     rbSpaceKill.setChecked(true);
                     typeUnlock.setChecked(true);
+                    newLockPwd.setText("");
                     break;
                 case R.id.relative_layout:
                     //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数
+                    break;
+                case R.id.btn_back:
+                    finish();
+                    break;
+                case R.id.btn_pwd_ok:
+                    setPassword();
+                    break;
+                case R.id.btn_epc_ok:
+                    setEpc();
+                    break;
+                case R.id.btn_lock_ok:
+                    setLock();
                     break;
                 default:
                     break;

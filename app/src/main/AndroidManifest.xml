@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     coreApp="true"
-    package="com.speedata.uhf"
-    android:sharedUserId="android.uid.system">
+    package="com.speedata.uhf">
+    <!--android:sharedUserId="android.uid.system">-->
 
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 在新更新需要的权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -27,6 +27,7 @@
 
         <activity
             android:name=".NewMainActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,18 +41,28 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".PopSetFreqActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name=".PopSetS2Activity"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name=".PopSetInvContentActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name=".PopAttrSetActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/MyDialogStyleRight" />
-        <activity android:name=".CurrentCardActivity" />
-        <activity android:name=".SetActivity">
+        <activity
+            android:name=".CurrentCardActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".SetActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -74,7 +85,9 @@
                 android:name="com.android.settings.summary"
                 android:resource="@string/uhf_config_summary" />
         </activity>
-        <activity android:name=".SearchDirectionActivity" />
+        <activity
+            android:name=".SearchDirectionActivity"
+            android:configChanges="orientation|keyboardHidden" />
 
         <activity android:name=".PikestaffActivity">
             <intent-filter>

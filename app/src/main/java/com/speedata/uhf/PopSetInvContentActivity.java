@@ -19,7 +19,7 @@ import android.widget.TextView;
  *
  * @author My_PC
  */
-public class PopSetInvContentActivity extends Activity {
+public class PopSetInvContentActivity extends BaseActivity {
 
     private ListView lvInvCon;
 

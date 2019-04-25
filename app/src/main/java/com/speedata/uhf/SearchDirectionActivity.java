@@ -26,7 +26,7 @@ import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
  *
  * @author My_PC
  */
-public class SearchDirectionActivity extends Activity implements View.OnClickListener {
+public class SearchDirectionActivity extends BaseActivity implements View.OnClickListener {
 
     private SoundPool soundPool;
     private int soundId;

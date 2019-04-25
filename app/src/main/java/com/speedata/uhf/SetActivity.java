@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
  *
  * @author 张智超
  */
-public class SetActivity extends Activity implements View.OnClickListener {
+public class SetActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tvSetFreq;
     private TextView tvSetS2;
@@ -42,6 +42,7 @@ public class SetActivity extends Activity implements View.OnClickListener {
     private IUHFService iuhfService;
     private CheckBox checkBoxService;
     private String model;
+    private int freqRegion,s2Region;
 
 
     @Override
@@ -86,9 +87,15 @@ public class SetActivity extends Activity implements View.OnClickListener {
         tvSetInvCon.setOnClickListener(this);
         etPower = (EditText) findViewById(R.id.et_power);
         etFreqPoint = (EditText) findViewById(R.id.et_freq_point);
-        Button setOkBtn = (Button) findViewById(R.id.btn_set_ok);
-        setOkBtn.setOnClickListener(this);
+        Button setBackBtn = (Button) findViewById(R.id.btn_set_back);
+        setBackBtn.setOnClickListener(this);
         checkBoxService = (CheckBox) findViewById(R.id.check_service);
+        Button setFreqBtn = findViewById(R.id.btn_set_freq);
+        setFreqBtn.setOnClickListener(this);
+        Button setSessionBtn = findViewById(R.id.btn_set_session);
+        setSessionBtn.setOnClickListener(this);
+        Button setPowerBtn = findViewById(R.id.btn_set_power);
+        setPowerBtn.setOnClickListener(this);
 
     }
 
@@ -158,10 +165,17 @@ public class SetActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(this, PopSetInvContentActivity.class);
                 startActivityForResult(intent, 3);
                 break;
-
-            case R.id.btn_set_ok:
-                //确定
-                //设置参数
+            case R.id.btn_set_back:
+                //返回
+                finish();
+                break;
+            case R.id.btn_set_freq:
+                setFreq(freqRegion);
+                break;
+            case R.id.btn_set_session:
+                setSession(s2Region);
+                break;
+            case R.id.btn_set_power:
                 String power = etPower.getText().toString();
                 setAntennaPower(power);
                 break;
@@ -255,9 +269,9 @@ public class SetActivity extends Activity implements View.OnClickListener {
                     if (bundle != null) {
                         String freq = bundle.getString("freq");
                         //选择的定频列表位置
-                        int freqRegion = bundle.getInt("position");
+                        freqRegion = bundle.getInt("position");
                         tvSetFreq.setText(freq);
-                        setFreq(freqRegion);
+
                     }
                 }
                 break;
@@ -267,9 +281,9 @@ public class SetActivity extends Activity implements View.OnClickListener {
                     assert bundle != null;
                     String s2 = bundle.getString("S2");
                     // 选择的S2列表位置
-                    int s2Region = bundle.getInt("position");
+                    s2Region = bundle.getInt("position");
                     tvSetS2.setText(s2);
-                    setSession(s2Region);
+
                 }
                 break;
             case 3:

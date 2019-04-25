@@ -74,6 +74,7 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:hint="@string/set_addr_hint"
+                android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/text_set_dark"
                 android:textColorHint="@color/text_gray"
@@ -99,6 +100,7 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:hint="@string/set_count_hint"
+                android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/text_set_dark"
                 android:textColorHint="@color/text_gray"
@@ -130,6 +132,7 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/textView_write_status"
             android:layout_width="match_parent"

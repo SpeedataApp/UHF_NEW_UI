@@ -125,7 +125,7 @@ public class WriteCardDialog extends Dialog implements
                 public void run() {
                     int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
                     if (writeArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1,R.string.toast2));
+                        handler.sendMessage(handler.obtainMessage(1,mContext.getResources().getString(R.string.toast2)));
                     }
                 }
             }).start();

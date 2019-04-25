@@ -13,7 +13,7 @@ import com.speedata.libutils.SharedXmlUtil;
  *
  * @author My_PC
  */
-public class PikestaffActivity extends Activity {
+public class PikestaffActivity extends BaseActivity {
 
     private CheckBox cbStartScan;
     private CheckBox cbStartUhf;

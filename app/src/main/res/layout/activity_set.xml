@@ -39,6 +39,16 @@
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_set_freq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/btn_blue_shape"
+                    android:text="@string/btn_ok"
+                    android:textColor="@color/text_white"
+                    android:textSize="14sp" />
             </TableRow>
 
             <TableRow>
@@ -63,6 +73,16 @@
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
                     android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_set_session"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/btn_blue_shape"
+                    android:text="@string/btn_ok"
+                    android:textColor="@color/text_white"
+                    android:textSize="14sp" />
             </TableRow>
 
             <TableRow>
@@ -84,8 +104,19 @@
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="@string/antenna_p_hint"
+                    android:inputType="number"
                     android:padding="14dp"
                     android:textColorHint="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_set_power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/btn_blue_shape"
+                    android:text="@string/btn_ok"
+                    android:textColor="@color/text_white"
                     android:textSize="14sp" />
             </TableRow>
 
@@ -225,11 +256,11 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/btn_set_ok"
+                android:id="@+id/btn_set_back"
                 android:layout_width="280dp"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_blue_shape"
-                android:text="@string/btn_ok"
+                android:text="@string/btn_bk"
                 android:textColor="@color/text_white"
                 android:textSize="20sp" />
 

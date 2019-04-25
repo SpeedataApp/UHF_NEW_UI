@@ -133,7 +133,7 @@
     <string name="main_info1">输入卡号通过声音寻找卡片位置</string>
     <string name="main_info2">欢迎使用超高频应用</string>
     <string name="main_info3">您可以寻卡后进行选卡操作</string>
-    <string name="main_rl_info1">个/以盘</string>
+    <string name="main_rl_info1">个/已盘</string>
     <string name="main_rl_info2">耗时0.000s</string>
     <string name="main_rl_info3">0次/s</string>
     <string name="card_list">卡片列表</string>
@@ -173,7 +173,7 @@
 
     <string name="set_epc">EPC设置</string>
     <string name="set_epc_length">EPC长度</string>
-    <string name="set_epc_length_hint">输入EPC长度</string>
+    <string name="set_epc_length_hint">输入EPC长度不大于31</string>
     <string name="input_new_epc_hint">输入新的EPC</string>
 
     <string name="set_lock">锁设置</string>

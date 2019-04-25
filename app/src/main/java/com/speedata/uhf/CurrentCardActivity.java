@@ -3,6 +3,7 @@ package com.speedata.uhf;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -24,7 +25,7 @@ import com.speedata.uhf.dialog.WriteCardDialog;
  *
  * @author 张智超
  */
-public class CurrentCardActivity extends Activity implements View.OnClickListener {
+public class CurrentCardActivity extends BaseActivity implements View.OnClickListener {
 
     private String epcName;
     private TextView mTitleTv;
@@ -37,6 +38,8 @@ public class CurrentCardActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //强制为竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.select_one_card);
         getData();
         initView();

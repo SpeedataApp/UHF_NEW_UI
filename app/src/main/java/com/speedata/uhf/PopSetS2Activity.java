@@ -19,7 +19,7 @@ import android.widget.TextView;
  *
  * @author My_PC
  */
-public class PopSetS2Activity extends Activity {
+public class PopSetS2Activity extends BaseActivity {
 
     private ListView lvS2;
 

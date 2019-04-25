@@ -21,7 +21,7 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
  *
  * @author My_PC
  */
-public class PopSetFreqActivity extends Activity {
+public class PopSetFreqActivity extends BaseActivity {
 
     private ListView lvFreq;
 
