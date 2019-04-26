@@ -28,7 +28,6 @@ import com.speedata.uhf.dialog.WriteCardDialog;
 public class CurrentCardActivity extends BaseActivity implements View.OnClickListener {
 
     private String epcName;
-    private TextView mTitleTv;
     private Spinner areaSelect;
     private TextView mVersionTv;
 
@@ -54,7 +53,6 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
         LinearLayout mLlWriteEpc = (LinearLayout) findViewById(R.id.ll_write_epc);
         LinearLayout mLlCardAttrSet = (LinearLayout) findViewById(R.id.ll_card_attr_set);
         ImageView mIvExit = (ImageView) findViewById(R.id.title_exit);
-        mTitleTv = (TextView) findViewById(R.id.card_title_tv);
         mVersionTv = (TextView) findViewById(R.id.tv_version_model);
         mVersionTv.setText(CommonUtils.getAppVersionName(this));
         mLlReadEpc.setOnClickListener(this);
@@ -65,7 +63,9 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
         areaSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mTitleTv.setText(parent.getSelectedItem().toString());
+                TextView tv = (TextView)view;
+                //设置颜色
+                tv.setTextColor(getResources().getColor(R.color.text_white));
             }
 
             @Override

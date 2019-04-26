@@ -73,6 +73,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
             etPower.setHint(getResources().getString(R.string.set_etpower));
         }
 
+        //获取通话项
         getSession();
     }
 
@@ -100,32 +101,32 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void getFreq() {
-        int re = iuhfService.getFreqRegion();
+        freqRegion = iuhfService.getFreqRegion();
         String r2k = "r2k";
         if (r2k.equals(model)) {
-            if (re == IUHFService.REGION_CHINA_920_925) {
+            if (freqRegion == IUHFService.REGION_CHINA_920_925) {
                 tvSetFreq.setText("920_925");
-            } else if (re == IUHFService.REGION_CHINA_840_845) {
+            } else if (freqRegion == IUHFService.REGION_CHINA_840_845) {
                 tvSetFreq.setText("840_845");
-            } else if (re == IUHFService.REGION_CHINA_902_928) {
+            } else if (freqRegion == IUHFService.REGION_CHINA_902_928) {
                 tvSetFreq.setText("902_928");
-            } else if (re == IUHFService.REGION_EURO_865_868) {
+            } else if (freqRegion == IUHFService.REGION_EURO_865_868) {
                 tvSetFreq.setText("865_868");
-            } else if (re == -1) {
+            } else if (freqRegion == -1) {
                 tvSetFreq.setText("...");
                 Log.e("r2000_kt45", "read region setting read failed");
             } else {
                 tvSetFreq.setText(getResources().getString(R.string.set_freq_item1));
-                etFreqPoint.setText(String.valueOf(new DecimalFormat("0.000").format(re / 1000.0)));
+                etFreqPoint.setText(String.valueOf(new DecimalFormat("0.000").format(freqRegion / 1000.0)));
             }
         } else {
-            if (re == IUHFService.REGION_CHINA_920_925) {
+            if (freqRegion == IUHFService.REGION_CHINA_920_925) {
                 tvSetFreq.setText("920_925");
-            } else if (re == IUHFService.REGION_CHINA_840_845) {
+            } else if (freqRegion == IUHFService.REGION_CHINA_840_845) {
                 tvSetFreq.setText("840_845");
-            } else if (re == IUHFService.REGION_CHINA_902_928) {
+            } else if (freqRegion == IUHFService.REGION_CHINA_902_928) {
                 tvSetFreq.setText("902_928");
-            } else if (re == IUHFService.REGION_EURO_865_868) {
+            } else if (freqRegion == IUHFService.REGION_EURO_865_868) {
                 tvSetFreq.setText("865_868");
             } else {
                 tvSetFreq.setText("...");
@@ -136,9 +137,9 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private void getSession() {
-        int queryTagGroup = iuhfService.getQueryTagGroup();
-        if (queryTagGroup != -1) {
-            tvSetS2.setText("s" + queryTagGroup);
+        s2Region = iuhfService.getQueryTagGroup();
+        if (s2Region != -1) {
+            tvSetS2.setText("s" + s2Region);
         }
     }
 

@@ -161,26 +161,27 @@
     <string name="read_password_hint">填写密码</string>
     <string name="write_status">正在写卡中....</string>
     <string name="card_content">内容</string>
-    <string name="card_content_hint">填写写卡内容</string>
+    <string name="card_content_hint">填写16进制数</string>
 
     <string name="set_password">密码设置</string>
-    <string name="init_password">初始密码</string>
-    <string name="init_password_hint">输入初始密码</string>
+    <string name="init_password">访问密码</string>
+    <string name="init_password_hint">输入访问密码</string>
     <string name="kill_password">死亡密码</string>
     <string name="access_password">访问密码</string>
     <string name="new_password">新密码</string>
-    <string name="new_password_hint">输入新密码</string>
+    <string name="new_password_hint">输入八位十六进制数</string>
 
     <string name="set_epc">EPC设置</string>
     <string name="set_epc_length">EPC长度</string>
     <string name="set_epc_length_hint">输入EPC长度不大于31</string>
-    <string name="input_new_epc_hint">输入新的EPC</string>
+    <string name="input_new_epc_hint">输入十六进制数</string>
 
     <string name="set_lock">锁设置</string>
-    <string name="save_space">存储空间</string>
+    <string name="save_space">锁定区域</string>
     <string name="lock_epc">EPC</string>
     <string name="lock_tid">TID</string>
     <string name="lock_user">USER</string>
+    <string name="lock_type">锁定类型</string>
     <string name="unlock_pwd_type">Unlock</string>
     <string name="lock_pwd_type">Lock</string>
     <string name="permaunlock_pwd_type">Permaunlock</string>
@@ -191,4 +192,7 @@
     <string name="set_power_fail">设置天线功率失败</string>
     <string name="set_power_ok">设置天线功率成功</string>
 
+    <string name="write_success">写入成功</string>
+    <string name="write_fail">写入失败</string>
+    <string name="read_fail">读取失败</string>
 </resources>

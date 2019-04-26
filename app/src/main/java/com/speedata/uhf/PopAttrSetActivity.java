@@ -135,10 +135,10 @@ public class PopAttrSetActivity extends BaseActivity {
                 if (var1.getStatus() == 0) {
                     //状态判断，已经写卡成功了就不返回错误码了
                     isSuccess = true;
-                    stringBuilder.append("WriteSuccess" + "\n");
+                    stringBuilder.append(getResources().getString(R.string.set_success)).append("\n");
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
                 } else {
-                    stringBuilder.append("WriteError：").append(var1.getStatus()).append("\n");
+                    stringBuilder.append(getResources().getString(R.string.set_failed)).append(var1.getStatus()).append("\n");
                 }
                 if (!isSuccess) {
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
@@ -161,7 +161,7 @@ public class PopAttrSetActivity extends BaseActivity {
                     newepclength.setText("");
                     rbSpaceKill.setChecked(true);
                     typeUnlock.setChecked(true);
-                    newLockPwd.setText("");
+                    newLockPwd.setText(getResources().getString(R.string.VALUE_ZERO));
                     break;
                 case R.id.relative_layout:
                     //添加选择窗口范围监听可以优先获取触点，即不再执行onTouchEvent()函数
@@ -222,8 +222,6 @@ public class PopAttrSetActivity extends BaseActivity {
                 int setPassword = iuhfService.setPassword(which, curpass, newpass);
                 if (setPassword != 0) {
                     handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.toast2)));
-                } else {
-                    handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.set_success)));
                 }
             }
         }).start();
@@ -255,8 +253,6 @@ public class PopAttrSetActivity extends BaseActivity {
                 int writeArea = setEPC(epcl, password, write);
                 if (writeArea != 0) {
                     handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.toast2)));
-                } else {
-                    handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.set_success)));
                 }
             }
         }).start();
@@ -293,8 +289,6 @@ public class PopAttrSetActivity extends BaseActivity {
                 int reval = iuhfService.setLock(lockType, lockSpace, lockNewPwd);
                 if (reval != 0) {
                     handler.sendMessage(handler.obtainMessage(4, getResources().getString(R.string.toast2)));
-                } else {
-                    handler.sendMessage(handler.obtainMessage(4, getResources().getString(R.string.set_success)));
                 }
             }
         }).start();

@@ -85,9 +85,9 @@ public class ReadCardDialog extends Dialog implements
                 if (var1.getStatus() == 0) {
                     byte[] readData = var1.getReadData();
                     String readHexString = StringUtils.byteToHexString(readData, var1.getDataLen());
-                    stringBuilder.append("ReadData：").append(readHexString).append("\n");
+                    stringBuilder.append("ReadData:").append(readHexString).append("\n");
                 } else {
-                    stringBuilder.append("ReadError：").append(var1.getStatus()).append("\n");
+                    stringBuilder.append(mContext.getResources().getString(R.string.read_fail)).append(":").append(var1.getStatus()).append("\n");
                 }
                 handler.sendMessage(handler.obtainMessage(1, stringBuilder));
             }

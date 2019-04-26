@@ -28,6 +28,7 @@
         <activity
             android:name=".NewMainActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,11 +59,13 @@
         <activity
             android:name=".CurrentCardActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SetActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -87,7 +90,8 @@
         </activity>
         <activity
             android:name=".SearchDirectionActivity"
-            android:configChanges="orientation|keyboardHidden" />
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".PikestaffActivity">
             <intent-filter>

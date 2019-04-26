@@ -24,20 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
 
-            <TextView
-                android:id="@+id/card_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="8dp"
-                android:text="Reserved"
-                android:textColor="@color/text_white"
-                android:textSize="18sp" />
-
             <Spinner
                 android:id="@+id/sp_title"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/select_ico"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:dropDownVerticalOffset="30dp"
+                android:background="@drawable/spinner_drop_down_shape"
                 android:entries="@array/way" />
         </LinearLayout>
 

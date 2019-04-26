@@ -89,10 +89,10 @@ public class WriteCardDialog extends Dialog implements
                 if (var1.getStatus() == 0) {
                     //状态判断，已经写卡成功了就不返回错误码了
                     isSuccess = true;
-                    stringBuilder.append("WriteSuccess" + "\n");
+                    stringBuilder.append(mContext.getResources().getString(R.string.write_success)).append("\n");
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
                 } else {
-                    stringBuilder.append("WriteError：").append(var1.getStatus()).append("\n");
+                    stringBuilder.append(mContext.getResources().getString(R.string.write_fail)).append(":").append(var1.getStatus()).append("\n");
                 }
                 if (!isSuccess) {
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));

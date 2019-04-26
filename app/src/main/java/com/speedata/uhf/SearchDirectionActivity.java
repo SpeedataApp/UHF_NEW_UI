@@ -14,7 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
@@ -34,6 +38,7 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     private IUHFService iuhfService;
 
     private String epcToStr;
+    private ImageView imageViewSearch;
 
 
     @Override
@@ -51,6 +56,7 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
         Button mStopBtn = (Button) findViewById(R.id.search_stop);
         mStopBtn.setOnClickListener(this);
         mIvQuit.setOnClickListener(this);
+        imageViewSearch = findViewById(R.id.search_card);
     }
 
     public void initSoundPool() {
@@ -64,13 +70,13 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     }
 
     public void initData() {
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(this).load(R.drawable.bg_search_card).apply(options).into(imageViewSearch);
         iuhfService = UHFManager.getUHFService(this);
         initSoundPool();
-
         //取消掩码
         iuhfService.selectCard(1, "", false);
-
-
         getBundle();
     }
 
