@@ -44,7 +44,7 @@ public class UhfCardBean {
      * @return tvTidUser
      */
     public String getTvTidUser() {
-        tvTidUser ="  T/U:"+tidUser;
+        tvTidUser ="T/U:"+tidUser;
         return tvTidUser;
     }
 
