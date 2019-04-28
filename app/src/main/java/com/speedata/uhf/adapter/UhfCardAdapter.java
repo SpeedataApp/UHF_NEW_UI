@@ -35,10 +35,17 @@ public class UhfCardAdapter extends ArrayAdapter<UhfCardBean> {
 
         TextView tvepc = (TextView) view.findViewById(R.id.item_epc_tv);
         TextView tvvRssi = (TextView) view.findViewById(R.id.item_valid_rssi_tv);
+        TextView tvTidUser = (TextView) view.findViewById(R.id.item_tid_user_tv);
 
         assert uhfCardBean != null;
         tvepc.setText(uhfCardBean.getTvepc());
         tvvRssi.setText(uhfCardBean.getTvvRssi());
+        if (uhfCardBean.getTidUser().isEmpty()){
+            tvTidUser.setVisibility(View.GONE);
+        }else {
+            tvTidUser.setVisibility(View.VISIBLE);
+            tvTidUser.setText(uhfCardBean.getTvTidUser());
+        }
 
         return view;
     }

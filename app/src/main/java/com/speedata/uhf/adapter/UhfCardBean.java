@@ -8,6 +8,7 @@ package com.speedata.uhf.adapter;
 public class UhfCardBean {
     private String tvepc;
     private String tvvRssi;
+    private String tvTidUser;
     private String epc;
     private int valid;
     private String rssi;
@@ -36,6 +37,15 @@ public class UhfCardBean {
     String getTvvRssi() {
         tvvRssi = "COUNT:"+valid+"  RSSI:"+rssi;
         return tvvRssi;
+    }
+
+    /**
+     * 匹配item的TextView
+     * @return tvTidUser
+     */
+    public String getTvTidUser() {
+        tvTidUser ="  T/U:"+tidUser;
+        return tvTidUser;
     }
 
     public void setEpc(String epc) {

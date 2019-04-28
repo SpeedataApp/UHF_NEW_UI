@@ -25,7 +25,7 @@ public class PopSetInvContentActivity extends BaseActivity {
 
     private String invCon;
 
-    private String[] slist = {"Only EPC", "EPC + TID", "EPC + USER", "EPC+BID", "EPC+BID+TID"};
+    private String[] slist = {"Only EPC", "EPC + TID", "EPC + USER"};
 
 
     @Override

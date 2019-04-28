@@ -2,41 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:gravity="center_vertical">
+    android:paddingBottom="5dp">
 
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/icon_cgp"/>
+        android:background="@drawable/icon_cgp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
+
         <TextView
             android:id="@+id/item_epc_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:text="555WREWEWWE65544SDF5"
             android:textColor="@color/text_set_dark"
-            android:text="555WREWEWWE65544SDF5"/>
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/item_valid_rssi_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:text="COUNT:19  RSSI:-19"
             android:textColor="@color/text_card_gray"
-            android:text="COUNT:19  RSSI:-19"/>
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/item_tid_user_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  T/U:"
+            android:textColor="@color/text_card_gray"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+
     </LinearLayout>
+
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@drawable/icon_fh"/>
+        android:background="@drawable/icon_fh" />
 
 
 </LinearLayout>

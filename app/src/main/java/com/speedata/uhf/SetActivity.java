@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +44,8 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
     private IUHFService iuhfService;
     private CheckBox checkBoxService;
     private String model;
-    private int freqRegion,s2Region;
+    private int freqRegion, s2Region, invConRegion;
+    private TableLayout tableLayoutInvCon;
 
 
     @Override
@@ -62,7 +65,8 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
 
         //获取定频
         getFreq();
-
+        //获取通话项
+        getSession();
         //获取天线功率
         int ivp = iuhfService.getAntennaPower();
         if (ivp > 0) {
@@ -72,9 +76,26 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
         if (as3992.equals(model)) {
             etPower.setHint(getResources().getString(R.string.set_etpower));
         }
-
-        //获取通话项
-        getSession();
+        //获取盘点模式
+        if ("r2k".equals(model)) {
+            tableLayoutInvCon.setVisibility(View.VISIBLE);
+            invConRegion = iuhfService.getInvMode(0);
+            switch (invConRegion) {
+                case 0:
+                    tvSetInvCon.setText("Only EPC");
+                    break;
+                case 1:
+                    tvSetInvCon.setText("EPC + TID");
+                    break;
+                case 2:
+                    tvSetInvCon.setText("EPC + USER");
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            tableLayoutInvCon.setVisibility(View.GONE);
+        }
     }
 
     public void initView() {
@@ -97,6 +118,9 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
         setSessionBtn.setOnClickListener(this);
         Button setPowerBtn = findViewById(R.id.btn_set_power);
         setPowerBtn.setOnClickListener(this);
+        Button setInvConBtn = findViewById(R.id.btn_set_invent);
+        setInvConBtn.setOnClickListener(this);
+        tableLayoutInvCon = findViewById(R.id.set_tab2);
 
     }
 
@@ -180,6 +204,9 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
                 String power = etPower.getText().toString();
                 setAntennaPower(power);
                 break;
+            case R.id.btn_set_invent:
+                setInvCon(invConRegion);
+                break;
             default:
                 break;
         }
@@ -236,28 +263,15 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
 
     private void setInvCon(int w) {
         //设置盘点内容
-        int wp3 = 3;
-        int wp4 = 4;
-        if (w == wp3) {
-            //读取U8标签代码epc+bid
-            iuhfService.mask(1, 516, 1, StringUtils.stringToByte("80"));
-            SharedXmlUtil.getInstance(this).write("U8", true);
-        } else if (w == wp4) {
-            //读取U8标签代码epc+bid+tid
-            iuhfService.mask(1, 516, 1, StringUtils.stringToByte("80"));
-            iuhfService.setInvMode(1, 0, 6);
-            SharedXmlUtil.getInstance(this).write("U8", true);
-        } else {
-            iuhfService.cancelMask();
-            SharedXmlUtil.getInstance(this).write("U8", false);
-            int caddr = 0, csize = 0;
-            if (w != 0) {
-                caddr = 1;
-                csize = 1;
-            }
-            iuhfService.setInvMode(w, caddr, csize);
+        iuhfService.cancelMask();
+        SharedXmlUtil.getInstance(this).write("U8", false);
+        int caddr = 0, csize = 6;
+        int mode = iuhfService.setInvMode(w, caddr, csize);
+        if (mode == 0) {
+            Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -293,9 +307,8 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
                     assert bundle != null;
                     String invCon = bundle.getString("InvCon");
                     //选择的盘点内容列表位置
-                    int invConRegion = bundle.getInt("position");
+                    invConRegion = bundle.getInt("position");
                     tvSetInvCon.setText(invCon);
-                    setInvCon(invConRegion);
                 }
                 break;
             default:
