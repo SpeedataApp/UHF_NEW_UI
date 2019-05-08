@@ -128,9 +128,10 @@
     <!--主界面-->
     <string name="search_dialog_item">请先寻卡</string>
     <string name="search_dialog_title">选择要寻找的卡片</string>
+    <string name="search_toast">请先选卡</string>
     <string name="num">次/s</string>
     <string name="spend_time">耗时</string>
-    <string name="main_info1">输入卡号通过声音寻找卡片位置</string>
+    <string name="main_info1">选择卡号通过声音寻找卡片位置</string>
     <string name="main_info2">欢迎使用超高频应用</string>
     <string name="main_info3">您可以寻卡后进行选卡操作</string>
     <string name="main_rl_info1">个/已盘</string>
@@ -156,6 +157,8 @@
     <!--读卡、写卡-->
     <string name="toast1">参数不能为空</string>
     <string name="toast2">参数不正确</string>
+    <string name="toast3">地址或块数过大，请重新输入</string>
+    <string name="toast4">epc长度过大</string>
     <string name="read_status">正在读卡中....</string>
     <string name="read_password">密码</string>
     <string name="read_password_hint">填写密码</string>
@@ -195,4 +198,6 @@
     <string name="write_success">写入成功</string>
     <string name="write_fail">写入失败</string>
     <string name="read_fail">读取失败</string>
+
+    <string name="welcome">欢迎使用超高频应用</string>
 </resources>

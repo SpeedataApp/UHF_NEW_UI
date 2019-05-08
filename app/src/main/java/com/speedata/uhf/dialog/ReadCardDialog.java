@@ -102,21 +102,25 @@ public class ReadCardDialog extends Dialog implements
             final String strCount = readCount.getText().toString();
             final String strPasswd = password.getText().toString();
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)) {
-                Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
                 return;
             }
-            final int addr = Integer.parseInt(strAddr);
-            final int count = Integer.parseInt(strCount);
-            status.setText(R.string.read_status);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int readArea = iuhfService.readArea(whichChoose, addr, count, strPasswd);
-                    if (readArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+            try {
+                final int addr = Integer.parseInt(strAddr);
+                final int count = Integer.parseInt(strCount);
+                status.setText(R.string.read_status);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int readArea = iuhfService.readArea(whichChoose, addr, count, strPasswd);
+                        if (readArea != 0) {
+                            handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+                        }
                     }
-                }
-            }).start();
+                }).start();
+            } catch (NumberFormatException e) {
+                handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast3)));
+            }
 
         } else if (v == cancel) {
             dismiss();
@@ -131,7 +135,7 @@ public class ReadCardDialog extends Dialog implements
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    status.setText(msg.obj+"");
+                    status.setText(msg.obj + "");
                     break;
                 default:
                     break;

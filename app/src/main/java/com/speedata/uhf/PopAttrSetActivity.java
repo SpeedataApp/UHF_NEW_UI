@@ -204,7 +204,7 @@ public class PopAttrSetActivity extends BaseActivity {
      */
     private void setPassword() {
         final String curpass = pwdinit.getText().toString();
-        final String newpass = pwdnew.getText().toString();
+        final String newpass = pwdnew.getText().toString().replace(" ", "");
         if (TextUtils.isEmpty(curpass) || TextUtils.isEmpty(newpass)) {
             Toast.makeText(this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
             return;
@@ -243,6 +243,7 @@ public class PopAttrSetActivity extends BaseActivity {
         try {
             epcl = Integer.parseInt(countstr, 10);
         } catch (NumberFormatException e) {
+            Toast.makeText(PopAttrSetActivity.this,getResources().getString(R.string.toast4),Toast.LENGTH_SHORT).show();
             return;
         }
 

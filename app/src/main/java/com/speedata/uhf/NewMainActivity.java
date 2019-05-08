@@ -12,14 +12,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.serialport.DeviceControlSpd;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -55,7 +54,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     /**
      * 搜索输入框
      */
-    private EditText mEtSearch;
+    private TextView mEtSearch;
     private AlertDialog alertDialog1;
     /**
      * 寻卡
@@ -105,7 +104,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        UHFManager.setStipulationLevel(0);
 
         try {
             iuhfService = UHFManager.getUHFService(NewMainActivity.this);
@@ -134,7 +132,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         ImageView mIvSet = (ImageView) findViewById(R.id.iv_set);
         //搜索按钮
         Button mBtSearch = (Button) findViewById(R.id.bt_search);
-        mEtSearch = (EditText) findViewById(R.id.et_search);
+        mEtSearch = findViewById(R.id.et_search);
         mEtSearch.setOnClickListener(this);
         mIvSet.setOnClickListener(this);
         mBtSearch.setOnClickListener(this);
@@ -284,6 +282,12 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.bt_search:
                 //搜索
+                String epc = mEtSearch.getText().toString();
+                Log.d("zzc", "epc:" + epc);
+                if (epc.isEmpty()) {
+                    Toast.makeText(this, getResources().getString(R.string.search_toast), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent1 = new Intent(this, SearchDirectionActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("epcNumber", mEtSearch.getText().toString());
@@ -393,7 +397,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 alertBuilder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(uhfCardBeanList.size() != 0){
+                        if (uhfCardBeanList.size() != 0) {
                             mEtSearch.setText(uhfCardBeanList.get(i).getEpc());
                         }
                         alertDialog1.dismiss();

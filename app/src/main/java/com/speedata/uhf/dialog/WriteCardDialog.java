@@ -109,27 +109,30 @@ public class WriteCardDialog extends Dialog implements
             final String strAddr = writeAddr.getText().toString();
             final String strCount = writeCount.getText().toString();
             final String strPasswd = writePasswd.getText().toString();
-            final String strContent = writeContent.getText().toString();
+            final String strContent = writeContent.getText().toString().replace(" ", "");
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)
                     || TextUtils.isEmpty(strContent)) {
                 Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
                 return;
             }
-            final byte[] write = StringUtils.stringToByte(strContent);
-            final int addr = Integer.parseInt(strAddr);
-            final int count = Integer.parseInt(strCount);
-            status.setText(R.string.write_status);
-            isSuccess = false;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
-                    if (writeArea != 0) {
-                        handler.sendMessage(handler.obtainMessage(1,mContext.getResources().getString(R.string.toast2)));
+            try {
+                final byte[] write = StringUtils.stringToByte(strContent);
+                final int addr = Integer.parseInt(strAddr);
+                final int count = Integer.parseInt(strCount);
+                status.setText(R.string.write_status);
+                isSuccess = false;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
+                        if (writeArea != 0) {
+                            handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+                        }
                     }
-                }
-            }).start();
-
+                }).start();
+            } catch (NumberFormatException e) {
+                handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast3)));
+            }
         } else if (v == cancel) {
             dismiss();
         }

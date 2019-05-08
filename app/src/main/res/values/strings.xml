@@ -129,9 +129,10 @@
     <!--主界面-->
     <string name="search_dialog_item">Please find the card</string>
     <string name="search_dialog_title">Select the card to look for</string>
+    <string name="search_toast">Please choose the card</string>
     <string name="num">times/s</string>
     <string name="spend_time">time</string>
-    <string name="main_info1">input card number find card by prompt tone</string>
+    <string name="main_info1">select card number find card by prompt tone</string>
     <string name="main_info2">Welcome to UHF App</string>
     <string name="main_info3">search all then select card</string>
     <string name="main_rl_info1">/searched</string>
@@ -158,6 +159,8 @@
     <!--读卡、写卡-->
     <string name="toast1">can not empty</string>
     <string name="toast2">incorrect</string>
+    <string name="toast3">Address or block size too large, please re - enter </string>
+    <string name="toast4">The epc length is too large</string>
     <string name="read_status">reading....</string>
     <string name="read_password">password</string>
     <string name="read_password_hint">input password</string>
@@ -197,4 +200,6 @@
     <string name="write_success">Write Success</string>
     <string name="write_fail">Write Failed</string>
     <string name="read_fail">Read Failed</string>
+
+    <string name="welcome">Welcome to uhf applications</string>
 </resources>
