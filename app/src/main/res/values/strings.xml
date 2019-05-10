@@ -161,6 +161,8 @@
     <string name="toast2">incorrect</string>
     <string name="toast3">Address or block size too large, please re - enter </string>
     <string name="toast4">The epc length is too large</string>
+    <string name="toast5">Please enter your 8-digit password</string>
+    <string name="toast6">The content length does not match the number of blocks</string>
     <string name="read_status">reading....</string>
     <string name="read_password">password</string>
     <string name="read_password_hint">input password</string>
@@ -202,4 +204,5 @@
     <string name="read_fail">Read Failed</string>
 
     <string name="welcome">Welcome to uhf applications</string>
+    <string name="count_not_zero">blocks cannot be 0</string>
 </resources>

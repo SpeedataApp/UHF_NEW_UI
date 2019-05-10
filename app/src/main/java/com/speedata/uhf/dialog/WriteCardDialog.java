@@ -6,7 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +102,26 @@ public class WriteCardDialog extends Dialog implements
 
             }
         });
+        writeCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String count = s.toString();
+                if ("0".equals(count)) {
+                    writeCount.setText("");
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.count_not_zero), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -115,10 +137,18 @@ public class WriteCardDialog extends Dialog implements
                 Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (strPasswd.length() != 8) {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast5), Toast.LENGTH_SHORT).show();
+                return;
+            }
             try {
                 final byte[] write = StringUtils.stringToByte(strContent);
                 final int addr = Integer.parseInt(strAddr);
                 final int count = Integer.parseInt(strCount);
+                if (count * 4 != strContent.length()) {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.toast6), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 status.setText(R.string.write_status);
                 isSuccess = false;
                 new Thread(new Runnable() {

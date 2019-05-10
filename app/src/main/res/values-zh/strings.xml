@@ -159,6 +159,8 @@
     <string name="toast2">参数不正确</string>
     <string name="toast3">地址或块数过大，请重新输入</string>
     <string name="toast4">epc长度过大</string>
+    <string name="toast5">请输入8位数密码</string>
+    <string name="toast6">内容长度与块数不匹配</string>
     <string name="read_status">正在读卡中....</string>
     <string name="read_password">密码</string>
     <string name="read_password_hint">填写密码</string>
@@ -200,4 +202,5 @@
     <string name="read_fail">读取失败</string>
 
     <string name="welcome">欢迎使用超高频应用</string>
+    <string name="count_not_zero">块数不能为0</string>
 </resources>

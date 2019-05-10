@@ -6,7 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,6 +94,26 @@ public class ReadCardDialog extends Dialog implements
                 handler.sendMessage(handler.obtainMessage(1, stringBuilder));
             }
         });
+        readCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String count = s.toString();
+                if ("0".equals(count)) {
+                    readCount.setText("");
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.count_not_zero), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -103,6 +125,10 @@ public class ReadCardDialog extends Dialog implements
             final String strPasswd = password.getText().toString();
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)) {
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (strPasswd.length() != 8) {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast5), Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
