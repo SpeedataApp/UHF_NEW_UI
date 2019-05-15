@@ -23,6 +23,7 @@ import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.libuhf.utils.StringUtils;
+import com.speedata.uhf.dialog.InventorySettingDialog;
 
 import java.text.DecimalFormat;
 
@@ -46,6 +47,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
     private String model;
     private int freqRegion, s2Region, invConRegion;
     private TableLayout tableLayoutInvCon;
+    private Button algorithmSetBtn;
 
 
     @Override
@@ -121,6 +123,8 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
         Button setInvConBtn = findViewById(R.id.btn_set_invent);
         setInvConBtn.setOnClickListener(this);
         tableLayoutInvCon = findViewById(R.id.set_tab2);
+        algorithmSetBtn = findViewById(R.id.btn_algorithm_set);
+        algorithmSetBtn.setOnClickListener(this);
 
     }
 
@@ -207,6 +211,11 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_set_invent:
                 setInvCon(invConRegion);
                 break;
+            case R.id.btn_algorithm_set:
+                InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this,iuhfService);
+                inventorySettingDialog.setTitle(getResources().getString(R.string.algorithm_set));
+                inventorySettingDialog.show();
+                break;
             default:
                 break;
         }
@@ -269,7 +278,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
         int mode = iuhfService.setInvMode(w, caddr, csize);
         if (mode == 0) {
             Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
         }
     }

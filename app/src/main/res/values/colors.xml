@@ -14,6 +14,8 @@
     <color name="btn_blue2">#a9e5ff</color>
     <color name="btn_gray">#e4e4e4</color>
     <color name="btn_deep_blue">#5a9bfc</color>
+    <color name="blue">#0000FF</color>
+    <color name="red">#FF0000</color>
 
     <color name="set_title">#25b994</color>
 

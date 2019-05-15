@@ -19,9 +19,10 @@ import java.io.IOException;
  * @date 2018/3/15
  */
 public class MyApp extends Application {
+    /**
+     * 单例
+     */
     private static MyApp m_application;
-    // 单例
-
 
     public static MyApp getInstance() {
         return m_application;
@@ -43,7 +44,7 @@ public class MyApp extends Application {
         // 初始化Bugly
         Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
 
-//        startService(new Intent(this,MyService.class));
+        startService(new Intent(this,MyService.class));
         Log.d("UHFService","MyApp onCreate");
     }
 
