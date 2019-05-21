@@ -3,8 +3,11 @@ package com.speedata.uhf;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -98,6 +101,42 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      */
     private long startCheckingTime;
 
+    private static final String ACTION_UHF_DATA = "com.se4500.onDecodeComplete";
+    public static final String START_SCAN = "com.spd.action.start_uhf";
+    public static final String STOP_SCAN = "com.spd.action.stop_uhf";
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String intentAction = intent.getAction();
+            if (ACTION_UHF_DATA.equals(intentAction)) {
+                Bundle bundle = intent.getExtras();
+                assert bundle != null;
+                SpdInventoryData var1 = bundle.getParcelable("SpdInventoryData");
+                handler.sendMessage(handler.obtainMessage(1, var1));
+            }
+            if (START_SCAN.equals(intentAction)) {
+                inSearch = true;
+                mLlFind.setVisibility(View.GONE);
+                mRlPause.setVisibility(View.VISIBLE);
+                mTvListMsg.setVisibility(View.VISIBLE);
+                mLlListBg.setVisibility(View.GONE);
+                mListViewCard.setVisibility(View.VISIBLE);
+                scant = 0;
+//                uhfCardBeanList.clear();
+                startCheckingTime = System.currentTimeMillis();
+                mFindBtn.setText(R.string.Stop_Search_Btn);
+                btnExport.setEnabled(false);
+                btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray_shape));
+                btnExport.setTextColor(getResources().getColor(R.color.text_gray));
+            } else if (STOP_SCAN.equals(intentAction)) {
+                inSearch = false;
+                mFindBtn.setText(R.string.Start_Search_Btn);
+                btnExport.setEnabled(true);
+                btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_blue_shape));
+                btnExport.setTextColor(getResources().getColor(R.color.text_white));
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +145,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         try {
-            iuhfService = UHFManager.getUHFService(NewMainActivity.this);
+            iuhfService = MyApp.getInstance().getIuhfService();
         } catch (Exception e) {
             e.printStackTrace();
             boolean cn = "CN".equals(getApplicationContext().getResources().getConfiguration().locale.getCountry());
@@ -121,7 +160,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         initView();
         initData();
-//        EventBus.getDefault().register(this);
+        initReceive();
 
     }
 
@@ -166,6 +205,15 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         Log.w("as3992_6C", "id is " + soundId);
     }
 
+    private void initReceive() {
+        //注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_UHF_DATA);
+        filter.addAction(START_SCAN);
+        filter.addAction(STOP_SCAN);
+        registerReceiver(receiver, filter);
+    }
+
     public void initData() {
         //上电
         try {
@@ -178,7 +226,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
         // 加载适配器
-
         uhfCardAdapter = new UhfCardAdapter(this, R.layout.item_uhf_card, uhfCardBeanList);
         mListViewCard.setAdapter(uhfCardAdapter);
         // 列表回调item点击事件
@@ -414,8 +461,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         //初始化声音线程
-        initSoundPool();
-
+        if (soundPool == null) {
+            initSoundPool();
+        }
     }
 
 
@@ -432,8 +480,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                     finish();
                 }
             }).show();
+            MyApp.isOpenDev = false;
             return true;
         }
+        MyApp.isOpenDev = true;
         return false;
     }
 
@@ -458,6 +508,11 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    private void sendUpddateService() {
+        Intent intent = new Intent();
+        intent.setAction("uhf.update");
+        this.sendBroadcast(intent);
+    }
 
     @Override
     protected void onStop() {
@@ -474,9 +529,12 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onDestroy() {
         if (iuhfService != null) {
-            iuhfService.closeDev();
+            //更新回调
+            sendUpddateService();
             Log.e("zzc:", "==onDestroy()==下电");
         }
+        //注销广播
+        unregisterReceiver(receiver);
         super.onDestroy();
     }
 

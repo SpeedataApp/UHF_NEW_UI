@@ -73,7 +73,7 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(this).load(R.drawable.bg_search_card).apply(options).into(imageViewSearch);
-        iuhfService = UHFManager.getUHFService(this);
+        iuhfService = MyApp.getInstance().getIuhfService();
         initSoundPool();
         //取消掩码
         iuhfService.selectCard(1, "", false);
@@ -90,7 +90,9 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        initSoundPool();
+        if (soundPool==null){
+            initSoundPool();
+        }
         iuhfService.inventoryStart();
         iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
             @Override

@@ -238,26 +238,7 @@
         </TableLayout>
 
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/set_tab2"
-            android:layout_marginTop="10dp"
-            android:background="@color/text_white"
-            android:paddingLeft="14dp"
-            android:visibility="gone">
-
-            <TableRow>
-
-                <CheckBox
-                    android:id="@+id/check_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="" />
-            </TableRow>
-        </TableLayout>
-
-        <TableLayout
+            android:id="@+id/set_tab3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/set_tab2"
@@ -275,6 +256,27 @@
                 android:textColor="@color/commom_text_color"
                 android:textSize="14sp"
                 android:layout_margin="8dp"/>
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/set_tab4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_tab3"
+            android:layout_marginTop="10dp"
+            android:background="@color/text_white"
+            android:paddingLeft="14dp"
+            android:visibility="gone">
+
+            <TableRow>
+
+                <CheckBox
+                    android:id="@+id/check_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="关闭服务 设备下电" />
+            </TableRow>
         </TableLayout>
 
         <LinearLayout

@@ -121,7 +121,7 @@ public class PopAttrSetActivity extends BaseActivity {
     }
 
     public void initData() {
-        iuhfService = UHFManager.getUHFService(this);
+        iuhfService = MyApp.getInstance().getIuhfService();
 
         iuhfService.setOnWriteListener(new OnSpdWriteListener() {
             @Override

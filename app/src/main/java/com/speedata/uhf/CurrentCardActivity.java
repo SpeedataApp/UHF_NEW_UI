@@ -43,7 +43,7 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
         getData();
         initView();
         mVersionTv.append("-" + modle);
-        iuhfService = UHFManager.getUHFService(CurrentCardActivity.this);
+        iuhfService = MyApp.getInstance().getIuhfService();
 
     }
 

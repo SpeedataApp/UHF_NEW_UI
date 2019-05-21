@@ -5,6 +5,7 @@ buildscript {
         jcenter()
         maven {url 'https://maven.google.com'}
         maven { url 'https://www.jitpack.io' }
+        google()
     }
     dependencies {
 //        classpath 'com.android.tools.build:gradle:3.3-all'
@@ -23,6 +24,7 @@ allprojects {
         jcenter()
         maven {url 'https://maven.google.com'}
         maven { url 'https://www.jitpack.io' }
+        google()
     }
 }
 
@@ -34,7 +36,7 @@ subprojects {
         resolutionStrategy.eachDependency { details ->
             if (details.requested.group == 'com.android.support'
                     && !details.requested.name.contains('multidex') ) {
-                details.useVersion '23.4.0'//改这个版本号到你想要的版本
+                details.useVersion '28.0.0'//改这个版本号到你想要的版本
             }
         }
     }

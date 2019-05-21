@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -23,7 +26,8 @@ public class MyApp extends Application {
      * 单例
      */
     private static MyApp m_application;
-
+    private IUHFService iuhfService;
+    public static boolean isOpenDev = false;
     public static MyApp getInstance() {
         return m_application;
     }
@@ -46,8 +50,23 @@ public class MyApp extends Application {
 
         startService(new Intent(this,MyService.class));
         Log.d("UHFService","MyApp onCreate");
+
+        try {
+            iuhfService = UHFManager.getUHFService(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+            boolean cn = "CN".equals(getApplicationContext().getResources().getConfiguration().locale.getCountry());
+            if (cn) {
+                Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
+    public IUHFService getIuhfService() {
+        return iuhfService;
+    }
 
     /**
      * 获取进程号对应的进程名

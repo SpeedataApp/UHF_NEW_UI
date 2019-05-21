@@ -61,7 +61,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private void initData() {
-        iuhfService = UHFManager.getUHFService(this);
+        iuhfService = MyApp.getInstance().getIuhfService();
         //获取设备型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
 
@@ -212,7 +212,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener {
                 setInvCon(invConRegion);
                 break;
             case R.id.btn_algorithm_set:
-                InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this,iuhfService);
+                InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this, iuhfService);
                 inventorySettingDialog.setTitle(getResources().getString(R.string.algorithm_set));
                 inventorySettingDialog.show();
                 break;

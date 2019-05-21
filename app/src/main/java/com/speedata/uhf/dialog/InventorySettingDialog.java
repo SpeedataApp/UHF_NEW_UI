@@ -232,21 +232,6 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
     public void onClick(View view) {
         int result;
         switch (view.getId()) {
-//            case R.id.set_session:
-//                result = iuhfService.setQueryTagGroup(0, (int) spSession.getSelectedItemId(), 0);
-//                if (result == 0) {
-//                    Toast.makeText(mContext, R.string.toast_set_session, Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//            case R.id.get_session:
-//                int value = iuhfService.getQueryTagGroup();
-//                if (value != -1) {
-//                    Toast.makeText(mContext, R.string.toast_get_session, Toast.LENGTH_SHORT).show();
-//                    spSession.setSelection(value);
-//
-//                }
-//                break;
-
             case R.id.set_algorithm:
                 if (rbDynamicAlgorithm.isChecked()) {
                     //动态算法

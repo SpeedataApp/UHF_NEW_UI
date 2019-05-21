@@ -35,8 +35,6 @@ public class MyService extends Service {
     public static final String ACTION_SEND_DATA = "com.se4500.onDecodeComplete";
     public static final String UPDATE = "uhf.update";
     private static final String TAG = "UHFService";
-    boolean isOpen = false;
-    private IUHFService iuhfService;
     private SoundPool soundPool;
     private int soundId;
     private boolean isStart = false;
@@ -55,13 +53,13 @@ public class MyService extends Service {
                         if (isStart) {
                             return;
                         }
-                        iuhfService.inventoryStart();
+                        MyApp.getInstance().getIuhfService().inventoryStart();
                         isStart = true;
                     }
                     break;
                 case STOP_SCAN:
                     if (isStart) {
-                        iuhfService.inventoryStop();
+                        MyApp.getInstance().getIuhfService().inventoryStop();
                         isStart = false;
                     }
                     break;
@@ -106,36 +104,27 @@ public class MyService extends Service {
         super.onCreate();
         Log.d(TAG, "===onCreate===");
         initReceive();
-        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-        soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
-        Log.w("as3992_6C", "id is " + soundId);
-
         initUHF();
-
     }
 
     private void initUHF() {
-        Log.e(TAG, "initUHF");
-        try {
-            iuhfService = UHFManager.getUHFService(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            boolean cn = "CN".equals(getApplicationContext().getResources().getConfiguration().locale.getCountry());
-            if (cn) {
-                Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
-            }
-            return;
+        if (soundPool==null){
+            soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+            soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
+            Log.w("as3992_6C", "id is " + soundId);
         }
-        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
+        Log.e(TAG, "initUHF");
+        MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
             @Override
             public void getInventoryData(SpdInventoryData var1) {
 
                 String epc = var1.getEpc();
                 if (!epc.isEmpty() && isStart) {
                     Log.d(TAG, "===inventoryStop===");
-                    sendData(epc);
+                    sendData(var1);
+                    //停止盘点
+//                    MyApp.getInstance().getIuhfService().inventoryStop();
+//                    isStart = false;
                 }
             }
         });
@@ -153,12 +142,13 @@ public class MyService extends Service {
         registerReceiver(receiver, filter);
     }
 
-    private void sendData(String data) {
+    private void sendData(SpdInventoryData data) {
         soundPool.play(soundId, 1, 1, 0, 0, 1);
         Intent intent = new Intent();
         intent.setAction(ACTION_SEND_DATA);
         Bundle bundle = new Bundle();
-        bundle.putString("se4500", data);
+        bundle.putString("se4500", data.getEpc());
+        bundle.putParcelable("SpdInventoryData", data);
         intent.putExtras(bundle);
         sendBroadcast(intent);
         Log.d(TAG, "===SendData===" + data);
@@ -166,11 +156,10 @@ public class MyService extends Service {
 
     /**
      * 上电开串口
-     *
      */
     private boolean openDev() {
-        if (!isOpen) {
-            final int i = iuhfService.openDev();
+        if (!MyApp.isOpenDev) {
+            final int i = MyApp.getInstance().getIuhfService().openDev();
             if (i != 0) {
                 new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
 
@@ -179,14 +168,13 @@ public class MyService extends Service {
                         Log.d(TAG, "===openDev===失败" + i);
                     }
                 }).show();
-                isOpen = false;
+                MyApp.isOpenDev = false;
                 return false;
             } else {
                 Log.d(TAG, "===openDev===成功");
-                isOpen = true;
+                MyApp.isOpenDev = true;
                 return true;
             }
-
         } else {
             return true;
         }
