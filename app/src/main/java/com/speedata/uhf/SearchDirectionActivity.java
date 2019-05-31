@@ -90,9 +90,7 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        if (soundPool==null){
-            initSoundPool();
-        }
+        initSoundPool();
         iuhfService.inventoryStart();
         iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
             @Override

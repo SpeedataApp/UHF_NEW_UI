@@ -28,6 +28,7 @@ public class MyApp extends Application {
     private static MyApp m_application;
     private IUHFService iuhfService;
     public static boolean isOpenDev = false;
+    public static boolean isOpenServer = true;
     public static MyApp getInstance() {
         return m_application;
     }

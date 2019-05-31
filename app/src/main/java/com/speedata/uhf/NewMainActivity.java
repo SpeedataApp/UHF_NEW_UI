@@ -81,6 +81,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 导出
      */
     private Button btnExport;
+    private Button mBtSearch;
+    private ImageView mIvSet;
 
     private UhfCardAdapter uhfCardAdapter;
     private List<UhfCardBean> uhfCardBeanList = new ArrayList<>();
@@ -101,42 +103,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      */
     private long startCheckingTime;
 
-    private static final String ACTION_UHF_DATA = "com.se4500.onDecodeComplete";
-    public static final String START_SCAN = "com.spd.action.start_uhf";
-    public static final String STOP_SCAN = "com.spd.action.stop_uhf";
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String intentAction = intent.getAction();
-            if (ACTION_UHF_DATA.equals(intentAction)) {
-                Bundle bundle = intent.getExtras();
-                assert bundle != null;
-                SpdInventoryData var1 = bundle.getParcelable("SpdInventoryData");
-                handler.sendMessage(handler.obtainMessage(1, var1));
-            }
-            if (START_SCAN.equals(intentAction)) {
-                inSearch = true;
-                mLlFind.setVisibility(View.GONE);
-                mRlPause.setVisibility(View.VISIBLE);
-                mTvListMsg.setVisibility(View.VISIBLE);
-                mLlListBg.setVisibility(View.GONE);
-                mListViewCard.setVisibility(View.VISIBLE);
-                scant = 0;
-//                uhfCardBeanList.clear();
-                startCheckingTime = System.currentTimeMillis();
-                mFindBtn.setText(R.string.Stop_Search_Btn);
-                btnExport.setEnabled(false);
-                btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray_shape));
-                btnExport.setTextColor(getResources().getColor(R.color.text_gray));
-            } else if (STOP_SCAN.equals(intentAction)) {
-                inSearch = false;
-                mFindBtn.setText(R.string.Start_Search_Btn);
-                btnExport.setEnabled(true);
-                btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_blue_shape));
-                btnExport.setTextColor(getResources().getColor(R.color.text_white));
-            }
-        }
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,17 +126,15 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         initView();
         initData();
-        initReceive();
-
     }
 
     public void initView() {
         setContentView(R.layout.activity_main);
 
         //设置
-        ImageView mIvSet = (ImageView) findViewById(R.id.iv_set);
+        mIvSet = (ImageView) findViewById(R.id.iv_set);
         //搜索按钮
-        Button mBtSearch = (Button) findViewById(R.id.bt_search);
+        mBtSearch = (Button) findViewById(R.id.bt_search);
         mEtSearch = findViewById(R.id.et_search);
         mEtSearch.setOnClickListener(this);
         mIvSet.setOnClickListener(this);
@@ -195,23 +159,12 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mTvListMsg.setVisibility(View.GONE);
         mLlListBg.setVisibility(View.VISIBLE);
         mListViewCard.setVisibility(View.GONE);
-//        btnExport.setEnabled(false);
     }
 
     public void initSoundPool() {
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-
         soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         Log.w("as3992_6C", "id is " + soundId);
-    }
-
-    private void initReceive() {
-        //注册广播
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_UHF_DATA);
-        filter.addAction(START_SCAN);
-        filter.addAction(STOP_SCAN);
-        registerReceiver(receiver, filter);
     }
 
     public void initData() {
@@ -255,6 +208,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
+        MyApp.isOpenServer = false;
 
     }
 
@@ -315,6 +269,44 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         }
     };
 
+    /**
+     * 开始盘点
+     */
+    private void startUhf() {
+        inSearch = true;
+        mLlFind.setVisibility(View.GONE);
+        mRlPause.setVisibility(View.VISIBLE);
+        mTvListMsg.setVisibility(View.VISIBLE);
+        mLlListBg.setVisibility(View.GONE);
+        mListViewCard.setVisibility(View.VISIBLE);
+        scant = 0;
+        uhfCardBeanList.clear();
+        startCheckingTime = System.currentTimeMillis();
+        mFindBtn.setText(R.string.Stop_Search_Btn);
+        mBtSearch.setEnabled(false);
+        mIvSet.setEnabled(false);
+        mEtSearch.setEnabled(false);
+        btnExport.setEnabled(false);
+        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray_shape));
+        btnExport.setTextColor(getResources().getColor(R.color.text_gray));
+        uhfCardAdapter.notifyDataSetChanged();
+        updateRateCount();
+    }
+
+    /**
+     * 停止盘点
+     */
+    private void stopUhf() {
+        inSearch = false;
+        mFindBtn.setText(R.string.Start_Search_Btn);
+        mBtSearch.setEnabled(true);
+        mIvSet.setEnabled(true);
+        mEtSearch.setEnabled(true);
+        btnExport.setEnabled(true);
+        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_blue_shape));
+        btnExport.setTextColor(getResources().getColor(R.color.text_white));
+    }
+
 
     /**
      * 处理监听事件
@@ -345,22 +337,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 //寻卡
                 //盘点选卡
                 if (inSearch) {
-                    inSearch = false;
                     iuhfService.inventoryStop();
-                    mFindBtn.setText(R.string.Start_Search_Btn);
-                    btnExport.setEnabled(true);
-                    btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_blue_shape));
-                    btnExport.setTextColor(getResources().getColor(R.color.text_white));
+                    stopUhf();
                 } else {
-                    inSearch = true;
-                    mLlFind.setVisibility(View.GONE);
-                    mRlPause.setVisibility(View.VISIBLE);
-                    mTvListMsg.setVisibility(View.VISIBLE);
-                    mLlListBg.setVisibility(View.GONE);
-                    mListViewCard.setVisibility(View.VISIBLE);
-
-                    scant = 0;
-                    uhfCardBeanList.clear();
+                    startUhf();
                     //取消掩码
                     iuhfService.selectCard(1, "", false);
                     iuhfService.inventoryStart();
@@ -372,11 +352,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                             Log.d("UHFService", "回调");
                         }
                     });
-                    startCheckingTime = System.currentTimeMillis();
-                    mFindBtn.setText(R.string.Stop_Search_Btn);
-                    btnExport.setEnabled(false);
-                    btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray_shape));
-                    btnExport.setTextColor(getResources().getColor(R.color.text_gray));
                 }
                 break;
             case R.id.btn_export:
@@ -461,9 +436,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         //初始化声音线程
-        if (soundPool == null) {
-            initSoundPool();
-        }
+        initSoundPool();
     }
 
 
@@ -522,19 +495,20 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             iuhfService.inventoryStop();
             inSearch = false;
         }
-        soundPool.release();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
+        MyApp.isOpenServer = true;
         if (iuhfService != null) {
             //更新回调
             sendUpddateService();
             Log.e("zzc:", "==onDestroy()==下电");
+//            iuhfService.closeDev();
+//            MyApp.isOpenDev = false;
         }
-        //注销广播
-        unregisterReceiver(receiver);
+        soundPool.release();
         super.onDestroy();
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * 寻卡列表适配器
+ *
  * @author 张智超
  * @date 2019/3/7
  */
@@ -40,9 +41,9 @@ public class UhfCardAdapter extends ArrayAdapter<UhfCardBean> {
         assert uhfCardBean != null;
         tvepc.setText(uhfCardBean.getTvepc());
         tvvRssi.setText(uhfCardBean.getTvvRssi());
-        if (uhfCardBean.getTidUser().isEmpty()){
+        if (uhfCardBean.getTidUser() == null || uhfCardBean.getTidUser().isEmpty()) {
             tvTidUser.setVisibility(View.GONE);
-        }else {
+        } else {
             tvTidUser.setVisibility(View.VISIBLE);
             tvTidUser.setText(uhfCardBean.getTvTidUser());
         }
