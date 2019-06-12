@@ -3,6 +3,8 @@ package com.speedata.uhf;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +21,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
  * @author 张明_
  * @date 2018/3/15
  */
@@ -31,6 +32,7 @@ public class MyApp extends Application {
     private IUHFService iuhfService;
     public static boolean isOpenDev = false;
     public static boolean isOpenServer = true;
+
     public static MyApp getInstance() {
         return m_application;
     }
@@ -51,26 +53,32 @@ public class MyApp extends Application {
         // 初始化Bugly
         Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
 
-        Log.d("UHFService","MyApp onCreate");
+        Log.d("UHFService", "MyApp onCreate");
     }
 
     public IUHFService getIuhfService() {
         return iuhfService;
     }
 
-    public void setIuhfService(){
+    public void setIuhfService() {
 
         try {
             iuhfService = UHFManager.getUHFService(getApplicationContext());
-            Log.d("UHFService","iuhfService初始化: "+iuhfService);
+            Log.d("UHFService", "iuhfService初始化: " + iuhfService);
         } catch (Exception e) {
             e.printStackTrace();
-            boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
-            if (cn) {
-                Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
-            }
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
+                    if (cn) {
+                        Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
     }
@@ -106,7 +114,7 @@ public class MyApp extends Application {
 
     @Override
     public void onTerminate() {
-        stopService(new Intent(this,MyService.class));
+        stopService(new Intent(this, MyService.class));
         SharedXmlUtil.getInstance(this).write("server", false);
         iuhfService.closeDev();
         MyApp.isOpenDev = false;
