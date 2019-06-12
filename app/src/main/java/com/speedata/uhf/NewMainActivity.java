@@ -1,7 +1,6 @@
 package com.speedata.uhf;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.serialport.DeviceControlSpd;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -103,29 +101,48 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      */
     private long startCheckingTime;
 
+    public static final String START_SCAN = "com.spd.action.start_uhf";
+    public static final String STOP_SCAN = "com.spd.action.stop_uhf";
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (!MyApp.isOpenServer) {
+                String action = intent.getAction();
+                assert action != null;
+                switch (action) {
+                    case START_SCAN:
+                        //启动超高频扫描
+                        if (inSearch) {
+                            return;
+                        }
+                        startUhf();
+                        break;
+                    case STOP_SCAN:
+                        if (inSearch) {
+                            stopUhf();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        try {
-            iuhfService = MyApp.getInstance().getIuhfService();
-        } catch (Exception e) {
-            e.printStackTrace();
-            boolean cn = "CN".equals(getApplicationContext().getResources().getConfiguration().locale.getCountry());
-            if (cn) {
-                Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
-            }
-            return;
-        }
+        MyApp.getInstance().setIuhfService();
+        iuhfService = MyApp.getInstance().getIuhfService();
         model = SharedXmlUtil.getInstance(NewMainActivity.this).read("model", "");
 
         initView();
         initData();
+        initReceive();
     }
 
     public void initView() {
@@ -209,7 +226,16 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             }
         });
         MyApp.isOpenServer = false;
+    }
 
+    /**
+     * 注册广播
+     */
+    private void initReceive() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(START_SCAN);
+        filter.addAction(STOP_SCAN);
+        registerReceiver(receiver, filter);
     }
 
     //新的Listener回调参考代码
@@ -273,6 +299,17 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 开始盘点
      */
     private void startUhf() {
+        //取消掩码
+        iuhfService.selectCard(1, "", false);
+        iuhfService.inventoryStart();
+        // 盘点回调函数
+        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
+            @Override
+            public void getInventoryData(SpdInventoryData var1) {
+                handler.sendMessage(handler.obtainMessage(1, var1));
+                Log.d("UHFService", "回调");
+            }
+        });
         inSearch = true;
         mLlFind.setVisibility(View.GONE);
         mRlPause.setVisibility(View.VISIBLE);
@@ -297,6 +334,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 停止盘点
      */
     private void stopUhf() {
+        iuhfService.inventoryStop();
         inSearch = false;
         mFindBtn.setText(R.string.Start_Search_Btn);
         mBtSearch.setEnabled(true);
@@ -316,7 +354,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.iv_set:
                 //设置
-                Intent intent = new Intent(this, SetActivity.class);
+                Intent intent = new Intent(this, InvSetActivity.class);
                 startActivity(intent);
                 break;
             case R.id.bt_search:
@@ -337,21 +375,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 //寻卡
                 //盘点选卡
                 if (inSearch) {
-                    iuhfService.inventoryStop();
                     stopUhf();
                 } else {
                     startUhf();
-                    //取消掩码
-                    iuhfService.selectCard(1, "", false);
-                    iuhfService.inventoryStart();
-                    // 盘点回调函数
-                    iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
-                        @Override
-                        public void getInventoryData(SpdInventoryData var1) {
-                            handler.sendMessage(handler.obtainMessage(1, var1));
-                            Log.d("UHFService", "回调");
-                        }
-                    });
+
                 }
                 break;
             case R.id.btn_export:
@@ -435,10 +462,21 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        openDev();
         //初始化声音线程
         initSoundPool();
+        MyApp.isOpenServer = false;
     }
 
+    @Override
+    protected void onPause() {
+        MyApp.isOpenServer = true;
+        if (iuhfService != null) {
+            //更新回调
+            sendUpddateService();
+        }
+        super.onPause();
+    }
 
     /**
      * 上电开串口
@@ -500,15 +538,15 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onDestroy() {
-        MyApp.isOpenServer = true;
         if (iuhfService != null) {
-            //更新回调
-            sendUpddateService();
-            Log.e("zzc:", "==onDestroy()==下电");
-//            iuhfService.closeDev();
-//            MyApp.isOpenDev = false;
+            if (!SharedXmlUtil.getInstance(this).read("server", true)) {
+                Log.e("zzc:", "==onDestroy()==下电");
+                iuhfService.closeDev();
+                UHFManager.closeUHFService();
+            }
         }
         soundPool.release();
+        unregisterReceiver(receiver);
         super.onDestroy();
     }
 

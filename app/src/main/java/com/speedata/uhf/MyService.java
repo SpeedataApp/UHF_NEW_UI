@@ -1,6 +1,5 @@
 package com.speedata.uhf;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -12,14 +11,9 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Binder;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 
@@ -58,6 +52,20 @@ public class MyService extends Service {
                             if (isStart) {
                                 return;
                             }
+                            MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
+                                @Override
+                                public void getInventoryData(SpdInventoryData var1) {
+
+                                    String epc = var1.getEpc();
+                                    if (!epc.isEmpty() && isStart) {
+                                        Log.d(TAG, "===inventoryStop===");
+                                        sendEpc(var1.getEpc());
+                                        //停止盘点
+                                        MyApp.getInstance().getIuhfService().inventoryStop();
+                                        isStart = false;
+                                    }
+                                }
+                            });
                             MyApp.getInstance().getIuhfService().inventoryStart();
                             isStart = true;
                         }
@@ -120,20 +128,9 @@ public class MyService extends Service {
             Log.w("as3992_6C", "id is " + soundId);
         }
         Log.e(TAG, "initUHF");
-        MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
-            @Override
-            public void getInventoryData(SpdInventoryData var1) {
-
-                String epc = var1.getEpc();
-                if (!epc.isEmpty() && isStart) {
-                    Log.d(TAG, "===inventoryStop===");
-                    sendEpc(var1.getEpc());
-                    //停止盘点
-                    MyApp.getInstance().getIuhfService().inventoryStop();
-                    isStart = false;
-                }
-            }
-        });
+        if (MyApp.getInstance().getIuhfService() == null) {
+            MyApp.getInstance().setIuhfService();
+        }
         openDev();
     }
 
@@ -190,5 +187,6 @@ public class MyService extends Service {
         super.onDestroy();
         Log.d(TAG, "===onDestroy===");
         soundPool.release();
+        unregisterReceiver(receiver);
     }
 }

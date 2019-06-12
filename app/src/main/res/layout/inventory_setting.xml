@@ -4,37 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/TextBlueStyle"
-            android:text="@string/session" />
-
-        <Spinner
-            android:id="@+id/sp_session"
-            style="@style/SpinnerDefaultStyle"
-            android:entries="@array/arr_Session" />
-
-
-        <Button
-            android:id="@+id/set_session"
-            style="@style/ButtonStyle"
-            android:layout_weight="1"
-            android:text="@string/Set_Btn_set" />
-
-        <Button
-            android:id="@+id/get_session"
-            style="@style/ButtonStyle"
-            android:layout_weight="1"
-            android:text="@string/btn_get" />
-    </LinearLayout>-->
+    android:orientation="vertical"
+    android:padding="14dp">
 
     <LinearLayout
         android:id="@+id/ll_r2k"
@@ -68,8 +39,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:background="@drawable/btn_bg_blue_select"
+                    android:button="@null"
                     android:checked="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/dynamic_algorithm"
+                    android:textColor="@color/btn_blue"
                     android:textSize="@dimen/TextSize" />
 
                 <RadioButton
@@ -78,7 +54,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:background="@drawable/btn_bg_blue_select"
+                    android:button="@null"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/fixed_algorithm"
+                    android:textColor="@color/btn_blue"
                     android:textSize="@dimen/TextSize" />
 
             </RadioGroup>
@@ -250,13 +231,21 @@
             <Button
                 android:id="@+id/set_algorithm"
                 style="@style/ButtonStyle"
-                android:text="@string/btn_set_algorithm" />
+                android:background="@drawable/btn_b_g_select"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/btn_set_algorithm"
+                android:textColor="@color/text_white" />
 
             <Button
                 android:id="@+id/get_algorithm"
                 style="@style/ButtonStyle"
                 android:layout_marginLeft="10dp"
-                android:text="@string/btn_get_algorithm" />
+                android:background="@drawable/btn_b_g_select"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/btn_get_algorithm"
+                android:textColor="@color/text_white" />
         </LinearLayout>
     </LinearLayout>
 
@@ -285,7 +274,11 @@
             <Button
                 android:id="@+id/set_qvalue"
                 style="@style/ButtonStyle"
-                android:text="@string/Set_Btn_set" />
+                android:background="@drawable/btn_b_g_select"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/Set_Btn_set"
+                android:textColor="@color/text_white" />
         </LinearLayout>
 
 
@@ -307,7 +300,11 @@
             <Button
                 android:id="@+id/set_gen2_target"
                 style="@style/ButtonStyle"
-                android:text="@string/Set_Btn_set" />
+                android:background="@drawable/btn_b_g_select"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/Set_Btn_set"
+                android:textColor="@color/text_white" />
         </LinearLayout>
 
 
@@ -321,7 +318,11 @@
                 android:id="@+id/btn_get_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_get_value" />
+                android:background="@drawable/btn_b_g_select"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/btn_get_value"
+                android:textColor="@color/text_white" />
         </LinearLayout>
 
     </LinearLayout>

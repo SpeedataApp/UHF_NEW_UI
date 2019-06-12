@@ -65,6 +65,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".InvSetActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SetActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"

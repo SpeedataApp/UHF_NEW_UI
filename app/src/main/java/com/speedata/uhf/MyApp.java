@@ -3,12 +3,14 @@ package com.speedata.uhf;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
+import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -49,24 +51,28 @@ public class MyApp extends Application {
         // 初始化Bugly
         Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
 
-        startService(new Intent(this,MyService.class));
         Log.d("UHFService","MyApp onCreate");
+    }
+
+    public IUHFService getIuhfService() {
+        return iuhfService;
+    }
+
+    public void setIuhfService(){
 
         try {
             iuhfService = UHFManager.getUHFService(getApplicationContext());
+            Log.d("UHFService","iuhfService初始化: "+iuhfService);
         } catch (Exception e) {
             e.printStackTrace();
-            boolean cn = "CN".equals(getApplicationContext().getResources().getConfiguration().locale.getCountry());
+            boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
             if (cn) {
                 Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
             }
         }
-    }
 
-    public IUHFService getIuhfService() {
-        return iuhfService;
     }
 
     /**
@@ -98,4 +104,13 @@ public class MyApp extends Application {
         return null;
     }
 
+    @Override
+    public void onTerminate() {
+        stopService(new Intent(this,MyService.class));
+        SharedXmlUtil.getInstance(this).write("server", false);
+        iuhfService.closeDev();
+        MyApp.isOpenDev = false;
+        UHFManager.closeUHFService();
+        super.onTerminate();
+    }
 }

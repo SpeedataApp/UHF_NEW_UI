@@ -251,9 +251,9 @@
                 android:id="@+id/btn_algorithm_set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_select"
+                android:background="@drawable/btn_blue_shape"
                 android:text="@string/algorithm_set"
-                android:textColor="@color/commom_text_color"
+                android:textColor="@color/text_white"
                 android:textSize="14sp"
                 android:layout_margin="8dp"/>
         </TableLayout>
@@ -266,7 +266,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/text_white"
             android:paddingLeft="14dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TableRow>
 
@@ -275,7 +275,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:text="关闭服务 设备下电" />
+                    android:text="关闭服务" />
             </TableRow>
         </TableLayout>
 
