@@ -178,8 +178,8 @@
 
     <string name="set_epc">EPC设置</string>
     <string name="set_epc_length">EPC长度</string>
-    <string name="set_epc_length_hint">输入EPC长度不大于31</string>
-    <string name="input_new_epc_hint">输入十六进制数</string>
+    <string name="set_epc_length_hint">输入EPC长度不大于31块</string>
+    <string name="input_new_epc_hint">1块等于4位十六进制数</string>
 
     <string name="set_lock">锁设置</string>
     <string name="save_space">锁定区域</string>

@@ -514,7 +514,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         tagNumTv.setText(String.format("%s", String.valueOf(uhfCardBeanList.size())));
 
-        totalTime.setText(String.format(getResources().getString(R.string.spend_time) + "%ss", String.valueOf(getTimeFromMillisecond(totalTimeCount))));
+        totalTime.setText(String.format(getResources().getString(R.string.spend_time) + "%s", String.valueOf(getTimeFromMillisecond(totalTimeCount))));
 
 
     }
@@ -605,10 +605,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         }
         if (hours == 0) {
             if (minutes == 0) {
-                return second + "." + milli;
+                return second + "." + milli + "s";
             }
-            return minutes + ": " + second + "." + milli;
+            return minutes + "m: " + second + "." + milli + "s";
         }
-        return hours + ": " + minutes + ": " + second + "." + milli;
+        return hours + "h: " + minutes + "m: " + second + "." + milli + "s";
     }
 }

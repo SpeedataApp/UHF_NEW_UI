@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.speedata.libuhf.IUHFService;
@@ -60,12 +63,14 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
         mLlCardAttrSet.setOnClickListener(this);
         mIvExit.setOnClickListener(this);
         areaSelect = (Spinner) findViewById(R.id.sp_title);
+        areaSelect.setSelection(2,true);
+        areaSelect.setSelection(0);
         areaSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView)view;
                 //设置颜色
-                tv.setTextColor(getResources().getColor(R.color.text_white));
+                tv.setTextColor(getBaseContext().getResources().getColor(R.color.text_white));
             }
 
             @Override

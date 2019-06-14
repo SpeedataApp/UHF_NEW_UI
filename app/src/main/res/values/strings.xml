@@ -179,9 +179,9 @@
     <string name="new_password_hint">Enter an octet hexadecimal number</string>
 
     <string name="set_epc">EPC</string>
-    <string name="set_epc_length">EPC length</string>
-    <string name="set_epc_length_hint">set EPC length</string>
-    <string name="input_new_epc_hint">input hexadecimal number</string>
+    <string name="set_epc_length">EPC Length</string>
+    <string name="set_epc_length_hint">Enter an EPC length of no more than 31 blocks</string>
+    <string name="input_new_epc_hint">One block is equal to four hexadecimal digits</string>
 
     <string name="set_lock">Lock</string>
     <string name="save_space">Lock area</string>
