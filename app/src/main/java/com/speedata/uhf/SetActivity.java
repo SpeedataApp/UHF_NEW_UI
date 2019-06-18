@@ -15,7 +15,7 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
 
 
 /**
- * 设置
+ * 设置跳转界面
  * Created by 张智超 on 2019/3/7
  *
  * @author 张智超

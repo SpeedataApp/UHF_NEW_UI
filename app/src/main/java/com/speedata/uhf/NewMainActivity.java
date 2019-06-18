@@ -462,7 +462,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        openDev();
         //初始化声音线程
         initSoundPool();
         MyApp.isOpenServer = false;
@@ -482,17 +481,19 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 上电开串口
      */
     private boolean openDev() {
-        if (iuhfService.openDev() != 0) {
-            Toast.makeText(this, "Open serialport failed", Toast.LENGTH_SHORT).show();
-            new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
+        if (!MyApp.isOpenDev) {
+            if (iuhfService.openDev() != 0) {
+                Toast.makeText(this, "Open serialport failed", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            }).show();
-            MyApp.isOpenDev = false;
-            return true;
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).show();
+                MyApp.isOpenDev = false;
+                return true;
+            }
         }
         MyApp.isOpenDev = true;
         return false;

@@ -3,6 +3,9 @@ package com.speedata.uhf;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +33,7 @@ import java.text.DecimalFormat;
  */
 public class InvSetActivity extends BaseActivity implements View.OnClickListener {
 
+    private ImageView mIvQuitSet;
     private TextView tvSetFreq;
     private TextView tvSetS2;
     private TextView tvSetInvCon;
@@ -41,15 +45,16 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private String model;
     private int freqRegion, s2Region, invConRegion;
     private TableLayout tableLayoutInvCon;
-    private Button algorithmSetBtn;
+    private Button algorithmSetBtn, setBackBtn;
     private Boolean isExistServer;
+    private Button setFreqBtn, setSessionBtn, setPowerBtn, setInvConBtn;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
-        MyApp.getInstance().setIuhfService();
+//        MyApp.getInstance().setIuhfService();
         Log.e("zzc:", "onCreate()");
         initView();
         initData();
@@ -61,8 +66,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         //获取设备型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
         //判断服务是否存在
-        isExistServer = SharedXmlUtil.getInstance(this).read("server",false);
-        if (!isExistServer){
+        isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
+        if (!isExistServer) {
             checkBoxService.setEnabled(false);
         }
         //获取定频
@@ -101,7 +106,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void initView() {
-        ImageView mIvQuitSet = (ImageView) findViewById(R.id.set_title_iv);
+        mIvQuitSet = (ImageView) findViewById(R.id.set_title_iv);
         tvSetFreq = (TextView) findViewById(R.id.set_freq_tv);
         tvSetS2 = (TextView) findViewById(R.id.set_s2_tv);
         tvSetInvCon = (TextView) findViewById(R.id.set_onlyepc_tv);
@@ -111,16 +116,16 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         tvSetInvCon.setOnClickListener(this);
         etPower = (EditText) findViewById(R.id.et_power);
         etFreqPoint = (EditText) findViewById(R.id.et_freq_point);
-        Button setBackBtn = (Button) findViewById(R.id.btn_set_back);
+        setBackBtn = (Button) findViewById(R.id.btn_set_back);
         setBackBtn.setOnClickListener(this);
         checkBoxService = (CheckBox) findViewById(R.id.check_service);
-        Button setFreqBtn = findViewById(R.id.btn_set_freq);
+        setFreqBtn = findViewById(R.id.btn_set_freq);
         setFreqBtn.setOnClickListener(this);
-        Button setSessionBtn = findViewById(R.id.btn_set_session);
+        setSessionBtn = findViewById(R.id.btn_set_session);
         setSessionBtn.setOnClickListener(this);
-        Button setPowerBtn = findViewById(R.id.btn_set_power);
+        setPowerBtn = findViewById(R.id.btn_set_power);
         setPowerBtn.setOnClickListener(this);
-        Button setInvConBtn = findViewById(R.id.btn_set_invent);
+        setInvConBtn = findViewById(R.id.btn_set_invent);
         setInvConBtn.setOnClickListener(this);
         tableLayoutInvCon = findViewById(R.id.set_tab2);
         algorithmSetBtn = findViewById(R.id.btn_algorithm_set);
@@ -169,6 +174,32 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         if (s2Region != -1) {
             tvSetS2.setText("s" + s2Region);
         }
+    }
+
+    private void unEnabled() {
+        setFreqBtn.setEnabled(false);
+        setSessionBtn.setEnabled(false);
+        setPowerBtn.setEnabled(false);
+        setInvConBtn.setEnabled(false);
+        setBackBtn.setEnabled(false);
+        algorithmSetBtn.setEnabled(false);
+        mIvQuitSet.setEnabled(false);
+        tvSetFreq.setEnabled(false);
+        tvSetS2.setEnabled(false);
+        tvSetInvCon.setEnabled(false);
+    }
+
+    private void enabled() {
+        setFreqBtn.setEnabled(true);
+        setSessionBtn.setEnabled(true);
+        setPowerBtn.setEnabled(true);
+        setInvConBtn.setEnabled(true);
+        setBackBtn.setEnabled(true);
+        algorithmSetBtn.setEnabled(true);
+        mIvQuitSet.setEnabled(true);
+        tvSetFreq.setEnabled(true);
+        tvSetS2.setEnabled(true);
+        tvSetInvCon.setEnabled(true);
     }
 
     @Override
@@ -224,63 +255,97 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     /**
      * @param region 设置定频
      */
-    private void setFreq(int region) {
+    private void setFreq(final int region) {
         int p = 4;
         if (region >= p) {
             return;
         }
-        if (iuhfService.setFreqRegion(region) < 0) {
-            Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
-        }
+        unEnabled();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                final int i = iuhfService.setFreqRegion(region);
+                if (i < 0) {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+                }
+                enabled();
+            }
+        });
     }
 
     /**
      * @param session 设置通话项
      */
-    private void setSession(int session) {
-        int setQueryTagGroup = iuhfService.setQueryTagGroup(0, session, 0);
-        if (setQueryTagGroup == 0) {
-            Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
-        }
+    private void setSession(final int session) {
+        unEnabled();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int setQueryTagGroup = iuhfService.setQueryTagGroup(0, session, 0);
+                if (setQueryTagGroup == 0) {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
+                }
+                enabled();
+            }
+        });
     }
 
     /**
      * @param power 设置天线功率
      */
-    private void setAntennaPower(String power) {
+    private void setAntennaPower(final String power) {
         if (TextUtils.isEmpty(power)) {
             Toast.makeText(this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
             return;
         }
-        int p = Integer.parseInt(power);
-        int m = 33;
-        if ((p < 0) || (p > m)) {
-            Toast.makeText(this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT).show();
-        } else {
-            int rv = iuhfService.setAntennaPower(p);
-            if (rv < 0) {
-                Toast.makeText(this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT).show();
+        unEnabled();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int p = Integer.parseInt(power);
+                int m = 33;
+                if ((p < 0) || (p > m)) {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT).show();
+                } else {
+                    int rv = iuhfService.setAntennaPower(p);
+                    if (rv < 0) {
+                        Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                enabled();
             }
-        }
+        });
+
     }
 
-    private void setInvCon(int w) {
-        //设置盘点内容
-        iuhfService.cancelMask();
-        SharedXmlUtil.getInstance(this).write("U8", false);
-        int caddr = 0, csize = 6;
-        int mode = iuhfService.setInvMode(w, caddr, csize);
-        if (mode == 0) {
-            Toast.makeText(this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
-        }
+    private void setInvCon(final int w) {
+        unEnabled();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                //设置盘点内容
+                iuhfService.cancelMask();
+                SharedXmlUtil.getInstance(InvSetActivity.this).write("U8", false);
+                int caddr = 0, csize = 6;
+                int mode = iuhfService.setInvMode(w, caddr, csize);
+                if (mode == 0) {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
+                }
+                enabled();
+            }
+        });
     }
 
     @Override
@@ -327,9 +392,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onDestroy() {
-        if (checkBoxService.isChecked()){
+        if (checkBoxService.isChecked()) {
             SharedXmlUtil.getInstance(this).write("server", false);
-            stopService(new Intent(this,MyService.class));
+            stopService(new Intent(this, MyService.class));
         }
         super.onDestroy();
     }

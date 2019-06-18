@@ -21,6 +21,7 @@ import com.speedata.libuhf.bean.SpdReadData;
 import com.speedata.libuhf.interfaces.OnSpdReadListener;
 import com.speedata.libuhf.utils.StringUtils;
 import com.speedata.uhf.R;
+import com.speedata.uhf.libutils.ErrorStatus;
 
 import java.util.Objects;
 
@@ -89,7 +90,7 @@ public class ReadCardDialog extends Dialog implements
                     String readHexString = StringUtils.byteToHexString(readData, var1.getDataLen());
                     stringBuilder.append("ReadData:").append(readHexString).append("\n");
                 } else {
-                    stringBuilder.append(mContext.getResources().getString(R.string.read_fail)).append(":").append(var1.getStatus()).append("\n");
+                    stringBuilder.append(mContext.getResources().getString(R.string.read_fail)).append(":").append(ErrorStatus.getErrorStatus(var1.getStatus())).append("\n");
                 }
                 handler.sendMessage(handler.obtainMessage(1, stringBuilder));
             }

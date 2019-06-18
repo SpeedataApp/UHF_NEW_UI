@@ -23,6 +23,7 @@ import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdWriteData;
 import com.speedata.libuhf.interfaces.OnSpdWriteListener;
 import com.speedata.libuhf.utils.StringUtils;
+import com.speedata.uhf.libutils.ErrorStatus;
 
 /**
  * 卡片属性设置弹框
@@ -138,7 +139,7 @@ public class PopAttrSetActivity extends BaseActivity {
                     stringBuilder.append(getResources().getString(R.string.set_success)).append("\n");
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
                 } else {
-                    stringBuilder.append(getResources().getString(R.string.set_failed)).append(var1.getStatus()).append("\n");
+                    stringBuilder.append(getResources().getString(R.string.set_failed)).append(ErrorStatus.getErrorStatus(var1.getStatus())).append("\n");
                 }
                 if (!isSuccess) {
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
