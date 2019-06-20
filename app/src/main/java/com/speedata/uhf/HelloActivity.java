@@ -18,6 +18,7 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
 public class HelloActivity extends BaseActivity {
 
     private IUHFService iuhfService;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +33,14 @@ public class HelloActivity extends BaseActivity {
                 } else {
                     MyApp.getInstance().setIuhfService();
                     iuhfService = MyApp.getInstance().getIuhfService();
-                    if (openDev()){
-                        return;
+                    try {
+                        if (iuhfService != null) {
+                            if (openDev()) {
+                                return;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     Log.d("UHFService", "startService==main==");
                     startService(new Intent(HelloActivity.this, MyService.class));

@@ -39,8 +39,14 @@ public class SetActivity extends BaseActivity{
                 } else {
                     MyApp.getInstance().setIuhfService();
                     iuhfService = MyApp.getInstance().getIuhfService();
-                    if (openDev()){
-                        return;
+                    try {
+                        if (iuhfService != null) {
+                            if (openDev()) {
+                                return;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     Log.d("UHFService", "startService");
                     startService(new Intent(SetActivity.this, MyService.class));

@@ -63,7 +63,6 @@ public class MyApp extends Application {
     }
 
     public void setIuhfService() {
-
         try {
             iuhfService = UHFManager.getUHFService(getApplicationContext());
             Log.d("UHFService", "iuhfService初始化: " + iuhfService);
