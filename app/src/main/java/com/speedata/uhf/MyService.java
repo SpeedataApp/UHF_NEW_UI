@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
+import com.speedata.libuhf.utils.SharedXmlUtil;
 
 /**
  * 接受广播  触发盘点，返回EPC
@@ -147,6 +148,38 @@ public class MyService extends Service {
 
     private void sendEpc(String epc) {
         soundPool.play(soundId, 1, 1, 0, 0, 1);
+        switch (MyApp.mPrefix) {
+            case 0:
+                epc = "\n" + epc;
+                break;
+            case 1:
+                epc = " " + epc;
+                break;
+            case 2:
+                epc = "\r\n" + epc;
+                break;
+            case 3:
+                epc = "" + epc;
+                break;
+            default:
+                break;
+        }
+        switch (MyApp.mSuffix) {
+            case 0:
+                epc = epc + "\n";
+                break;
+            case 1:
+                epc = epc + " ";
+                break;
+            case 2:
+                epc = epc + "\r\n";
+                break;
+            case 3:
+                epc = epc + "";
+                break;
+            default:
+                break;
+        }
         Intent intent = new Intent();
         intent.setAction(ACTION_SEND_EPC);
         Bundle bundle = new Bundle();

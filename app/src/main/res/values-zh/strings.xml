@@ -83,7 +83,6 @@
     <string name="DIA_ALERT">警告！</string>
     <string name="DIA_CHECK">确定</string>
     <string name="VALUE_ZERO">00000000</string>
-    <!--    <string name=""></string>  -->
     <string name="btn_set">设置</string>
     <string name="view_wt">工作时间</string>
     <string name="view_rt">休息时间</string>
@@ -223,6 +222,7 @@
     <string name="btn_get_algorithm">获取算法</string>
     <string name="gen2_target">目标：</string>
     <string name="btn_get_value">获取数值</string>
+    <string name="check_close_server">关闭超高频后台服务</string>
 
     <!--InventorySettingDialog-->
     <string name="toast_try">请输入重试次数</string>

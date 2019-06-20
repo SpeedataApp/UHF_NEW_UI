@@ -32,6 +32,8 @@ public class MyApp extends Application {
     private IUHFService iuhfService;
     public static boolean isOpenDev = false;
     public static boolean isOpenServer = true;
+    public static int mPrefix = 3;
+    public static int mSuffix = 3;
 
     public static MyApp getInstance() {
         return m_application;

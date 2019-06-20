@@ -40,6 +40,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private EditText etPower;
     private EditText etFreqPoint;
     Intent intent;
+    Bundle bundle;
     private IUHFService iuhfService;
     private CheckBox checkBoxService;
     private String model;
@@ -48,13 +49,14 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private Button algorithmSetBtn, setBackBtn;
     private Boolean isExistServer;
     private Button setFreqBtn, setSessionBtn, setPowerBtn, setInvConBtn;
+    private TextView tvPrefix, tvSuffix;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
-//        MyApp.getInstance().setIuhfService();
+        MyApp.getInstance().setIuhfService();
         Log.e("zzc:", "onCreate()");
         initView();
         initData();
@@ -69,6 +71,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
         if (!isExistServer) {
             checkBoxService.setEnabled(false);
+            tvPrefix.setEnabled(false);
+            tvSuffix.setEnabled(false);
         }
         //获取定频
         getFreq();
@@ -103,6 +107,40 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         } else {
             tableLayoutInvCon.setVisibility(View.GONE);
         }
+        switch (MyApp.mPrefix) {
+            case 0:
+                tvPrefix.setText("换行");
+                break;
+            case 1:
+                tvPrefix.setText("空格");
+                break;
+            case 2:
+                tvPrefix.setText("回车换行");
+                break;
+            case 3:
+                tvPrefix.setText("无");
+                break;
+            default:
+                tvPrefix.setText("无");
+                break;
+        }
+        switch (MyApp.mSuffix) {
+            case 0:
+                tvSuffix.setText("换行");
+                break;
+            case 1:
+                tvSuffix.setText("空格");
+                break;
+            case 2:
+                tvSuffix.setText("回车换行");
+                break;
+            case 3:
+                tvSuffix.setText("无");
+                break;
+            default:
+                tvSuffix.setText("无");
+                break;
+        }
     }
 
     public void initView() {
@@ -130,6 +168,10 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         tableLayoutInvCon = findViewById(R.id.set_tab2);
         algorithmSetBtn = findViewById(R.id.btn_algorithm_set);
         algorithmSetBtn.setOnClickListener(this);
+        tvPrefix = findViewById(R.id.set_server_prefix);
+        tvPrefix.setOnClickListener(this);
+        tvSuffix = findViewById(R.id.set_server_suffix);
+        tvSuffix.setOnClickListener(this);
 
     }
 
@@ -246,6 +288,22 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this, iuhfService);
                 inventorySettingDialog.setTitle(getResources().getString(R.string.algorithm_set));
                 inventorySettingDialog.show();
+                break;
+            case R.id.set_server_prefix:
+                intent = new Intent();
+                bundle = new Bundle();
+                bundle.putString("send_fix", "prefix");
+                intent.putExtras(bundle);
+                intent.setClass(this, PopSetServiceActivity.class);
+                startActivityForResult(intent, 4);
+                break;
+            case R.id.set_server_suffix:
+                intent = new Intent();
+                bundle = new Bundle();
+                bundle.putString("send_fix", "suffix");
+                intent.putExtras(bundle);
+                intent.setClass(this, PopSetServiceActivity.class);
+                startActivityForResult(intent, 5);
                 break;
             default:
                 break;
@@ -383,6 +441,26 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                     //选择的盘点内容列表位置
                     invConRegion = bundle.getInt("position");
                     tvSetInvCon.setText(invCon);
+                }
+                break;
+            case 4:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    assert bundle != null;
+                    String fix = bundle.getString("prefix");
+                    //选择的前缀列表位置
+                    MyApp.mPrefix = bundle.getInt("position");
+                    tvPrefix.setText(fix);
+                }
+                break;
+            case 5:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    assert bundle != null;
+                    String fix = bundle.getString("prefix");
+                    //选择的后缀列表位置
+                    MyApp.mSuffix = bundle.getInt("position");
+                    tvSuffix.setText(fix);
                 }
                 break;
             default:

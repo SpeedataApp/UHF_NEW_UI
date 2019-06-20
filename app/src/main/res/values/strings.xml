@@ -225,6 +225,7 @@
     <string name="btn_get_algorithm">GetAlgorithm</string>
     <string name="gen2_target">Target:</string>
     <string name="btn_get_value">GetValue</string>
+    <string name="check_close_server">Turn off uhf backend services</string>
 
     <!--InventorySettingDialog-->
     <string name="toast_try">Please enter the number of retries</string>

@@ -65,6 +65,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".PopSetServiceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
             android:name=".InvSetActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
