@@ -324,7 +324,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mIvSet.setEnabled(false);
         mEtSearch.setEnabled(false);
         btnExport.setEnabled(false);
-        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray_shape));
+        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray2_shape));
         btnExport.setTextColor(getResources().getColor(R.color.text_gray));
         uhfCardAdapter.notifyDataSetChanged();
         updateRateCount();
@@ -341,7 +341,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mIvSet.setEnabled(true);
         mEtSearch.setEnabled(true);
         btnExport.setEnabled(true);
-        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_blue_shape));
+        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_b_g_select));
         btnExport.setTextColor(getResources().getColor(R.color.text_white));
     }
 

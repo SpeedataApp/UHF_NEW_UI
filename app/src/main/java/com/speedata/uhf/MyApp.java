@@ -34,6 +34,8 @@ public class MyApp extends Application {
     public static boolean isOpenServer = true;
     public static int mPrefix = 3;
     public static int mSuffix = 3;
+    public static boolean isLoop = false;
+    public static String mLoopTime = "0";
 
     public static MyApp getInstance() {
         return m_application;

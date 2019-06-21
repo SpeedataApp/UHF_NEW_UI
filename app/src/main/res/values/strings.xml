@@ -126,6 +126,11 @@
     <string name="set_count">block</string>
     <string name="set_count_hint">input block count</string>
     <string name="btn_ok">Confirm</string>
+    <string name="set_server_prefix">prefix</string>
+    <string name="set_server_suffix">suffix</string>
+    <string name="set_server_loop">loop</string>
+    <string name="set_server_loop_time">set the cycle timeout</string>
+    <string name="set_loop_s">s</string>
     <!--主界面-->
     <string name="search_dialog_item">Please find the card</string>
     <string name="search_dialog_title">Select the card to look for</string>

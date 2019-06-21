@@ -149,7 +149,7 @@
                 android:id="@+id/btn_write_ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_blue_shape"
+                android:background="@drawable/btn_b_g_select"
                 android:text="@string/Item_Write"
                 android:textColor="@color/text_white"
                 android:textSize="20sp" />

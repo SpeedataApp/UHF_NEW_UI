@@ -18,6 +18,9 @@ import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * 接受广播  触发盘点，返回EPC
  *
@@ -43,14 +46,17 @@ public class MyService extends Service {
 
             if (MyApp.isOpenServer) {
                 String action = intent.getAction();
-
-                Log.d(TAG, "===rece===action" + action);
+                Log.d(TAG, "===rece===action===" + action);
                 assert action != null;
                 switch (action) {
                     case START_SCAN:
                         //启动超高频扫描
                         if (openDev()) {
                             if (isStart) {
+                                //停止盘点
+                                MyApp.getInstance().getIuhfService().inventoryStop();
+                                isStart = false;
+                                cancelTimer();
                                 return;
                             }
                             MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
@@ -61,21 +67,22 @@ public class MyService extends Service {
                                     if (!epc.isEmpty() && isStart) {
                                         Log.d(TAG, "===inventoryStop===");
                                         sendEpc(var1.getEpc());
-                                        //停止盘点
-                                        MyApp.getInstance().getIuhfService().inventoryStop();
-                                        isStart = false;
+                                        if (!MyApp.isLoop) {
+                                            //停止盘点
+                                            MyApp.getInstance().getIuhfService().inventoryStop();
+                                            isStart = false;
+                                        }
                                     }
                                 }
                             });
                             MyApp.getInstance().getIuhfService().inventoryStart();
                             isStart = true;
+                            if (MyApp.isLoop) {
+                                creatTimer();
+                            }
                         }
                         break;
                     case STOP_SCAN:
-                        if (isStart) {
-                            MyApp.getInstance().getIuhfService().inventoryStop();
-                            isStart = false;
-                        }
                         break;
                     case UPDATE:
                         initUHF();
@@ -113,6 +120,9 @@ public class MyService extends Service {
         return mBinder;
     }//普通服务的不同之处，onBind()方法不在打酱油，而是会返回一个实例
 
+    private Timer timer;
+    private TimerTask myTimerTask;
+    private int mTime = 0;
 
     @Override
     public void onCreate() {
@@ -120,6 +130,45 @@ public class MyService extends Service {
         Log.d(TAG, "===onCreate===");
         initReceive();
         initUHF();
+    }
+
+    private void creatTimer() {
+        if (timer == null) {
+            if (MyApp.mLoopTime.isEmpty() || MyApp.mLoopTime == null || "".equals(MyApp.mLoopTime)) {
+                MyApp.mLoopTime = "0";
+            }
+            final int loopTime = Integer.parseInt(MyApp.mLoopTime);
+            if (loopTime == 0) {
+                return;
+            }
+            timer = new Timer();
+            if (myTimerTask != null) {
+                myTimerTask.cancel();
+            }
+            mTime = 0;
+            myTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    mTime++;
+                    if (mTime >= loopTime) {
+                        MyApp.getInstance().getIuhfService().inventoryStop();
+                        isStart = false;
+                        cancelTimer();
+                    }
+                }
+            };
+            timer.schedule(myTimerTask, 1000, 1000);
+        }
+    }
+
+    private void cancelTimer() {
+        if (myTimerTask != null) {
+            myTimerTask.cancel();
+        }
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 
     private void initUHF() {

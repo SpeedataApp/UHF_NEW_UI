@@ -124,6 +124,11 @@
     <string name="set_count">块数</string>
     <string name="set_count_hint">填写块数信息</string>
     <string name="btn_ok">确认</string>
+    <string name="set_server_prefix">前缀</string>
+    <string name="set_server_suffix">后缀</string>
+    <string name="set_server_loop">循环</string>
+    <string name="set_server_loop_time">设置循环超时时间</string>
+    <string name="set_loop_s">秒</string>
     <!--主界面-->
     <string name="search_dialog_item">请先寻卡</string>
     <string name="search_dialog_title">选择要寻找的卡片</string>

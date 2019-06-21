@@ -42,6 +42,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/set_freq_hint"
                         android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
 
@@ -50,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginRight="14dp"
-                        android:background="@drawable/btn_blue_shape"
+                        android:background="@drawable/btn_b_g_select"
                         android:text="@string/btn_ok"
                         android:textColor="@color/text_white"
                         android:textSize="14sp" />
@@ -76,6 +77,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/set_s2_hint"
                         android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
 
@@ -84,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginRight="14dp"
-                        android:background="@drawable/btn_blue_shape"
+                        android:background="@drawable/btn_b_g_select"
                         android:text="@string/btn_ok"
                         android:textColor="@color/text_white"
                         android:textSize="14sp" />
@@ -111,6 +113,7 @@
                         android:hint="@string/antenna_p_hint"
                         android:inputType="number"
                         android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
 
@@ -119,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginRight="14dp"
-                        android:background="@drawable/btn_blue_shape"
+                        android:background="@drawable/btn_b_g_select"
                         android:text="@string/btn_ok"
                         android:textColor="@color/text_white"
                         android:textSize="14sp" />
@@ -180,6 +183,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/set_s2_hint"
                         android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
 
@@ -188,7 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginRight="14dp"
-                        android:background="@drawable/btn_blue_shape"
+                        android:background="@drawable/btn_b_g_select"
                         android:text="@string/btn_ok"
                         android:textColor="@color/text_white"
                         android:textSize="14sp" />
@@ -257,7 +261,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:background="@drawable/btn_blue_shape"
+                    android:background="@drawable/btn_b_g_select"
                     android:text="@string/algorithm_set"
                     android:textColor="@color/text_white"
                     android:textSize="14sp" />
@@ -270,8 +274,7 @@
                 android:layout_below="@+id/set_tab3"
                 android:layout_marginTop="10dp"
                 android:background="@color/text_white"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
+                android:padding="14dp"
                 android:visibility="visible">
 
                 <CheckBox
@@ -301,7 +304,7 @@
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
                         android:padding="14dp"
-                        android:text="前缀"
+                        android:text="@string/set_server_prefix"
                         android:textColor="@color/commom_text_color"
                         android:textSize="14sp" />
 
@@ -312,8 +315,9 @@
                         android:layout_weight="1"
                         android:drawableRight="@drawable/icon_fh"
                         android:gravity="center_vertical"
-                        android:hint="@string/set_freq_hint"
+                        android:hint="@string/set_server_prefix"
                         android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
                 </TableRow>
@@ -325,7 +329,7 @@
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
                         android:padding="14dp"
-                        android:text="后缀"
+                        android:text="@string/set_server_suffix"
                         android:textColor="@color/commom_text_color"
                         android:textSize="14sp" />
 
@@ -336,10 +340,73 @@
                         android:layout_weight="1"
                         android:drawableRight="@drawable/icon_fh"
                         android:gravity="center_vertical"
-                        android:hint="@string/set_freq_hint"
+                        android:hint="@string/set_server_suffix"
                         android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/set_server_loop"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_loop_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/set_server_loop_time"
+                        android:inputType="number"
+                        android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
+                        android:textColorHint="@color/text_gray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/set_loop_s"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/check_service_loop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:checked="false" />
+                </TableRow>
+
+                <TableRow android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/set_server_loop"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/check_down_loop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:checked="false" />
                 </TableRow>
             </TableLayout>
         </RelativeLayout>
@@ -356,7 +423,7 @@
             android:id="@+id/btn_set_back"
             android:layout_width="280dp"
             android:layout_height="50dp"
-            android:background="@drawable/btn_blue_shape"
+            android:background="@drawable/btn_b_g_select"
             android:text="@string/btn_bk"
             android:textColor="@color/text_white"
             android:textSize="20sp" />

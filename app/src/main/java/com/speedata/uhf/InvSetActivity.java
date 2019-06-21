@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -50,6 +51,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private Boolean isExistServer;
     private Button setFreqBtn, setSessionBtn, setPowerBtn, setInvConBtn;
     private TextView tvPrefix, tvSuffix;
+    private EditText etLoopTime;
+    private CheckBox checkBoxLoop;
 
 
     @Override
@@ -73,6 +76,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             checkBoxService.setEnabled(false);
             tvPrefix.setEnabled(false);
             tvSuffix.setEnabled(false);
+            checkBoxLoop.setEnabled(false);
+            etLoopTime.setEnabled(false);
+        }else {
+            checkBoxLoop.setChecked(MyApp.isLoop);
+            etLoopTime.setEnabled(MyApp.isLoop);
         }
         //获取定频
         getFreq();
@@ -82,10 +90,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         int ivp = iuhfService.getAntennaPower();
         if (ivp > 0) {
             etPower.setText("" + ivp);
-        }
-        String as3992 = "as3992";
-        if (as3992.equals(model)) {
-            etPower.setHint(getResources().getString(R.string.set_etpower));
         }
         //获取盘点模式
         if ("r2k".equals(model)) {
@@ -172,7 +176,14 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         tvPrefix.setOnClickListener(this);
         tvSuffix = findViewById(R.id.set_server_suffix);
         tvSuffix.setOnClickListener(this);
-
+        etLoopTime = findViewById(R.id.et_loop_time);
+        checkBoxLoop = findViewById(R.id.check_service_loop);
+        checkBoxLoop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                etLoopTime.setEnabled(isChecked);
+            }
+        });
     }
 
     private void getFreq() {
@@ -242,6 +253,20 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         tvSetFreq.setEnabled(true);
         tvSetS2.setEnabled(true);
         tvSetInvCon.setEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        MyApp.isLoop = checkBoxLoop.isChecked();
+        if (MyApp.isLoop) {
+            MyApp.mLoopTime = etLoopTime.getText().toString();
+        }
+        super.onPause();
     }
 
     @Override
