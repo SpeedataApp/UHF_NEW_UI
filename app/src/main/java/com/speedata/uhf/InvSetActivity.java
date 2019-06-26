@@ -52,7 +52,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private Button setFreqBtn, setSessionBtn, setPowerBtn, setInvConBtn;
     private TextView tvPrefix, tvSuffix;
     private EditText etLoopTime;
-    private CheckBox checkBoxLoop;
+    private CheckBox checkBoxLoop, checkBoxLongDown;
+    private TableLayout tableLayout5,tableLayout4;
 
 
     @Override
@@ -68,7 +69,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     @SuppressLint("SetTextI18n")
     private void initData() {
         iuhfService = MyApp.getInstance().getIuhfService();
-        //获取设备型号
+        //获取模块型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
         //判断服务是否存在
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
@@ -78,9 +79,13 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             tvSuffix.setEnabled(false);
             checkBoxLoop.setEnabled(false);
             etLoopTime.setEnabled(false);
-        }else {
+            checkBoxLongDown.setEnabled(false);
+            tableLayout5.setVisibility(View.GONE);
+            tableLayout4.setVisibility(View.GONE);
+        } else {
             checkBoxLoop.setChecked(MyApp.isLoop);
             etLoopTime.setEnabled(MyApp.isLoop);
+            checkBoxLongDown.setChecked(MyApp.isLongDown);
         }
         //获取定频
         getFreq();
@@ -88,8 +93,10 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         getSession();
         //获取天线功率
         int ivp = iuhfService.getAntennaPower();
+        Log.d("zzc:", "==天线功率==" + ivp);
         if (ivp > 0) {
             etPower.setText("" + ivp);
+            Log.d("zzc:", "==天线功率==获取成功==");
         }
         //获取盘点模式
         if ("r2k".equals(model)) {
@@ -145,6 +152,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 tvSuffix.setText("无");
                 break;
         }
+        etLoopTime.setText(MyApp.mLoopTime);
     }
 
     public void initView() {
@@ -184,6 +192,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 etLoopTime.setEnabled(isChecked);
             }
         });
+        checkBoxLongDown = findViewById(R.id.check_long_down);
+        tableLayout5 = findViewById(R.id.set_tab5);
+        tableLayout4 = findViewById(R.id.set_tab4);
     }
 
     private void getFreq() {
@@ -226,6 +237,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         s2Region = iuhfService.getQueryTagGroup();
         if (s2Region != -1) {
             tvSetS2.setText("s" + s2Region);
+            Log.d("zzc:", "==S2获取成功==" + s2Region);
+        } else {
+            Log.d("zzc:", "==S2获取失败==" + s2Region);
         }
     }
 
@@ -258,6 +272,15 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
+        //判断服务是否存在
+        isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
+        if (isExistServer) {
+            tableLayout5.setVisibility(View.VISIBLE);
+            tableLayout4.setVisibility(View.VISIBLE);
+        } else {
+            tableLayout5.setVisibility(View.GONE);
+            tableLayout4.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -266,6 +289,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         if (MyApp.isLoop) {
             MyApp.mLoopTime = etLoopTime.getText().toString();
         }
+        MyApp.isLongDown = checkBoxLongDown.isChecked();
         super.onPause();
     }
 

@@ -36,6 +36,7 @@ public class MyApp extends Application {
     public static int mSuffix = 3;
     public static boolean isLoop = false;
     public static String mLoopTime = "0";
+    public static boolean isLongDown = false;
 
     public static MyApp getInstance() {
         return m_application;

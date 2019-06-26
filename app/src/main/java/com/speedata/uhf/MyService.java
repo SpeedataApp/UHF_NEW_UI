@@ -67,7 +67,7 @@ public class MyService extends Service {
                                     if (!epc.isEmpty() && isStart) {
                                         Log.d(TAG, "===inventoryStop===");
                                         sendEpc(var1.getEpc());
-                                        if (!MyApp.isLoop) {
+                                        if (!MyApp.isLoop && !MyApp.isLongDown) {
                                             //停止盘点
                                             MyApp.getInstance().getIuhfService().inventoryStop();
                                             isStart = false;
@@ -83,6 +83,13 @@ public class MyService extends Service {
                         }
                         break;
                     case STOP_SCAN:
+                        if (MyApp.isLongDown) {
+                            //停止盘点
+                            MyApp.getInstance().getIuhfService().inventoryStop();
+                            isStart = false;
+                            cancelTimer();
+                            return;
+                        }
                         break;
                     case UPDATE:
                         initUHF();

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class HelloActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hello);
         final Intent it = new Intent(this, NewMainActivity.class);
+        final String xinghao = SystemProperties.get("ro.product.model");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -42,9 +44,11 @@ public class HelloActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Log.d("UHFService", "startService==main==");
-                    startService(new Intent(HelloActivity.this, MyService.class));
-                    SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
+                    if ("SD60".equals(xinghao) || "SD60RT".equals(xinghao) || xinghao.contains("KT50") || xinghao.contains("KT55")) {
+                        Log.d("UHFService", "startService==main==");
+                        startService(new Intent(HelloActivity.this, MyService.class));
+                        SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
+                    }
                     startActivity(it);
                 }
             }

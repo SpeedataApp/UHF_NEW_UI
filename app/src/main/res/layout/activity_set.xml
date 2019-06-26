@@ -358,6 +358,26 @@
                         android:textColor="@color/commom_text_color"
                         android:textSize="14sp" />
 
+                    <CheckBox
+                        android:id="@+id/check_service_loop"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:checked="false" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/set_server_loop_time"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
                     <EditText
                         android:id="@+id/et_loop_time"
                         android:layout_width="match_parent"
@@ -375,37 +395,30 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        android:layout_marginRight="20dp"
                         android:gravity="center_vertical"
                         android:text="@string/set_loop_s"
                         android:textColor="@color/commom_text_color"
                         android:textSize="14sp" />
 
-                    <CheckBox
-                        android:id="@+id/check_service_loop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginRight="14dp"
-                        android:checked="false" />
                 </TableRow>
-
-                <TableRow android:visibility="gone">
+                <TableRow>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
                         android:padding="14dp"
-                        android:text="@string/set_server_loop"
+                        android:text="@string/set_long_down"
                         android:textColor="@color/commom_text_color"
                         android:textSize="14sp" />
 
                     <CheckBox
-                        android:id="@+id/check_down_loop"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/check_long_down"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginRight="14dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
                         android:checked="false" />
                 </TableRow>
             </TableLayout>

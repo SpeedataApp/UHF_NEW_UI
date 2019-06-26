@@ -131,6 +131,7 @@
     <string name="set_server_loop">loop</string>
     <string name="set_server_loop_time">set the cycle timeout</string>
     <string name="set_loop_s">s</string>
+    <string name="set_long_down">long press the sweep</string>
     <!--主界面-->
     <string name="search_dialog_item">Please find the card</string>
     <string name="search_dialog_title">Select the card to look for</string>

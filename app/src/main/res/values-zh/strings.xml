@@ -129,6 +129,7 @@
     <string name="set_server_loop">循环</string>
     <string name="set_server_loop_time">设置循环超时时间</string>
     <string name="set_loop_s">秒</string>
+    <string name="set_long_down">长按连扫</string>
     <!--主界面-->
     <string name="search_dialog_item">请先寻卡</string>
     <string name="search_dialog_title">选择要寻找的卡片</string>

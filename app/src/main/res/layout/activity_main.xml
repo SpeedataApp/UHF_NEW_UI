@@ -59,8 +59,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="100dp"
-                android:layout_marginLeft="100dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginLeft="120dp"
                 android:text="0"
                 android:textColor="@color/text_white"
                 android:textSize="50sp"
@@ -71,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tv_number"
                 android:layout_marginLeft="14dp"
-                android:layout_marginTop="16dp"
                 android:layout_toRightOf="@+id/tv_number"
                 android:text="@string/main_rl_info1"
                 android:textColor="@color/text_white"
@@ -83,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tv_number"
                 android:layout_marginLeft="14dp"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="26dp"
                 android:layout_toRightOf="@+id/tv_number"
                 android:text="@string/main_rl_info2"
                 android:textColor="@color/text_white"
@@ -94,9 +93,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tv_number"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="44dp"
-                android:layout_toRightOf="@+id/totalTime"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="52dp"
+                android:layout_toRightOf="@+id/tv_number"
                 android:text="@string/main_rl_info3"
                 android:textColor="@color/text_white"
                 android:textSize="14sp" />
@@ -110,7 +109,8 @@
             android:background="@drawable/btn_white_gray_select"
             android:text="@string/Start_Search_Btn"
             android:textColor="@color/btn_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="visible"/>
 
     </LinearLayout>
 
