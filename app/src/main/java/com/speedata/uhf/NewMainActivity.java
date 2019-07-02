@@ -37,7 +37,9 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.adapter.UhfCardAdapter;
 import com.speedata.uhf.adapter.UhfCardBean;
 import com.speedata.uhf.excel.EPCBean;
+import com.speedata.uhf.floatball.FloatListManager;
 import com.speedata.uhf.libutils.excel.ExcelUtils;
+import com.yhao.floatwindow.FloatWindow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -136,7 +138,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        MyApp.getInstance().setIuhfService();
+//        MyApp.getInstance().setIuhfService();
         iuhfService = MyApp.getInstance().getIuhfService();
         model = SharedXmlUtil.getInstance(NewMainActivity.this).read("model", "");
 

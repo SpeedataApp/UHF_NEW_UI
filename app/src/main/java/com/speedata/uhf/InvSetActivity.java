@@ -18,10 +18,14 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.dialog.InventorySettingDialog;
+import com.speedata.uhf.floatball.FloatBallManager;
+import com.speedata.uhf.floatball.FloatListManager;
+import com.yhao.floatwindow.FloatWindow;
 
 import java.text.DecimalFormat;
 
@@ -43,7 +47,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     Intent intent;
     Bundle bundle;
     private IUHFService iuhfService;
-    private CheckBox checkBoxService;
+    private ToggleButton checkBoxService, openFloatWindow;
     private String model;
     private int freqRegion, s2Region, invConRegion;
     private TableLayout tableLayoutInvCon;
@@ -53,14 +57,14 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private TextView tvPrefix, tvSuffix;
     private EditText etLoopTime;
     private CheckBox checkBoxLoop, checkBoxLongDown;
-    private TableLayout tableLayout5,tableLayout4;
+    private TableLayout tableLayout5, tableLayout4;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
-        MyApp.getInstance().setIuhfService();
+//        MyApp.getInstance().setIuhfService();
         Log.e("zzc:", "onCreate()");
         initView();
         initData();
@@ -168,7 +172,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         etFreqPoint = (EditText) findViewById(R.id.et_freq_point);
         setBackBtn = (Button) findViewById(R.id.btn_set_back);
         setBackBtn.setOnClickListener(this);
-        checkBoxService = (CheckBox) findViewById(R.id.check_service);
+        checkBoxService = findViewById(R.id.check_service);
         setFreqBtn = findViewById(R.id.btn_set_freq);
         setFreqBtn.setOnClickListener(this);
         setSessionBtn = findViewById(R.id.btn_set_session);
@@ -195,6 +199,30 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         checkBoxLongDown = findViewById(R.id.check_long_down);
         tableLayout5 = findViewById(R.id.set_tab5);
         tableLayout4 = findViewById(R.id.set_tab4);
+        openFloatWindow = findViewById(R.id.toggle_set_float);
+        openFloatWindow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    FloatBallManager.getInstance(getApplicationContext());
+                    if (FloatBallManager.getFloatBallManager() != null) {
+                        FloatWindow.get("FloatBallTag").show();
+                    }
+                    if (FloatListManager.getFloatListManager() != null) {
+                        FloatWindow.get("FloatListTag").hide();
+                    }
+                    SharedXmlUtil.getInstance(InvSetActivity.this).write("floatWindow", "open");
+                } else {
+                    if (FloatBallManager.getFloatBallManager() != null) {
+                        FloatBallManager.getFloatBallManager().closeFloatBall();
+                    }
+                    if (FloatListManager.getFloatListManager() != null) {
+                        FloatListManager.getFloatListManager().closeFloatList();
+                    }
+                    SharedXmlUtil.getInstance(InvSetActivity.this).write("floatWindow", "close");
+                }
+            }
+        });
     }
 
     private void getFreq() {
@@ -280,6 +308,17 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         } else {
             tableLayout5.setVisibility(View.GONE);
             tableLayout4.setVisibility(View.GONE);
+        }
+        if ("open".equals(SharedXmlUtil.getInstance(this).read("floatWindow", "close"))) {
+            openFloatWindow.setChecked(true);
+        } else {
+            openFloatWindow.setChecked(false);
+            if (FloatBallManager.getFloatBallManager() != null) {
+                FloatWindow.get("FloatBallTag").hide();
+            }
+            if (FloatListManager.getFloatListManager() != null) {
+                FloatWindow.get("FloatListTag").hide();
+            }
         }
     }
 

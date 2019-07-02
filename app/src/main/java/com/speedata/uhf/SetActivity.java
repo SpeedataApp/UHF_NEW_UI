@@ -20,7 +20,7 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
  *
  * @author 张智超
  */
-public class SetActivity extends BaseActivity{
+public class SetActivity extends BaseActivity {
 
     Intent intent;
     private IUHFService iuhfService;
@@ -33,10 +33,7 @@ public class SetActivity extends BaseActivity{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (SharedXmlUtil.getInstance(SetActivity.this).read("server",false)) {
-                    SystemClock.sleep(1000);
-                    startActivity(it);
-                } else {
+                if (MyApp.getInstance().getIuhfService() == null) {
                     MyApp.getInstance().setIuhfService();
                     iuhfService = MyApp.getInstance().getIuhfService();
                     try {
@@ -51,6 +48,15 @@ public class SetActivity extends BaseActivity{
                     Log.d("UHFService", "startService");
                     startService(new Intent(SetActivity.this, MyService.class));
                     SharedXmlUtil.getInstance(SetActivity.this).write("server", true);
+                    startActivity(it);
+                } else if (SharedXmlUtil.getInstance(SetActivity.this).read("server", false)) {
+                    SystemClock.sleep(1000);
+                    startActivity(it);
+                } else if (!SharedXmlUtil.getInstance(SetActivity.this).read("server", false)) {
+                    Log.d("UHFService", "startService");
+                    startService(new Intent(SetActivity.this, MyService.class));
+                    SharedXmlUtil.getInstance(SetActivity.this).write("server", true);
+                    SystemClock.sleep(1000);
                     startActivity(it);
                 }
             }
@@ -83,6 +89,7 @@ public class SetActivity extends BaseActivity{
     protected void onDestroy() {
         super.onDestroy();
     }
+
     /**
      * 上电开串口
      */

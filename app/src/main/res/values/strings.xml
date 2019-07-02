@@ -266,4 +266,9 @@
         <item>Forbidden</item>
         <item>Using</item>
     </string-array>
+
+    <string name="item_scan">Laser scanning</string>
+    <string name="item_uhf">Single UHF</string>
+    <string name="item_uhf_re">Continuous UHF</string>
+    <string name="tv_open_float">Open the suspension window</string>
 </resources>

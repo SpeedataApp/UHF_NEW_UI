@@ -51,7 +51,7 @@ public class ErrorStatus {
                 break;
             case -19990:
             case -1:
-                STATUS = "写标签失败";
+                STATUS = "操作失败";
                 break;
             case -19989:
                 STATUS = "读密码错误";

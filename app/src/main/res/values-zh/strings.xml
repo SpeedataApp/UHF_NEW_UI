@@ -262,4 +262,9 @@
         <item>禁用</item>
         <item>启用</item>
     </string-array>
+
+    <string name="item_scan">激光扫描</string>
+    <string name="item_uhf">单次UHF</string>
+    <string name="item_uhf_re">连续UHF</string>
+    <string name="tv_open_float">打开悬浮框</string>
 </resources>

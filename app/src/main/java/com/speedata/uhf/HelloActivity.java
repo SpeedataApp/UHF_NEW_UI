@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.uhf.floatball.FloatListManager;
+import com.yhao.floatwindow.FloatWindow;
 
 /**
  * @author zzc
@@ -63,7 +65,6 @@ public class HelloActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override

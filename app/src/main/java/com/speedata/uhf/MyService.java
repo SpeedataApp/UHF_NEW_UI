@@ -12,11 +12,14 @@ import android.media.SoundPool;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.SystemProperties;
 import android.util.Log;
 
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.uhf.floatball.ModeManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +36,10 @@ public class MyService extends Service {
      */
     public static final String START_SCAN = "com.spd.action.start_uhf";
     public static final String STOP_SCAN = "com.spd.action.stop_uhf";
+    /**
+     * 按设备侧键触发的扫描广播
+     */
+    public static final String SCAN_BARCODE = "com.geomobile.se4500barcode";
     public static final String ACTION_SEND_EPC = "com.se4500.onDecodeComplete";
     public static final String ACTION_SEND_DATA = "com.spd.action.data";
     public static final String UPDATE = "uhf.update";
@@ -40,6 +47,18 @@ public class MyService extends Service {
     private SoundPool soundPool;
     private int soundId;
     private boolean isStart = false;
+    /**
+     * 扫头扫描模式
+     */
+    public final int MODE_SCAN = 1;
+    /**
+     * 超高频单次模式
+     */
+    public final int MODE_UHF = 2;
+    /**
+     * 超高频重复模式
+     */
+    public final int MODE_UHF_RE = 3;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -52,31 +71,7 @@ public class MyService extends Service {
                     case START_SCAN:
                         //启动超高频扫描
                         if (openDev()) {
-                            if (isStart) {
-                                //停止盘点
-                                MyApp.getInstance().getIuhfService().inventoryStop();
-                                isStart = false;
-                                cancelTimer();
-                                return;
-                            }
-                            MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
-                                @Override
-                                public void getInventoryData(SpdInventoryData var1) {
-
-                                    String epc = var1.getEpc();
-                                    if (!epc.isEmpty() && isStart) {
-                                        Log.d(TAG, "===inventoryStop===");
-                                        sendEpc(var1.getEpc());
-                                        if (!MyApp.isLoop && !MyApp.isLongDown) {
-                                            //停止盘点
-                                            MyApp.getInstance().getIuhfService().inventoryStop();
-                                            isStart = false;
-                                        }
-                                    }
-                                }
-                            });
-                            MyApp.getInstance().getIuhfService().inventoryStart();
-                            isStart = true;
+                            startScan();
                             if (MyApp.isLoop) {
                                 creatTimer();
                             }
@@ -200,6 +195,50 @@ public class MyService extends Service {
         filter.addAction(STOP_SCAN);
         filter.addAction(UPDATE);
         registerReceiver(receiver, filter);
+    }
+
+    private void startScan() {
+        final int mode = ModeManager.getInstance(MyService.this).getScanMode();
+        MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
+            @Override
+            public void getInventoryData(SpdInventoryData var1) {
+
+                String epc = var1.getEpc();
+                if (!epc.isEmpty() && isStart) {
+                    Log.d(TAG, "===inventoryStop===");
+                    sendEpc(var1.getEpc());
+                    boolean isOnce = mode == MODE_UHF;
+                    if (isOnce) {
+                        //停止盘点
+                        MyApp.getInstance().getIuhfService().inventoryStop();
+                        isStart = false;
+                    }
+                }
+            }
+        });
+        if (MyApp.getInstance().getIuhfService() != null) {
+            switch (mode) {
+                case MODE_SCAN:
+                    //调用扫头扫描
+                    SystemProperties.set("persist.sys.scanstopimme", "false");
+                    sendBroadcast(new Intent(SCAN_BARCODE));
+                    break;
+                case MODE_UHF:
+                case MODE_UHF_RE:
+                    if (!isStart) {
+                        MyApp.getInstance().getIuhfService().inventoryStart();
+                        isStart = true;
+                    } else {
+                        MyApp.getInstance().getIuhfService().inventoryStop();
+                        isStart = false;
+                        cancelTimer();
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 
     private void sendEpc(String epc) {
