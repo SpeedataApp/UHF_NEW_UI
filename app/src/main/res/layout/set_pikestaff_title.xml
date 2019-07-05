@@ -5,15 +5,27 @@
     android:background="@color/text_white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="14dp">
+    android:paddingLeft="14dp"
+    android:paddingTop="8dp"
+    android:paddingRight="14dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/iv_pikestaff_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_image_gray_select"
+        android:padding="5dp"
+        android:src="@drawable/arrowleft" />
 
     <TextView
         android:id="@+id/set_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center_vertical"
-        android:text="枪柄(二选一)"
+        android:text="@string/qb_config_summary"
         android:textColor="@color/set_title"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 </LinearLayout>

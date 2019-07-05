@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.uhf.floatball.FloatBallManager;
+import com.speedata.uhf.floatball.FloatListManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -63,6 +65,13 @@ public class MyApp extends Application {
 
     public IUHFService getIuhfService() {
         return iuhfService;
+    }
+
+    public void releaseIuhfService() {
+        if (iuhfService != null) {
+            iuhfService.closeDev();
+            iuhfService = null;
+        }
     }
 
     public void setIuhfService() {
@@ -120,9 +129,16 @@ public class MyApp extends Application {
     public void onTerminate() {
         stopService(new Intent(this, MyService.class));
         SharedXmlUtil.getInstance(this).write("server", false);
-        iuhfService.closeDev();
+        releaseIuhfService();
         MyApp.isOpenDev = false;
         UHFManager.closeUHFService();
+        if (FloatBallManager.getFloatBallManager() != null) {
+            FloatBallManager.getFloatBallManager().closeFloatBall();
+        }
+        if (FloatListManager.getFloatListManager() != null) {
+            FloatListManager.getFloatListManager().closeFloatList();
+        }
+        SharedXmlUtil.getInstance(this).write("floatWindow", "close");
         super.onTerminate();
     }
 }

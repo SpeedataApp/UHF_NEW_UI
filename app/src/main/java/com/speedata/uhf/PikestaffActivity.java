@@ -1,11 +1,16 @@
 package com.speedata.uhf;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.SystemProperties;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import com.speedata.libutils.SharedXmlUtil;
 import com.speedata.uhf.floatball.ModeManager;
@@ -19,6 +24,8 @@ public class PikestaffActivity extends BaseActivity {
 
     private CheckBox cbStartScan;
     private CheckBox cbStartUhf;
+    private CheckBox cbStartUhfMore;
+    private ImageView ivPikestaffBack;
     /**
      * 扫头模式
      */
@@ -31,28 +38,42 @@ public class PikestaffActivity extends BaseActivity {
      * 超高频重复模式
      */
     public static final int MODE_UHF_RE = 3;
+    String action = "updata_state";
+    private ModeManager modeManager;
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setCheckBoxStatus();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pikestaff);
-        cbStartScan = (CheckBox) findViewById(R.id.cb_start_scan);
-        cbStartUhf = (CheckBox) findViewById(R.id.cb_start_uhf);
+        cbStartScan = findViewById(R.id.cb_start_scan);
+        cbStartUhf = findViewById(R.id.cb_start_uhf);
+        cbStartUhfMore = findViewById(R.id.cb_start_uhf_re);
+        ivPikestaffBack = findViewById(R.id.iv_pikestaff_back);
+        ivPikestaffBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initData();
     }
 
     private void initData() {
+        modeManager = ModeManager.getInstance(this);
+        registerReceiver(receiver, new IntentFilter(action));
         cbStartScan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     cbStartUhf.setChecked(false);
+                    cbStartUhfMore.setChecked(false);
                     SystemProperties.set("persist.sys.PistolKey", "scan");
-                    SharedXmlUtil.getInstance(PikestaffActivity.this, "pikestaff_set").write("scan", true);
-                    SharedXmlUtil.getInstance(PikestaffActivity.this, "pikestaff_set").write("uhf", false);
-                    SharedXmlUtil.getInstance(PikestaffActivity.this, "rfid_float_button").write("current_mode", MODE_SCAN);
-//                    sendBroadcast(new Intent("updata_state"));
-                    ModeManager modeManager = new ModeManager(PikestaffActivity.this);
                     modeManager.changeScanMode(ModeManager.MODE_SCAN);
                 }
             }
@@ -62,12 +83,19 @@ public class PikestaffActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     cbStartScan.setChecked(false);
+                    cbStartUhfMore.setChecked(false);
                     SystemProperties.set("persist.sys.PistolKey", "uhf");
-                    SharedXmlUtil.getInstance(PikestaffActivity.this, "pikestaff_set").write("scan", false);
-                    SharedXmlUtil.getInstance(PikestaffActivity.this, "pikestaff_set").write("uhf", true);
-                    SharedXmlUtil.getInstance(PikestaffActivity.this, "rfid_float_button").write("current_mode", MODE_UHF_RE);
-//                    sendBroadcast(new Intent("updata_state"));
-                    ModeManager modeManager = new ModeManager(PikestaffActivity.this);
+                    modeManager.changeScanMode(ModeManager.MODE_UHF);
+                }
+            }
+        });
+        cbStartUhfMore.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    cbStartScan.setChecked(false);
+                    cbStartUhf.setChecked(false);
+                    SystemProperties.set("persist.sys.PistolKey", "uhf");
                     modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
                 }
             }
@@ -77,14 +105,17 @@ public class PikestaffActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        boolean isScan = SharedXmlUtil.getInstance(PikestaffActivity.this, "pikestaff_set").read("scan", true);
-        int mode = SharedXmlUtil.getInstance(PikestaffActivity.this, "rfid_float_button").read("current_mode", MODE_SCAN);
-        if (isScan || mode == MODE_SCAN) {
+        setCheckBoxStatus();
+    }
+
+    private void setCheckBoxStatus() {
+        int mode = modeManager.getScanMode();
+        if (mode == MODE_SCAN) {
             cbStartScan.setChecked(true);
-            SystemProperties.set("persist.sys.PistolKey", "scan");
-        } else {
+        } else if (mode == MODE_UHF) {
             cbStartUhf.setChecked(true);
-            SystemProperties.set("persist.sys.PistolKey", "uhf");
+        } else {
+            cbStartUhfMore.setChecked(true);
         }
     }
 
@@ -95,6 +126,9 @@ public class PikestaffActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
         super.onDestroy();
     }
 }

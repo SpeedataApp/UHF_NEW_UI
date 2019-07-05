@@ -495,8 +495,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 }).show();
                 MyApp.isOpenDev = false;
                 return true;
-            }else {
-                Log.d("UHFService","上电成功");
+            } else {
+                Log.d("UHFService", "上电成功");
             }
         }
         MyApp.isOpenDev = true;
@@ -546,13 +546,15 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         if (iuhfService != null) {
             if (!SharedXmlUtil.getInstance(this).read("server", false)) {
                 Log.e("zzc:", "==onDestroy()==下电");
-                iuhfService.closeDev();
+                MyApp.getInstance().releaseIuhfService();
                 MyApp.isOpenDev = false;
                 UHFManager.closeUHFService();
             }
         }
         soundPool.release();
-        unregisterReceiver(receiver);
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
         super.onDestroy();
     }
 

@@ -198,7 +198,7 @@
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">重置</string>
 
-    <string name="power_range">天线功率值范围为0 ~ 33</string>
+    <string name="power_range">天线功率值范围为10 ~ 33</string>
     <string name="set_power_fail">设置天线功率失败</string>
     <string name="set_power_ok">设置天线功率成功</string>
 
@@ -267,4 +267,6 @@
     <string name="item_uhf">单次UHF</string>
     <string name="item_uhf_re">连续UHF</string>
     <string name="tv_open_float">打开悬浮框</string>
+    
+    <string name="power_tips">范围10~33</string>
 </resources>

@@ -16,6 +16,7 @@ import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.util.Log;
 
+import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.utils.SharedXmlUtil;
@@ -62,11 +63,27 @@ public class MyService extends Service {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.d(TAG, "===rece===action===" + action);
+            assert action != null;
+            if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+                Log.d(TAG, "===熄屏了===" + action);
+                IUHFService iuhfService = MyApp.getInstance().getIuhfService();
+                if (iuhfService != null) {
+                    iuhfService.inventoryStop();
+                    iuhfService.closeDev();
+                    MyApp.isOpenDev = false;
+                    Log.d(TAG, "===熄屏下电了===" + action);
+                }
+            }
+            if (action.equals(Intent.ACTION_SCREEN_ON)) {
+                initUHF();
+                if (openDev()) {
+                    Log.d(TAG, "===亮屏了==上电成功===" + action);
+                }
+            }
 
             if (MyApp.isOpenServer) {
-                String action = intent.getAction();
-                Log.d(TAG, "===rece===action===" + action);
-                assert action != null;
                 switch (action) {
                     case START_SCAN:
                         //启动超高频扫描
@@ -194,6 +211,10 @@ public class MyService extends Service {
         filter.addAction(START_SCAN);
         filter.addAction(STOP_SCAN);
         filter.addAction(UPDATE);
+
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
         registerReceiver(receiver, filter);
     }
 
@@ -315,6 +336,8 @@ public class MyService extends Service {
         super.onDestroy();
         Log.d(TAG, "===onDestroy===");
         soundPool.release();
-        unregisterReceiver(receiver);
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
     }
 }

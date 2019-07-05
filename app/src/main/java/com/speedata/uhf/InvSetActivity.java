@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,6 +25,7 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.dialog.InventorySettingDialog;
 import com.speedata.uhf.floatball.FloatBallManager;
 import com.speedata.uhf.floatball.FloatListManager;
+import com.speedata.uhf.libutils.ToastUtil;
 import com.yhao.floatwindow.FloatWindow;
 
 import java.text.DecimalFormat;
@@ -413,9 +414,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             public void run() {
                 final int i = iuhfService.setFreqRegion(region);
                 if (i < 0) {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 }
                 enabled();
             }
@@ -433,9 +436,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             public void run() {
                 int setQueryTagGroup = iuhfService.setQueryTagGroup(0, session, 0);
                 if (setQueryTagGroup == 0) {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 }
                 enabled();
             }
@@ -447,7 +452,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
      */
     private void setAntennaPower(final String power) {
         if (TextUtils.isEmpty(power)) {
-            Toast.makeText(this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT).show();
+            ToastUtil.customToastView(this, getResources().getString(R.string.toast1), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(this).inflate(R.layout.layout_toast, null));
             return;
         }
         unEnabled();
@@ -458,13 +464,16 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 int p = Integer.parseInt(power);
                 int m = 33;
                 if ((p < 0) || (p > m)) {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {
                     int rv = iuhfService.setAntennaPower(p);
                     if (rv < 0) {
-                        Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT).show();
+                        ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT
+                                , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                     } else {
-                        Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT).show();
+                        ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT
+                                , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                     }
                 }
                 enabled();
@@ -485,9 +494,12 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 int caddr = 0, csize = 6;
                 int mode = iuhfService.setInvMode(w, caddr, csize);
                 if (mode == 0) {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+
                 } else {
-                    Toast.makeText(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT).show();
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 }
                 enabled();
             }

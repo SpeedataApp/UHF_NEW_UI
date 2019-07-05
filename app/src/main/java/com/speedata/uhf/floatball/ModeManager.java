@@ -53,7 +53,7 @@ public class ModeManager {
     private Context context;
     private ImageView imageView;
 
-    public ModeManager(Context context) {
+    private ModeManager(Context context) {
         this.context = context;
         sharedXmlUtil = SharedXmlUtil.getInstance(context, "rfid_float_button");
     }
