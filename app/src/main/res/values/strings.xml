@@ -273,4 +273,9 @@
     <string name="tv_open_float">Open the suspension window</string>
 
     <string name="power_tips">range 10 ~ 33</string>
+    <string name="low_power">Low power UHF is forbidden</string>
+    <string name="high_temp">High temperature UHF is forbidden</string>
+    <string name="dialog_exit">Press OK to turn off uhf</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_title_warning">warning</string>
 </resources>

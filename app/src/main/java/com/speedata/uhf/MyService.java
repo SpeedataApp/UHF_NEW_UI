@@ -12,14 +12,12 @@ import android.media.SoundPool;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.util.Log;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
-import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.floatball.ModeManager;
 
 import java.util.Timer;
@@ -197,10 +195,9 @@ public class MyService extends Service {
             Log.w("as3992_6C", "id is " + soundId);
         }
         Log.e(TAG, "initUHF");
-        if (MyApp.getInstance().getIuhfService() == null) {
-            MyApp.getInstance().setIuhfService();
+        if (MyApp.getInstance().getIuhfService() != null) {
+            openDev();
         }
-        openDev();
     }
 
     /**

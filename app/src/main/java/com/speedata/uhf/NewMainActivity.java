@@ -32,14 +32,13 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
+import com.speedata.libuhf.interfaces.OnSpdBanMsgListener;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.adapter.UhfCardAdapter;
 import com.speedata.uhf.adapter.UhfCardBean;
 import com.speedata.uhf.excel.EPCBean;
-import com.speedata.uhf.floatball.FloatListManager;
 import com.speedata.uhf.libutils.excel.ExcelUtils;
-import com.yhao.floatwindow.FloatWindow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -138,13 +137,54 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        MyApp.getInstance().setIuhfService();
         iuhfService = MyApp.getInstance().getIuhfService();
         model = SharedXmlUtil.getInstance(NewMainActivity.this).read("model", "");
-
+        setBuilder();
         initView();
         initData();
         initReceive();
+    }
+
+    private void setBuilder() {
+        UHFManager uhfManager = new UHFManager();
+        uhfManager.setOnBanMsgListener(new OnSpdBanMsgListener() {
+            @Override
+            public void getBanMsg(String var1) {
+                if (var1.contains("Low")) {
+                    var1 = NewMainActivity.this.getResources().getString(R.string.low_power);
+                } else if (var1.contains("High")) {
+                    var1 = NewMainActivity.this.getResources().getString(R.string.high_temp);
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewMainActivity.this);
+                builder.setTitle(getResources().getString(R.string.dialog_title_warning));
+                builder.setMessage(var1 + "\n" + getResources().getString(R.string.dialog_exit));
+                builder.setCancelable(false);
+                builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                //对话框显示的监听事件
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Log.e("UHFService", "对话框显示了");
+                        MyApp.getInstance().releaseIuhfService();
+                    }
+                });
+                alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        Log.e("UHFService", "对话框dismiss");
+                        System.exit(0);
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
     }
 
     public void initView() {
@@ -548,7 +588,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 Log.e("zzc:", "==onDestroy()==下电");
                 MyApp.getInstance().releaseIuhfService();
                 MyApp.isOpenDev = false;
-                UHFManager.closeUHFService();
             }
         }
         soundPool.release();

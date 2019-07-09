@@ -269,4 +269,9 @@
     <string name="tv_open_float">打开悬浮框</string>
     
     <string name="power_tips">范围10~33</string>
+    <string name="low_power">电量低禁用超高频</string>
+    <string name="high_temp">温度过高禁用超高频</string>
+    <string name="dialog_exit">请按确定键关闭超高频</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_title_warning">警告</string>
 </resources>

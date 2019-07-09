@@ -71,6 +71,7 @@ public class MyApp extends Application {
         if (iuhfService != null) {
             iuhfService.closeDev();
             iuhfService = null;
+            UHFManager.closeUHFService();
         }
     }
 
@@ -131,7 +132,7 @@ public class MyApp extends Application {
         SharedXmlUtil.getInstance(this).write("server", false);
         releaseIuhfService();
         MyApp.isOpenDev = false;
-        UHFManager.closeUHFService();
+
         if (FloatBallManager.getFloatBallManager() != null) {
             FloatBallManager.getFloatBallManager().closeFloatBall();
         }

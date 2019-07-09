@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.utils.SharedXmlUtil;
-import com.speedata.uhf.floatball.FloatListManager;
-import com.yhao.floatwindow.FloatWindow;
 
 /**
  * @author zzc
@@ -51,6 +49,7 @@ public class HelloActivity extends BaseActivity {
                         startService(new Intent(HelloActivity.this, MyService.class));
                         SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
                     }
+                    SystemClock.sleep(2000);
                     startActivity(it);
                 }
             }
