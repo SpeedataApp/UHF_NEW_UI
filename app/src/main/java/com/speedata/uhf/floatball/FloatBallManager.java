@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Point;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 
@@ -48,6 +50,7 @@ public class FloatBallManager {
     private static FloatBallManager floatBallManager;
     private final String TAG = "FloatBallManager";
     ImageView imageView;
+    private static Point sPoint;
     String action = "updata_state";
     private ModeManager modeManager;
     BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -151,7 +154,7 @@ public class FloatBallManager {
                 .setHeight(Screen.width, 0.15f)
                 .setX(Screen.width, 0.8f)
                 .setY(Screen.height, 0.3f)
-                .setMoveType(MoveType.slide, 100, -100)
+                .setMoveType(MoveType.slide, (int) (getScreenWidth() * 0.15f / 2), (int) -(getScreenWidth() * 0.15f / 2))
                 .setMoveStyle(500, new BounceInterpolator())
                 .setViewStateListener(mViewStateListener)
                 .setPermissionListener(mPermissionListener)
@@ -175,6 +178,18 @@ public class FloatBallManager {
             default:
                 break;
         }
+    }
+
+    /**
+     * @return 获取屏幕宽度
+     */
+    private int getScreenWidth() {
+        if (sPoint == null) {
+            sPoint = new Point();
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            wm.getDefaultDisplay().getSize(sPoint);
+        }
+        return sPoint.x;
     }
 
     public void closeFloatBall() {

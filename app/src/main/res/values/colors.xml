@@ -21,6 +21,8 @@
 
     <!--透明灰-->
     <color name="tran_gray">#50808080</color>
+    <color name="tran_gray_bg">#32606060</color>
+    <color name="tran_white">#ebffffff</color>
     <!--半透明-->
     <color name="tran_blue">#50c5edfd</color>
     <!--透明-->

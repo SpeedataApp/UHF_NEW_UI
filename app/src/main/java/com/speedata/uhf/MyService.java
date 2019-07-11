@@ -16,9 +16,13 @@ import android.os.SystemProperties;
 import android.util.Log;
 
 import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
+import com.speedata.libuhf.interfaces.OnSpdBanMsgListener;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
+import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.floatball.ModeManager;
+import com.yhao.floatwindow.FloatWindow;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -145,6 +149,7 @@ public class MyService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "===onCreate===");
+        setBuilder();
         initReceive();
         initUHF();
     }
@@ -307,34 +312,58 @@ public class MyService extends Service {
      */
     private boolean openDev() {
         if (!MyApp.isOpenDev) {
-            final int i = MyApp.getInstance().getIuhfService().openDev();
-            if (i != 0) {
-                new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
+            if (MyApp.getInstance().getIuhfService() != null) {
+                final int i = MyApp.getInstance().getIuhfService().openDev();
+                if (i != 0) {
+                    new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "===openDev===失败" + i);
-                    }
-                }).show();
-                MyApp.isOpenDev = false;
-                return false;
-            } else {
-                Log.d(TAG, "===openDev===成功");
-                MyApp.isOpenDev = true;
-                return true;
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d(TAG, "===openDev===失败" + i);
+                        }
+                    }).show();
+                    MyApp.isOpenDev = false;
+                    return false;
+                } else {
+                    Log.d(TAG, "===openDev===成功");
+                    MyApp.isOpenDev = true;
+                    return true;
+                }
             }
+            MyApp.isOpenDev = false;
+            return false;
         } else {
             return true;
         }
     }
+    private void setBuilder() {
+        UHFManager uhfManager = new UHFManager();
+        uhfManager.setOnBanMsgListener(new OnSpdBanMsgListener() {
+            @Override
+            public void getBanMsg(String var1) {
+                Log.e("zzc:UHFService", "====监听报警====");
+                if (var1.contains("Low")) {
+                    var1 = getResources().getString(R.string.low_power);
+                } else if (var1.contains("High")) {
+                    var1 = getResources().getString(R.string.high_temp);
+                }
+                FloatWarnManager.getInstance(getApplicationContext(), var1);
+                FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
+                if (floatWarnManager != null) {
+                    FloatWindow.get("FloatWarnTag").show();
+                }
+            }
+        });
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "===onDestroy===");
-        soundPool.release();
-        if (receiver != null) {
-            unregisterReceiver(receiver);
+    }
+
+        @Override
+        public void onDestroy () {
+            super.onDestroy();
+            Log.d(TAG, "===onDestroy===");
+            soundPool.release();
+            if (receiver != null) {
+                unregisterReceiver(receiver);
+            }
         }
     }
-}

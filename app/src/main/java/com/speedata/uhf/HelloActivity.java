@@ -31,6 +31,9 @@ public class HelloActivity extends BaseActivity {
             public void run() {
                 if (MyApp.getInstance().getIuhfService() != null) {
                     SystemClock.sleep(2000);
+                    if (isLowPower || isHighTemp) {
+                        return;
+                    }
                     startActivity(it);
                 } else {
                     MyApp.getInstance().setIuhfService();
@@ -50,6 +53,9 @@ public class HelloActivity extends BaseActivity {
                         SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
                     }
                     SystemClock.sleep(2000);
+                    if (isLowPower || isHighTemp) {
+                        return;
+                    }
                     startActivity(it);
                 }
             }
