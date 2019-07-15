@@ -278,4 +278,11 @@
     <string name="dialog_exit">Press OK to turn off uhf</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_title_warning">warning</string>
+
+    <string name="btn_start_fast">Enable fast mode</string>
+    <string name="btn_stop_fast">Disable fast mode</string>
+    <string name="toast_start_fast_success">Fast mode is on</string>
+    <string name="toast_start_fast_failed">Failed to enable fast mode</string>
+    <string name="toast_stop_fast_success">Fast mode closed</string>
+    <string name="toast_stop_fast_failed">Fast mode shutdown failed</string>
 </resources>

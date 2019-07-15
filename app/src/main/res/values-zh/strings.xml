@@ -274,4 +274,11 @@
     <string name="dialog_exit">请按确定键关闭超高频</string>
     <string name="dialog_ok">确定</string>
     <string name="dialog_title_warning">警告</string>
+
+    <string name="btn_start_fast">启用快速模式</string>
+    <string name="btn_stop_fast">停用快速模式</string>
+    <string name="toast_start_fast_success">快速模式已开启</string>
+    <string name="toast_start_fast_failed">启用快速模式失败</string>
+    <string name="toast_stop_fast_success">快速模式已关闭</string>
+    <string name="toast_stop_fast_failed">关闭快速模式失败</string>
 </resources>

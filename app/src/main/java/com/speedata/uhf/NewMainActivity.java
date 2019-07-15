@@ -40,7 +40,10 @@ import com.speedata.uhf.adapter.UhfCardBean;
 import com.speedata.uhf.excel.EPCBean;
 import com.speedata.uhf.libutils.excel.ExcelUtils;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +104,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 盘点命令下发后截取的系统时间
      */
     private long startCheckingTime;
+    private static final String CHARGING_PATH = "/sys/class/misc/bq25601/regdump/";
+    private File file;
+    private BufferedWriter writer;
 
     public static final String START_SCAN = "com.spd.action.start_uhf";
     public static final String STOP_SCAN = "com.spd.action.stop_uhf";
@@ -227,6 +233,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             }
         });
         MyApp.isOpenServer = false;
+        file = new File(CHARGING_PATH);
     }
 
     /**
@@ -300,6 +307,14 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 开始盘点
      */
     private void startUhf() {
+        try {
+            writer = new BufferedWriter(new FileWriter(file, false));
+            writer.write("otgon");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //取消掩码
         iuhfService.selectCard(1, "", false);
         iuhfService.inventoryStart();
@@ -325,7 +340,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mIvSet.setEnabled(false);
         mEtSearch.setEnabled(false);
         btnExport.setEnabled(false);
-        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray2_shape));
+        btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_gray_shape));
         btnExport.setTextColor(getResources().getColor(R.color.text_gray));
         uhfCardAdapter.notifyDataSetChanged();
         updateRateCount();
@@ -344,6 +359,14 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         btnExport.setEnabled(true);
         btnExport.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_b_g_select));
         btnExport.setTextColor(getResources().getColor(R.color.text_white));
+        try {
+            writer = new BufferedWriter(new FileWriter(file, false));
+            writer.write("otgoff");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -470,6 +493,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void onPause() {
+        stopUhf();
         MyApp.isOpenServer = true;
         if (iuhfService != null) {
             //更新回调

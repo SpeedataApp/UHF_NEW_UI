@@ -1,6 +1,7 @@
 package com.speedata.uhf;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,7 +66,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
-//        MyApp.getInstance().setIuhfService();
         Log.e("zzc:", "onCreate()");
         initView();
         initData();
@@ -73,7 +73,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
 
     @SuppressLint("SetTextI18n")
     private void initData() {
-        iuhfService = MyApp.getInstance().getIuhfService();
         //获取模块型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
         //判断服务是否存在
@@ -92,16 +91,35 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             etLoopTime.setEnabled(MyApp.isLoop);
             checkBoxLongDown.setChecked(MyApp.isLongDown);
         }
-        //获取定频
-        getFreq();
-        //获取通话项
-        getSession();
-        //获取天线功率
-        int ivp = iuhfService.getAntennaPower();
-        Log.d("zzc:", "==天线功率==" + ivp);
-        if (ivp > 0) {
-            etPower.setText("" + ivp);
-            Log.d("zzc:", "==天线功率==获取成功==");
+        iuhfService = MyApp.getInstance().getIuhfService();
+//        if (iuhfService == null) {
+//            return;
+//        }
+        if (MyApp.isFastMode) {
+            setFreqBtn.setEnabled(false);
+            setSessionBtn.setEnabled(false);
+            setInvConBtn.setEnabled(false);
+            tvSetFreq.setEnabled(false);
+            tvSetS2.setEnabled(false);
+            tvSetInvCon.setEnabled(false);
+        } else {
+            setFreqBtn.setEnabled(true);
+            setSessionBtn.setEnabled(true);
+            setInvConBtn.setEnabled(true);
+            tvSetFreq.setEnabled(true);
+            tvSetS2.setEnabled(true);
+            tvSetInvCon.setEnabled(true);
+            //获取定频
+            getFreq();
+            //获取通话项
+            getSession();
+            //获取天线功率
+            int ivp = iuhfService.getAntennaPower();
+            Log.d("zzc:", "==天线功率==" + ivp);
+            if (ivp > 0) {
+                etPower.setText("" + ivp);
+                Log.d("zzc:", "==天线功率==获取成功==");
+            }
         }
         //获取盘点模式
         if ("r2k".equals(model)) {
@@ -377,6 +395,26 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this, iuhfService);
                 inventorySettingDialog.setTitle(getResources().getString(R.string.algorithm_set));
                 inventorySettingDialog.show();
+                inventorySettingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (MyApp.isFastMode) {
+                            setFreqBtn.setEnabled(false);
+                            setSessionBtn.setEnabled(false);
+                            setInvConBtn.setEnabled(false);
+                            tvSetFreq.setEnabled(false);
+                            tvSetS2.setEnabled(false);
+                            tvSetInvCon.setEnabled(false);
+                        } else {
+                            setFreqBtn.setEnabled(true);
+                            setSessionBtn.setEnabled(true);
+                            setInvConBtn.setEnabled(true);
+                            tvSetFreq.setEnabled(true);
+                            tvSetS2.setEnabled(true);
+                            tvSetInvCon.setEnabled(true);
+                        }
+                    }
+                });
                 break;
             case R.id.set_server_prefix:
                 intent = new Intent();

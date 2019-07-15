@@ -39,6 +39,10 @@ public class MyApp extends Application {
     public static boolean isLoop = false;
     public static String mLoopTime = "0";
     public static boolean isLongDown = false;
+    /**
+     * 是否启动快速模式
+     */
+    public static boolean isFastMode = false;
 
     public static MyApp getInstance() {
         return m_application;

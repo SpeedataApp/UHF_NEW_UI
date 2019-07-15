@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.uhf.MyApp;
 import com.speedata.uhf.R;
 import com.uhf.structures.DynamicQParams;
 import com.uhf.structures.FixedQParams;
@@ -74,6 +75,7 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
     private LinearLayout r2kLayout, xinLianLayout;
     private Spinner spQValue, spGen2Target;
     private IUHFService iuhfService;
+    private Button btnFastMode;
 
     public InventorySettingDialog(@NonNull Context context, IUHFService iuhfService) {
         super(context);
@@ -97,6 +99,11 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
         } else {
             r2kLayout.setVisibility(View.GONE);
             xinLianLayout.setVisibility(View.VISIBLE);
+            if(MyApp.isFastMode){
+                btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
+            }else {
+                btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
+            }
         }
     }
 
@@ -135,6 +142,8 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
         btnGen2Target.setOnClickListener(this);
         Button getValueBtn = findViewById(R.id.btn_get_value);
         getValueBtn.setOnClickListener(this);
+        btnFastMode = findViewById(R.id.btn_fast_mode);
+        btnFastMode.setOnClickListener(this);
     }
 
     /**
@@ -292,6 +301,30 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.btn_get_value:
                 getGen2Value();
+                break;
+            case R.id.btn_fast_mode:
+                if (!MyApp.isFastMode) {
+                    //没有启用,启用，改变标志位
+                    result = MyApp.getInstance().getIuhfService().startFastMode();
+                    if (result == 0) {
+                        MyApp.isFastMode = true;
+                        btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_success), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_failed), Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+                    //已经启用了，需要停止，改变标志位
+                    result = MyApp.getInstance().getIuhfService().stopFastMode();
+                    if (result == 0) {
+                        MyApp.isFastMode = false;
+                        btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_success), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_failed), Toast.LENGTH_LONG).show();
+                    }
+                }
                 break;
             default:
                 break;
