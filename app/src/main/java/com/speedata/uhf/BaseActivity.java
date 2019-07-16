@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.WindowManager;
@@ -46,11 +48,17 @@ public class BaseActivity extends Activity {
                     isHighTemp = true;
                     var1 = BaseActivity.this.getResources().getString(R.string.high_temp);
                 }
-                FloatWarnManager.getInstance(getApplicationContext(), var1);
-                FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
-                if (floatWarnManager != null) {
-                    FloatWindow.get("FloatWarnTag").show();
-                }
+                final String finalVar = var1;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FloatWarnManager.getInstance(getApplicationContext(), finalVar);
+                        FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
+                        if (floatWarnManager != null) {
+                            FloatWindow.get("FloatWarnTag").show();
+                        }
+                    }
+                });
             }
         });
 

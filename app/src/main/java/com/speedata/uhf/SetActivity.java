@@ -45,13 +45,13 @@ public class SetActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Log.d("UHFService", "startService");
-                    startService(new Intent(SetActivity.this, MyService.class));
-                    SharedXmlUtil.getInstance(SetActivity.this).write("server", true);
                     SystemClock.sleep(1000);
                     if (isLowPower||isHighTemp){
                         return;
                     }
+                    Log.d("UHFService", "startService");
+                    startService(new Intent(SetActivity.this, MyService.class));
+                    SharedXmlUtil.getInstance(SetActivity.this).write("server", true);
                     startActivity(it);
                 } else if (SharedXmlUtil.getInstance(SetActivity.this).read("server", false)) {
                     SystemClock.sleep(1000);

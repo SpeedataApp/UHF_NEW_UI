@@ -47,12 +47,16 @@ public class HelloActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    SystemClock.sleep(1500);
+                    if (isLowPower || isHighTemp) {
+                        return;
+                    }
                     if ("SD60".equals(xinghao) || "SD60RT".equals(xinghao) || xinghao.contains("KT50") || xinghao.contains("KT55")) {
                         Log.d("UHFService", "startService==main==");
                         startService(new Intent(HelloActivity.this, MyService.class));
                         SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
                     }
-                    SystemClock.sleep(2000);
+                    SystemClock.sleep(1000);
                     if (isLowPower || isHighTemp) {
                         return;
                     }

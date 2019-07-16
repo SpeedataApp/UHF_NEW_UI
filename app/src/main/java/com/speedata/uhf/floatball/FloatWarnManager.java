@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.speedata.libuhf.UHFManager;
 import com.speedata.uhf.BaseActivity;
 import com.speedata.uhf.R;
 import com.yhao.floatwindow.FloatWindow;
@@ -58,6 +59,7 @@ public class FloatWarnManager {
         @Override
         public void onShow() {
             Log.d(TAG, "onShow");
+            UHFManager.closeUHFService();
         }
 
         @Override
@@ -70,6 +72,7 @@ public class FloatWarnManager {
         @Override
         public void onDismiss() {
             Log.d(TAG, "onDismiss");
+            System.exit(0);
         }
 
         @Override
