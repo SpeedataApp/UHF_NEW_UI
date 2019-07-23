@@ -79,15 +79,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         //获取模块型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
-        if ("r2k".equals(model)) {
-            trReadTime.setVisibility(View.GONE);
-            trSleep.setVisibility(View.GONE);
-        } else {
-            trReadTime.setVisibility(View.VISIBLE);
-            trSleep.setVisibility(View.VISIBLE);
-            etReadTime.setText(iuhfService.getReadTime());
-            etSleep.setText(iuhfService.getSleep());
-        }
+
         //判断服务是否存在
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
         if (!isExistServer) {
@@ -105,6 +97,15 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             checkBoxLongDown.setChecked(MyApp.isLongDown);
         }
         iuhfService = MyApp.getInstance().getIuhfService();
+        if ("r2k".equals(model)) {
+            trReadTime.setVisibility(View.GONE);
+            trSleep.setVisibility(View.GONE);
+        } else {
+            trReadTime.setVisibility(View.VISIBLE);
+            trSleep.setVisibility(View.VISIBLE);
+            etReadTime.setText("" + iuhfService.getReadTime());
+            etSleep.setText("" + iuhfService.getSleep());
+        }
 //        if (iuhfService == null) {
 //            return;
 //        }
