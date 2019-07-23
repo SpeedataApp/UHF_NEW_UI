@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -60,6 +61,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private EditText etLoopTime;
     private CheckBox checkBoxLoop, checkBoxLongDown;
     private TableLayout tableLayout5, tableLayout4;
+    private TableRow trReadTime, trSleep;
+    private EditText etReadTime, etSleep;
+    private Button setReadTimeBtn, setSleepBtn;
 
 
     @Override
@@ -75,6 +79,15 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         //获取模块型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
+        if ("r2k".equals(model)) {
+            trReadTime.setVisibility(View.GONE);
+            trSleep.setVisibility(View.GONE);
+        } else {
+            trReadTime.setVisibility(View.VISIBLE);
+            trSleep.setVisibility(View.VISIBLE);
+            etReadTime.setText(iuhfService.getReadTime());
+            etSleep.setText(iuhfService.getSleep());
+        }
         //判断服务是否存在
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
         if (!isExistServer) {
@@ -242,6 +255,14 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 }
             }
         });
+        trReadTime = findViewById(R.id.set_tr_timeout);
+        trSleep = findViewById(R.id.set_tr_sleep);
+        etReadTime = findViewById(R.id.set_read_time);
+        etSleep = findViewById(R.id.set_sleep);
+        setReadTimeBtn = findViewById(R.id.btn_set_read_time);
+        setSleepBtn = findViewById(R.id.btn_set_sleep);
+        setReadTimeBtn.setOnClickListener(this);
+        setSleepBtn.setOnClickListener(this);
     }
 
     private void getFreq() {
@@ -431,6 +452,32 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtras(bundle);
                 intent.setClass(this, PopSetServiceActivity.class);
                 startActivityForResult(intent, 5);
+                break;
+            case R.id.btn_set_read_time:
+                String time = etReadTime.getText().toString();
+                if (time.isEmpty()) {
+                    time = "0";
+                }
+                int readTime = Integer.parseInt(time);
+                if (readTime < 0) {
+                    readTime = 0;
+                }
+                iuhfService.setReadTime(readTime);
+                ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                break;
+            case R.id.btn_set_sleep:
+                String sleep = etSleep.getText().toString();
+                if (sleep.isEmpty()) {
+                    sleep = "0";
+                }
+                int sleepTime = Integer.parseInt(sleep);
+                if (sleepTime < 0) {
+                    sleepTime = 0;
+                }
+                iuhfService.setSleep(sleepTime);
+                ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 break;
             default:
                 break;

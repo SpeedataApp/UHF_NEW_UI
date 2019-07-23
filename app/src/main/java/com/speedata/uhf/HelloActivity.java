@@ -51,7 +51,8 @@ public class HelloActivity extends BaseActivity {
                     if (isLowPower || isHighTemp) {
                         return;
                     }
-                    if ("SD60".equals(xinghao) || "SD60RT".equals(xinghao) || xinghao.contains("KT50") || xinghao.contains("KT55")) {
+                    if ("SD60".equals(xinghao) || "SD60RT".equals(xinghao) || xinghao.contains("KT50") || xinghao.contains("KT55")
+                            || "SD55L".equals(xinghao)) {
                         Log.d("UHFService", "startService==main==");
                         startService(new Intent(HelloActivity.this, MyService.class));
                         SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);

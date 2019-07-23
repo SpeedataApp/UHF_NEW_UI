@@ -117,6 +117,8 @@
     <string name="set_freq_hint">set freq</string>
     <string name="set_s2">session</string>
     <string name="set_s2_hint">select</string>
+    <string name="set_read_time">inventory timeout</string>
+    <string name="set_sleep">counting interval</string>
     <string name="antenna_p_hint">antenna power</string>
     <string name="set_inv">inventory</string>
     <string name="set_freq_point">set freq point</string>

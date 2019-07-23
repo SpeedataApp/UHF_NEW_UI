@@ -64,6 +64,8 @@ public class MyApp extends Application {
         // 初始化Bugly
         Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
 
+//        UHFManager.setStipulationLevel(-1);
+//        UHFManager.setTemperatureLevel(101);
         Log.d("UHFService", "MyApp onCreate");
     }
 

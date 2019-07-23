@@ -17,6 +17,9 @@ import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.libutils.SharedXmlUtil;
 import com.yhao.floatwindow.FloatWindow;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * @author zzc
@@ -24,6 +27,8 @@ import com.yhao.floatwindow.FloatWindow;
 public class BaseActivity extends Activity {
     public static boolean isLowPower = false;
     public static boolean isHighTemp = false;
+    private static Timer timer;
+    private static TimerTask myTimerTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +38,7 @@ public class BaseActivity extends Activity {
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setBuilder();
+//        createUHFTimer();
     }
 
     private void setBuilder() {
@@ -61,6 +67,45 @@ public class BaseActivity extends Activity {
                 });
             }
         });
+    }
 
+    private void createUHFTimer() {
+        if (timer == null) {
+            timer = new Timer();
+            if (myTimerTask != null) {
+                myTimerTask.cancel();
+            }
+            myTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (MyApp.getInstance().getIuhfService() == null){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FloatWarnManager.getInstance(getApplicationContext(), "UHF已下电，请退出应用重新实例化");
+                                FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
+                                if (floatWarnManager != null) {
+                                    FloatWindow.get("FloatWarnTag").show();
+                                }
+                            }
+                        });
+                    }
+                }
+            };
+            timer.schedule(myTimerTask, 0, 1000);
+        }
+    }
+
+    private static void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+//        stopTimer();
+        super.onDestroy();
     }
 }

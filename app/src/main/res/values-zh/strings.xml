@@ -115,6 +115,8 @@
     <string name="set_freq_hint">选择合适的定频</string>
     <string name="set_s2">通话项</string>
     <string name="set_s2_hint">选择</string>
+    <string name="set_read_time">盘点超时</string>
+    <string name="set_sleep">盘点间隔</string>
     <string name="antenna_p_hint">填写功率大小</string>
     <string name="set_inv">盘点内容</string>
     <string name="set_freq_point">设置频点</string>

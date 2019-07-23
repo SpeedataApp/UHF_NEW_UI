@@ -17,6 +17,11 @@ import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
 import com.yhao.floatwindow.ViewStateListener;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * //                            _ooOoo_
  * //                           o8888888o
@@ -49,6 +54,9 @@ public class FloatWarnManager {
     private String message;
     private static FloatWarnManager floatWarnManager;
     private final String TAG = "FloatWarnManager";
+    private static final String CHARGING_PATH = "/sys/class/misc/bq25601/regdump/";
+    private File file;
+    private BufferedWriter writer;
 
     private ViewStateListener mViewStateListener = new ViewStateListener() {
         @Override
@@ -60,6 +68,15 @@ public class FloatWarnManager {
         public void onShow() {
             Log.d(TAG, "onShow");
             UHFManager.closeUHFService();
+            try {
+                file = new File(CHARGING_PATH);
+                writer = new BufferedWriter(new FileWriter(file, false));
+                writer.write("otgoff");
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
