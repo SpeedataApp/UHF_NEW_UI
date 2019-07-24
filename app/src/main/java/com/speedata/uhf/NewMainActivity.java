@@ -30,10 +30,9 @@ import android.widget.ToggleButton;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
-import com.speedata.libuhf.interfaces.OnSpdBanMsgListener;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
+import com.speedata.libuhf.utils.CommonUtils;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.adapter.UhfCardAdapter;
 import com.speedata.uhf.adapter.UhfCardBean;
@@ -79,6 +78,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private TextView tagNumTv;
     private TextView speedTv;
     private TextView totalTime;
+    private TextView mVersionTv;
     /**
      * 导出
      */
@@ -151,7 +151,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-
     public void initView() {
         setContentView(R.layout.activity_main);
 
@@ -183,6 +182,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mTvListMsg.setVisibility(View.GONE);
         mLlListBg.setVisibility(View.VISIBLE);
         mListViewCard.setVisibility(View.GONE);
+        mVersionTv = (TextView) findViewById(R.id.tv_version_model);
+        mVersionTv.setText(CommonUtils.getAppVersionName(this));
     }
 
     public void initSoundPool() {
@@ -234,6 +235,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         });
         MyApp.isOpenServer = false;
         file = new File(CHARGING_PATH);
+        mVersionTv.append("-" + model);
     }
 
     /**

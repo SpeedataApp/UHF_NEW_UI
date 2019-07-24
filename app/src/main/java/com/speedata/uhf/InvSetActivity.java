@@ -23,6 +23,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.utils.CommonUtils;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.dialog.InventorySettingDialog;
 import com.speedata.uhf.floatball.FloatBallManager;
@@ -64,6 +65,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private TableRow trReadTime, trSleep;
     private EditText etReadTime, etSleep;
     private Button setReadTimeBtn, setSleepBtn;
+    private TextView mVersionTv;
 
 
     @Override
@@ -79,7 +81,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         //获取模块型号
         model = SharedXmlUtil.getInstance(this).read("model", "");
-
+        mVersionTv.append("-" + model);
         //判断服务是否存在
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
         if (!isExistServer) {
@@ -264,6 +266,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         setSleepBtn = findViewById(R.id.btn_set_sleep);
         setReadTimeBtn.setOnClickListener(this);
         setSleepBtn.setOnClickListener(this);
+        mVersionTv = (TextView) findViewById(R.id.tv_version_model);
+        mVersionTv.setText(CommonUtils.getAppVersionName(this));
     }
 
     private void getFreq() {

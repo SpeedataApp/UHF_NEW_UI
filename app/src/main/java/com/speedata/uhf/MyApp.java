@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -39,6 +40,10 @@ public class MyApp extends Application {
     public static boolean isLoop = false;
     public static String mLoopTime = "0";
     public static boolean isLongDown = false;
+    /**
+     * 程序启动初始化一次的标志，运行过程中不再初始化
+     */
+    public static boolean isFirstInit = true;
     /**
      * 是否启动快速模式
      */
@@ -78,6 +83,7 @@ public class MyApp extends Application {
             iuhfService.closeDev();
             iuhfService = null;
             UHFManager.closeUHFService();
+            isFirstInit = true;
         }
     }
 
@@ -85,6 +91,15 @@ public class MyApp extends Application {
         try {
             iuhfService = UHFManager.getUHFService(getApplicationContext());
             Log.d("UHFService", "iuhfService初始化: " + iuhfService);
+            if (isFirstInit) {
+                int i = 0;
+                i = iuhfService.setReadTime(100);
+                Log.d("zzc:", "===isFirstInit===setReadTime:" + i);
+                i = iuhfService.setSleep(50);
+                Log.d("zzc:", "===isFirstInit===setSleep:" + i);
+                //改变标志位，保证程序启动仅执行一次
+                isFirstInit = false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Handler handler = new Handler(Looper.getMainLooper());

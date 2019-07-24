@@ -1,23 +1,17 @@
 package com.speedata.uhf;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.CommonUtils;
 import com.speedata.uhf.dialog.ReadCardDialog;
 import com.speedata.uhf.dialog.WriteCardDialog;
@@ -34,7 +28,7 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
     private Spinner areaSelect;
     private TextView mVersionTv;
 
-    private String modle;
+    private String model;
     private IUHFService iuhfService;
 
     @Override
@@ -45,7 +39,7 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.select_one_card);
         getData();
         initView();
-        mVersionTv.append("-" + modle);
+        mVersionTv.append("-" + model);
         iuhfService = MyApp.getInstance().getIuhfService();
 
     }
@@ -87,7 +81,7 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
         Bundle bundle = intent.getExtras();
         assert bundle != null;
         epcName = bundle.getString("epcName");
-        modle = bundle.getString("model");
+        model = bundle.getString("model");
     }
 
     @Override
@@ -101,7 +95,7 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_read_epc:
                 //读卡
                 ReadCardDialog readCard = new ReadCardDialog(this, iuhfService
-                        , areaSelect.getSelectedItemPosition(), epcName, modle);
+                        , areaSelect.getSelectedItemPosition(), epcName, model);
                 readCard.setTitle(R.string.Item_Read);
                 readCard.show();
                 break;
@@ -109,7 +103,7 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
                 //写卡
                 WriteCardDialog writeCard = new WriteCardDialog(this, iuhfService,
                         areaSelect.getSelectedItemPosition()
-                        , epcName, modle);
+                        , epcName, model);
                 writeCard.setTitle(R.string.Item_Write);
                 writeCard.show();
                 break;

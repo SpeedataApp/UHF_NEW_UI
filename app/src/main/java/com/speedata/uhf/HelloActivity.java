@@ -43,6 +43,11 @@ public class HelloActivity extends BaseActivity {
                             if (openDev()) {
                                 return;
                             }
+                            int i;
+                            i = iuhfService.setAntennaPower(30);
+                            Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
+                            i = iuhfService.setQueryTagGroup(0, 0, 0);
+                            Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
