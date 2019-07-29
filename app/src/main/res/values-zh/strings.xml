@@ -178,7 +178,7 @@
     <string name="set_password">密码设置</string>
     <string name="init_password">访问密码</string>
     <string name="init_password_hint">输入访问密码</string>
-    <string name="kill_password">死亡密码</string>
+    <string name="kill_password">销毁密码</string>
     <string name="access_password">访问密码</string>
     <string name="new_password">新密码</string>
     <string name="new_password_hint">输入八位十六进制数</string>
@@ -200,7 +200,7 @@
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">重置</string>
 
-    <string name="power_range">天线功率值范围为10 ~ 33</string>
+    <string name="power_range">天线功率值范围为2 ~ 30</string>
     <string name="set_power_fail">设置天线功率失败</string>
     <string name="set_power_ok">设置天线功率成功</string>
 
@@ -270,7 +270,7 @@
     <string name="item_uhf_re">连续UHF</string>
     <string name="tv_open_float">打开悬浮框</string>
     
-    <string name="power_tips">范围10~33</string>
+    <string name="power_tips">范围2~30</string>
     <string name="low_power">电量低禁用超高频</string>
     <string name="high_temp">温度过高禁用超高频</string>
     <string name="dialog_exit">请按确定键关闭超高频</string>

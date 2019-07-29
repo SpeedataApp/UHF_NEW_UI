@@ -1,13 +1,16 @@
 package com.speedata.uhf;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
@@ -16,13 +19,17 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
 /**
  * @author zzc
  */
-public class HelloActivity extends BaseActivity {
+public class HelloActivity extends Activity {
 
     private IUHFService iuhfService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //全屏显示
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //强制为竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_hello);
         final Intent it = new Intent(this, NewMainActivity.class);
         final String xinghao = SystemProperties.get("ro.product.model");
@@ -31,9 +38,6 @@ public class HelloActivity extends BaseActivity {
             public void run() {
                 if (MyApp.getInstance().getIuhfService() != null) {
                     SystemClock.sleep(2000);
-                    if (isLowPower || isHighTemp) {
-                        return;
-                    }
                     startActivity(it);
                 } else {
                     MyApp.getInstance().setIuhfService();
@@ -52,10 +56,7 @@ public class HelloActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    SystemClock.sleep(1500);
-                    if (isLowPower || isHighTemp) {
-                        return;
-                    }
+                    SystemClock.sleep(1000);
                     if ("SD60".equals(xinghao) || "SD60RT".equals(xinghao) || xinghao.contains("KT50") || xinghao.contains("KT55")
                             || "SD55L".equals(xinghao)) {
                         Log.d("UHFService", "startService==main==");
@@ -63,9 +64,6 @@ public class HelloActivity extends BaseActivity {
                         SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
                     }
                     SystemClock.sleep(1000);
-                    if (isLowPower || isHighTemp) {
-                        return;
-                    }
                     startActivity(it);
                 }
             }

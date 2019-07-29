@@ -108,9 +108,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             etReadTime.setText("" + iuhfService.getReadTime());
             etSleep.setText("" + iuhfService.getSleep());
         }
-//        if (iuhfService == null) {
-//            return;
-//        }
+        if (iuhfService == null) {
+            return;
+        }
         if (MyApp.isFastMode) {
             setFreqBtn.setEnabled(false);
             setSessionBtn.setEnabled(false);
@@ -133,7 +133,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             int ivp = iuhfService.getAntennaPower();
             Log.d("zzc:", "==天线功率==" + ivp);
             if (ivp > 0) {
-                etPower.setText("" + ivp);
+                etPower.setText("" + (ivp - 3));
                 Log.d("zzc:", "==天线功率==获取成功==");
             }
         }
@@ -552,8 +552,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void run() {
                 int p = Integer.parseInt(power);
+                p += 3;
                 int m = 33;
-                if ((p < 0) || (p > m)) {
+                if ((p < 5) || (p > m)) {
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {

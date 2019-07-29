@@ -69,8 +69,6 @@ public class MyApp extends Application {
         // 初始化Bugly
         Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
 
-//        UHFManager.setStipulationLevel(-1);
-//        UHFManager.setTemperatureLevel(101);
         Log.d("UHFService", "MyApp onCreate");
     }
 
@@ -91,7 +89,7 @@ public class MyApp extends Application {
         try {
             iuhfService = UHFManager.getUHFService(getApplicationContext());
             Log.d("UHFService", "iuhfService初始化: " + iuhfService);
-            if (isFirstInit) {
+            if (isFirstInit && iuhfService != null) {
                 int i = 0;
                 i = iuhfService.setReadTime(100);
                 Log.d("zzc:", "===isFirstInit===setReadTime:" + i);

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 /**
  * 设置前缀后缀
  * Created by 张智超 on 2019/6/19
@@ -50,8 +52,8 @@ public class PopSetServiceActivity extends BaseActivity {
         ArrayAdapter<String> tmp;
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        String fix = bundle.getString("send_fix");
+//        assert bundle != null;
+        String fix = Objects.requireNonNull(bundle).getString("send_fix");
         if ("prefix".equals(fix)){
             tmp = new ArrayAdapter<>(PopSetServiceActivity.this, R.layout.item_set_popup, itemPrefix);
         }else {

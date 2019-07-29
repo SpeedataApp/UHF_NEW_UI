@@ -24,6 +24,7 @@ import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.floatball.ModeManager;
 import com.yhao.floatwindow.FloatWindow;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,8 +68,8 @@ public class MyService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             Log.d(TAG, "===rece===action===" + action);
-            assert action != null;
-            if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+//            assert action != null;
+            if (Objects.equals(action, Intent.ACTION_SCREEN_OFF)) {
                 Log.d(TAG, "===熄屏了===" + action);
                 IUHFService iuhfService = MyApp.getInstance().getIuhfService();
                 if (iuhfService != null) {
@@ -78,7 +79,7 @@ public class MyService extends Service {
                     Log.d(TAG, "===熄屏下电了===" + action);
                 }
             }
-            if (action.equals(Intent.ACTION_SCREEN_ON)) {
+            if (Objects.equals(action, Intent.ACTION_SCREEN_ON)) {
                 initUHF();
                 if (openDev()) {
                     Log.d(TAG, "===亮屏了==上电成功===" + action);
@@ -86,7 +87,7 @@ public class MyService extends Service {
             }
 
             if (MyApp.isOpenServer) {
-                switch (action) {
+                switch (Objects.requireNonNull(action)) {
                     case START_SCAN:
                         //启动超高频扫描
                         if (openDev()) {

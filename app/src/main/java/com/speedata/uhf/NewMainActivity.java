@@ -45,6 +45,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jxl.write.Colour;
 
@@ -116,8 +117,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
             if (!MyApp.isOpenServer) {
                 String action = intent.getAction();
-                assert action != null;
-                switch (action) {
+//                assert action != null;
+                switch (Objects.requireNonNull(action)) {
                     case START_SCAN:
                         //启动超高频扫描
                         if (inSearch) {
@@ -309,6 +310,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 开始盘点
      */
     private void startUhf() {
+        if (iuhfService == null) {
+            return;
+        }
         try {
             writer = new BufferedWriter(new FileWriter(file, false));
             writer.write("otgon");
@@ -352,6 +356,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 停止盘点
      */
     private void stopUhf() {
+        if (iuhfService == null) {
+            return;
+        }
         iuhfService.inventoryStop();
         inSearch = false;
         mFindBtn.setText(R.string.Start_Search_Btn);

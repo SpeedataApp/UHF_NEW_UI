@@ -31,7 +31,6 @@ import java.util.Objects;
  * @author 张智超_
  * @date 2019/3/13
  */
-
 public class WriteCardDialog extends Dialog implements
         View.OnClickListener {
 

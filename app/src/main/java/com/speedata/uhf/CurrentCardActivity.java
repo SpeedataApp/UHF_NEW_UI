@@ -16,6 +16,8 @@ import com.speedata.libuhf.utils.CommonUtils;
 import com.speedata.uhf.dialog.ReadCardDialog;
 import com.speedata.uhf.dialog.WriteCardDialog;
 
+import java.util.Objects;
+
 /**
  * 当前卡片
  * Created by 张智超 on 2019/3/7
@@ -79,8 +81,8 @@ public class CurrentCardActivity extends BaseActivity implements View.OnClickLis
     public void getData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        epcName = bundle.getString("epcName");
+//        assert bundle != null;
+        epcName = Objects.requireNonNull(bundle).getString("epcName");
         model = bundle.getString("model");
     }
 

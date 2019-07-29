@@ -1,6 +1,7 @@
 package com.speedata.uhf;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +21,7 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
  *
  * @author 张智超
  */
-public class SetActivity extends BaseActivity {
+public class SetActivity extends Activity {
 
     Intent intent;
     private IUHFService iuhfService;
@@ -41,32 +42,28 @@ public class SetActivity extends BaseActivity {
                             if (openDev()) {
                                 return;
                             }
+                            int i;
+                            i = iuhfService.setAntennaPower(30);
+                            Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
+                            i = iuhfService.setQueryTagGroup(0, 0, 0);
+                            Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     SystemClock.sleep(1000);
-                    if (isLowPower||isHighTemp){
-                        return;
-                    }
                     Log.d("UHFService", "startService");
                     startService(new Intent(SetActivity.this, MyService.class));
                     SharedXmlUtil.getInstance(SetActivity.this).write("server", true);
                     startActivity(it);
                 } else if (SharedXmlUtil.getInstance(SetActivity.this).read("server", false)) {
                     SystemClock.sleep(1000);
-                    if (isLowPower||isHighTemp){
-                        return;
-                    }
                     startActivity(it);
                 } else if (!SharedXmlUtil.getInstance(SetActivity.this).read("server", false)) {
                     Log.d("UHFService", "startService");
                     startService(new Intent(SetActivity.this, MyService.class));
                     SharedXmlUtil.getInstance(SetActivity.this).write("server", true);
                     SystemClock.sleep(1000);
-                    if (isLowPower||isHighTemp){
-                        return;
-                    }
                     startActivity(it);
                 }
             }

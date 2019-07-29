@@ -24,6 +24,8 @@ import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 
+import java.util.Objects;
+
 /**
  * 搜索声音寻卡
  * Created by 张智超 on 2019/3/8
@@ -83,8 +85,8 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     public void getBundle() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        epcToStr = bundle.getString("epcNumber");
+//        assert bundle != null;
+        epcToStr = Objects.requireNonNull(bundle).getString("epcNumber");
     }
 
     @Override

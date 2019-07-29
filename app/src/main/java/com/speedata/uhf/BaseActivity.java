@@ -38,7 +38,6 @@ public class BaseActivity extends Activity {
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setBuilder();
-//        createUHFTimer();
     }
 
     private void setBuilder() {
@@ -69,6 +68,12 @@ public class BaseActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createUHFTimer();
+    }
+
     private void createUHFTimer() {
         if (timer == null) {
             timer = new Timer();
@@ -82,7 +87,7 @@ public class BaseActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                FloatWarnManager.getInstance(getApplicationContext(), "UHF已下电，请退出应用重新实例化");
+                                FloatWarnManager.getInstance(getApplicationContext(), "UHF已下电，请重新进入应用");
                                 FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
                                 if (floatWarnManager != null) {
                                     FloatWindow.get("FloatWarnTag").show();
@@ -105,7 +110,7 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-//        stopTimer();
+        stopTimer();
         super.onDestroy();
     }
 }

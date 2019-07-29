@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.speedata.uhf.R;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 寻卡列表适配器
@@ -38,8 +39,8 @@ public class UhfCardAdapter extends ArrayAdapter<UhfCardBean> {
         TextView tvvRssi = (TextView) view.findViewById(R.id.item_valid_rssi_tv);
         TextView tvTidUser = (TextView) view.findViewById(R.id.item_tid_user_tv);
 
-        assert uhfCardBean != null;
-        tvepc.setText(uhfCardBean.getTvepc());
+//        assert uhfCardBean != null;
+        tvepc.setText(Objects.requireNonNull(uhfCardBean).getTvepc());
         tvvRssi.setText(uhfCardBean.getTvvRssi());
         if (uhfCardBean.getTidUser() == null || uhfCardBean.getTidUser().isEmpty()) {
             tvTidUser.setVisibility(View.GONE);
