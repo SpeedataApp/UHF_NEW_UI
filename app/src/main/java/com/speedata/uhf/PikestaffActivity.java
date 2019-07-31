@@ -20,7 +20,7 @@ import com.speedata.uhf.floatball.ModeManager;
  *
  * @author My_PC
  */
-public class PikestaffActivity extends BaseActivity {
+public class PikestaffActivity extends Activity {
 
     private CheckBox cbStartScan;
     private CheckBox cbStartUhf;

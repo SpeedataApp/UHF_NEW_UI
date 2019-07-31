@@ -27,8 +27,25 @@ import java.util.TimerTask;
 public class BaseActivity extends Activity {
     public static boolean isLowPower = false;
     public static boolean isHighTemp = false;
-    private static Timer timer;
-    private static TimerTask myTimerTask;
+    private static Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (MyApp.getInstance().getIuhfService() == null) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FloatWarnManager.getInstance(getApplicationContext(), getResources().getString(R.string.dialog_uhf_off));
+                        FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
+                        if (floatWarnManager != null) {
+                            FloatWindow.get("FloatWarnTag").show();
+                        }
+                    }
+                });
+            }
+            handler.postDelayed(this, 1000);
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +55,9 @@ public class BaseActivity extends Activity {
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setBuilder();
+        if (handler != null) {
+            handler.postDelayed(runnable, 50);
+        }
     }
 
     private void setBuilder() {
@@ -71,46 +91,13 @@ public class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        createUHFTimer();
-    }
-
-    private void createUHFTimer() {
-        if (timer == null) {
-            timer = new Timer();
-            if (myTimerTask != null) {
-                myTimerTask.cancel();
-            }
-            myTimerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    if (MyApp.getInstance().getIuhfService() == null){
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                FloatWarnManager.getInstance(getApplicationContext(), "UHF已下电，请重新进入应用");
-                                FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
-                                if (floatWarnManager != null) {
-                                    FloatWindow.get("FloatWarnTag").show();
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-            timer.schedule(myTimerTask, 0, 1000);
-        }
-    }
-
-    private static void stopTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
     }
 
     @Override
     protected void onDestroy() {
-        stopTimer();
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
         super.onDestroy();
     }
 }

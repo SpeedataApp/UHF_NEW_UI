@@ -276,6 +276,7 @@
     <string name="dialog_exit">请按确定键关闭超高频</string>
     <string name="dialog_ok">确定</string>
     <string name="dialog_title_warning">警告</string>
+    <string name="dialog_uhf_off">UHF已下电，请重新进入应用</string>
 
     <string name="btn_start_fast">启用快速模式</string>
     <string name="btn_stop_fast">停用快速模式</string>

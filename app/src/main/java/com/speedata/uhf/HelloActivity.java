@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import com.speedata.libuhf.utils.SharedXmlUtil;
 public class HelloActivity extends Activity {
 
     private IUHFService iuhfService;
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class HelloActivity extends Activity {
         setContentView(R.layout.activity_hello);
         final Intent it = new Intent(this, NewMainActivity.class);
         final String xinghao = SystemProperties.get("ro.product.model");
-        new Thread(new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 if (MyApp.getInstance().getIuhfService() != null) {
@@ -67,7 +70,8 @@ public class HelloActivity extends Activity {
                     startActivity(it);
                 }
             }
-        }).start();
+        };
+        handler.postDelayed(runnable, 500);
     }
 
     @Override
@@ -82,8 +86,11 @@ public class HelloActivity extends Activity {
 
     @Override
     protected void onPause() {
-        super.onPause();
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
         finish();
+        super.onPause();
     }
 
     /**

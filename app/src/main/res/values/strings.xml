@@ -206,6 +206,7 @@
     <string name="power_range">antenna power value range is 2 ~ 30</string>
     <string name="set_power_fail">set antenna power failed</string>
     <string name="set_power_ok">set antenna power OK</string>
+    <string name="dialog_uhf_off">UHF has been switched off. Please re-enter the application. </string>
 
     <string name="write_success">Write Success</string>
     <string name="write_fail">Write Failed</string>
