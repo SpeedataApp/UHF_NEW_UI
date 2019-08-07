@@ -25,7 +25,7 @@ public class PopSetS2Activity extends BaseActivity {
 
     private String s2;
 
-    private final String[] sessionItem = {"s0\n(适合少量标签读取)", "s1\n(适合大量标签群读)", "s2\n(配合算法标志使用)", "s3\n(配合算法标志使用)"};
+    private String[] sessionItem;
 
 
     @Override
@@ -47,6 +47,7 @@ public class PopSetS2Activity extends BaseActivity {
     }
 
     public void initData() {
+        sessionItem = new String[]{"s0\n" + getResources().getString(R.string.s0_tips), "s1\n" + getResources().getString(R.string.s1_tips), "s2\n" + getResources().getString(R.string.s2s3_tips), "s3\n" + getResources().getString(R.string.s2s3_tips)};
         ArrayAdapter<String> tmp;
         tmp = new ArrayAdapter<>(PopSetS2Activity.this, R.layout.item_set_popup, sessionItem);
         lvS2.setAdapter(tmp);
@@ -55,7 +56,7 @@ public class PopSetS2Activity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 s2 = parent.getItemAtPosition(position).toString();
-                s2 = s2.substring(0,2);
+                s2 = s2.substring(0, 2);
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("S2", s2);

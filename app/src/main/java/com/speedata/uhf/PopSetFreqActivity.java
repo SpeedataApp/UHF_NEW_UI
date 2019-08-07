@@ -48,7 +48,7 @@ public class PopSetFreqActivity extends BaseActivity {
 
     public void initData() {
         //获取设备型号
-        String model = SharedXmlUtil.getInstance(this).read("modle", "");
+        String model = SharedXmlUtil.getInstance(this).read("model", "");
         ArrayAdapter<String> tmp;
         if ("r2k".equals(model)){
             tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.r2k_freq));

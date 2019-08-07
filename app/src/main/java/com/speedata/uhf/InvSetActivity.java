@@ -133,7 +133,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             int ivp = iuhfService.getAntennaPower();
             Log.d("zzc:", "==天线功率==" + ivp);
             if (ivp > 0) {
-                etPower.setText("" + (ivp - 3));
+                etPower.setText("" + ivp);
                 Log.d("zzc:", "==天线功率==获取成功==");
             }
         }
@@ -159,36 +159,36 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         }
         switch (MyApp.mPrefix) {
             case 0:
-                tvPrefix.setText("换行");
+                tvPrefix.setText(getResources().getString(R.string.pix_newline));
                 break;
             case 1:
-                tvPrefix.setText("空格");
+                tvPrefix.setText(getResources().getString(R.string.pix_space));
                 break;
             case 2:
-                tvPrefix.setText("回车换行");
+                tvPrefix.setText(getResources().getString(R.string.pix_crlf));
                 break;
             case 3:
-                tvPrefix.setText("无");
+                tvPrefix.setText(getResources().getString(R.string.pix_none));
                 break;
             default:
-                tvPrefix.setText("无");
+                tvPrefix.setText(getResources().getString(R.string.pix_none));
                 break;
         }
         switch (MyApp.mSuffix) {
             case 0:
-                tvSuffix.setText("换行");
+                tvSuffix.setText(getResources().getString(R.string.pix_newline));
                 break;
             case 1:
-                tvSuffix.setText("空格");
+                tvSuffix.setText(getResources().getString(R.string.pix_space));
                 break;
             case 2:
-                tvSuffix.setText("回车换行");
+                tvSuffix.setText(getResources().getString(R.string.pix_crlf));
                 break;
             case 3:
-                tvSuffix.setText("无");
+                tvSuffix.setText(getResources().getString(R.string.pix_none));
                 break;
             default:
-                tvSuffix.setText("无");
+                tvSuffix.setText(getResources().getString(R.string.pix_none));
                 break;
         }
         etLoopTime.setText(MyApp.mLoopTime);
@@ -466,6 +466,13 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 int readTime = Integer.parseInt(time);
                 if (readTime < 0) {
                     readTime = 0;
+                    etReadTime.setText("0");
+                }
+                if (readTime > 3000) {
+                    etReadTime.setText("3000");
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.toast_readtime), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                    return;
                 }
                 iuhfService.setReadTime(readTime);
                 ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
@@ -552,7 +559,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void run() {
                 int p = Integer.parseInt(power);
-                p += 3;
+//                p += 3;
                 int m = 33;
                 if ((p < 5) || (p > m)) {
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT

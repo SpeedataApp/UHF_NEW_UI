@@ -100,6 +100,7 @@
     <string name="set_success">设置成功</string>
     <string name="dialog_dir_epc">填入要寻找的EPC</string>
     <string name="dialog_dir_seek">开始寻找</string>
+    <string name="toast_readtime">建议设置在3秒以内</string>
 
     <string name="uhf_config">UHF</string>
     <string name="uhf_config_summary">UHF设置</string>
@@ -200,7 +201,7 @@
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">重置</string>
 
-    <string name="power_range">天线功率值范围为2 ~ 30</string>
+    <string name="power_range">天线功率值范围为5 ~ 33</string>
     <string name="set_power_fail">设置天线功率失败</string>
     <string name="set_power_ok">设置天线功率成功</string>
 
@@ -270,7 +271,7 @@
     <string name="item_uhf_re">连续UHF</string>
     <string name="tv_open_float">打开悬浮框</string>
     
-    <string name="power_tips">范围2~30</string>
+    <string name="power_tips">范围5~33</string>
     <string name="low_power">电量低禁用超高频</string>
     <string name="high_temp">温度过高禁用超高频</string>
     <string name="dialog_exit">请按确定键关闭超高频</string>
@@ -284,4 +285,12 @@
     <string name="toast_start_fast_failed">启用快速模式失败</string>
     <string name="toast_stop_fast_success">快速模式已关闭</string>
     <string name="toast_stop_fast_failed">关闭快速模式失败</string>
+
+    <string name="pix_newline">换行</string>
+    <string name="pix_space">空格</string>
+    <string name="pix_crlf">回车换行</string>
+    <string name="pix_none">无</string>
+    <string name="s0_tips">(适合少量标签读取)</string>
+    <string name="s1_tips">(适合大量标签群读)</string>
+    <string name="s2s3_tips">(配合算法标志使用)</string>
 </resources>

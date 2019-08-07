@@ -101,6 +101,7 @@
     <string name="set_success">Setting Success</string>
     <string name="dialog_dir_epc">Fill in the EPC you are looking for</string>
     <string name="dialog_dir_seek">Find Now</string>
+    <string name="toast_readtime">The recommended setting is less than 3 seconds</string>
 
     <string name="uhf_config">UHF</string>
     <string name="uhf_config_summary">UHF Settings</string>
@@ -203,7 +204,7 @@
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">Reset</string>
 
-    <string name="power_range">antenna power value range is 2 ~ 30</string>
+    <string name="power_range">antenna power value range is 5 ~ 33</string>
     <string name="set_power_fail">set antenna power failed</string>
     <string name="set_power_ok">set antenna power OK</string>
     <string name="dialog_uhf_off">UHF has been switched off. Please re-enter the application. </string>
@@ -275,7 +276,7 @@
     <string name="item_uhf_re">Continuous UHF</string>
     <string name="tv_open_float">Open the suspension window</string>
 
-    <string name="power_tips">range 2 ~ 30</string>
+    <string name="power_tips">range 5 ~ 33</string>
     <string name="low_power">Low power UHF is forbidden</string>
     <string name="high_temp">High temperature UHF is forbidden</string>
     <string name="dialog_exit">Press OK to turn off uhf</string>
@@ -288,4 +289,12 @@
     <string name="toast_start_fast_failed">Failed to enable fast mode</string>
     <string name="toast_stop_fast_success">Fast mode closed</string>
     <string name="toast_stop_fast_failed">Fast mode shutdown failed</string>
+
+    <string name="pix_newline">newline</string>
+    <string name="pix_space">space</string>
+    <string name="pix_crlf">CRLF</string>
+    <string name="pix_none">none</string>
+    <string name="s0_tips">(Suitable for reading a small number of tags)</string>
+    <string name="s1_tips">(Suitable for large number of tag groups to read)</string>
+    <string name="s2s3_tips">(Use with algorithm target)</string>
 </resources>

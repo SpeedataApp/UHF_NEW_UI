@@ -26,8 +26,8 @@ public class PopSetServiceActivity extends BaseActivity {
 
     private String prefix;
 
-    private final String[] itemPrefix = {"换行", "空格", "回车换行", "无"};
-    private final String[] itemSuffix = {"换行", "空格", "回车换行", "无"};
+    private String[] itemPrefix;
+    private String[] itemSuffix;
 
 
     @Override
@@ -49,16 +49,9 @@ public class PopSetServiceActivity extends BaseActivity {
     }
 
     public void initData() {
+        itemPrefix = new String[]{getResources().getString(R.string.pix_newline), getResources().getString(R.string.pix_space), getResources().getString(R.string.pix_crlf), getResources().getString(R.string.pix_none)};
         ArrayAdapter<String> tmp;
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-//        assert bundle != null;
-        String fix = Objects.requireNonNull(bundle).getString("send_fix");
-        if ("prefix".equals(fix)){
-            tmp = new ArrayAdapter<>(PopSetServiceActivity.this, R.layout.item_set_popup, itemPrefix);
-        }else {
-            tmp = new ArrayAdapter<>(PopSetServiceActivity.this, R.layout.item_set_popup, itemSuffix);
-        }
+        tmp = new ArrayAdapter<>(PopSetServiceActivity.this, R.layout.item_set_popup, itemPrefix);
         listView.setAdapter(tmp);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
