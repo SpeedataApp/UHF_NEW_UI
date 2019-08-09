@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.speedata.uhf.BaseActivity;
+import com.speedata.uhf.MyApp;
 import com.speedata.uhf.R;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
 import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
 import com.yhao.floatwindow.ViewStateListener;
+
+import android.os.Handler;
 
 /**
  * //                            _ooOoo_
@@ -48,6 +51,14 @@ public class FloatListManager {
     private final String TAG = "FloatBallManager";
     String action = "updata_state";
     private ModeManager modeManager;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            FloatWindow.get("FloatBallTag").show();
+            FloatWindow.get("FloatListTag").hide();
+        }
+    };
 
     private ViewStateListener mViewStateListener = new ViewStateListener() {
         @Override
@@ -57,17 +68,26 @@ public class FloatListManager {
 
         @Override
         public void onShow() {
-            Log.d(TAG, "onShow");
+            Log.d(TAG, "List onShow");
+            if (handler != null) {
+                handler.postDelayed(runnable, 5000);
+            }
         }
 
         @Override
         public void onHide() {
-            Log.d(TAG, "onHide");
+            Log.d(TAG, "List onHide");
+            if (handler != null) {
+                handler.removeCallbacks(runnable);
+            }
         }
 
         @Override
         public void onDismiss() {
             Log.d(TAG, "onDismiss");
+            if (handler != null) {
+                handler.removeCallbacks(runnable);
+            }
         }
 
         @Override

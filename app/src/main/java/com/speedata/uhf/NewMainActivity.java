@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -65,8 +66,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 寻卡
      */
     private Button mFindBtn;
-    private LinearLayout mLlFind, mLlListBg;
-    private RelativeLayout mRlPause;
+    private LinearLayout mLlFind, mLlListBg, mLlPause;
     /**
      * 寻卡列表
      */
@@ -166,7 +166,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mFindBtn = (Button) findViewById(R.id.btn_find);
         mFindBtn.setOnClickListener(this);
         mLlFind = (LinearLayout) findViewById(R.id.ll_find_layout);
-        mRlPause = (RelativeLayout) findViewById(R.id.rl_pause_layout);
+        mLlPause = (LinearLayout) findViewById(R.id.ll_pause_layout);
         mTvListMsg = (TextView) findViewById(R.id.tv_list_msg);
         mTbtnSound = (ToggleButton) findViewById(R.id.t_btn_sound);
         tagNumTv = (TextView) findViewById(R.id.tv_number);
@@ -179,7 +179,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         mListViewCard = (ListView) findViewById(R.id.lv_card);
 
         mLlFind.setVisibility(View.VISIBLE);
-        mRlPause.setVisibility(View.GONE);
+        mLlPause.setVisibility(View.GONE);
         mTvListMsg.setVisibility(View.GONE);
         mLlListBg.setVisibility(View.VISIBLE);
         mListViewCard.setVisibility(View.GONE);
@@ -334,7 +334,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         });
         inSearch = true;
         mLlFind.setVisibility(View.GONE);
-        mRlPause.setVisibility(View.VISIBLE);
+        mLlPause.setVisibility(View.VISIBLE);
         mTvListMsg.setVisibility(View.VISIBLE);
         mLlListBg.setVisibility(View.GONE);
         mListViewCard.setVisibility(View.VISIBLE);

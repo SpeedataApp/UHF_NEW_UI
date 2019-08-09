@@ -99,6 +99,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             checkBoxLongDown.setChecked(MyApp.isLongDown);
         }
         iuhfService = MyApp.getInstance().getIuhfService();
+        if (iuhfService == null) {
+            return;
+        }
         if ("r2k".equals(model)) {
             trReadTime.setVisibility(View.GONE);
             trSleep.setVisibility(View.GONE);
@@ -107,9 +110,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             trSleep.setVisibility(View.VISIBLE);
             etReadTime.setText("" + iuhfService.getReadTime());
             etSleep.setText("" + iuhfService.getSleep());
-        }
-        if (iuhfService == null) {
-            return;
         }
         if (MyApp.isFastMode) {
             setFreqBtn.setEnabled(false);
