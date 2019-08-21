@@ -1,4 +1,4 @@
-# UHF_AS_New
+# UHF_NEW_UI
 新版R2000库使用，读写盘点数据通过回调返回
 
 ##  导入依赖库
@@ -15,15 +15,12 @@ allprojects {
 ```
 ```
  dependencies {
-    compile 'com.github.SpeedataG:UHF:7.6.9'
+    compile 'com.github.SpeedataG:UHF:8.0.2'
   }
 ```
-## 低电使用说明
-* 非SD60 SC60型号
-  * 电池电量低于15% 禁止使用
-* SD60／SC60型号
-  * 频率设置为30且电压低于3.85v 禁止使用
-  * 电压低于3.7v禁止使用
+## 高温禁用说明
+* 模块温度高于75℃时禁用超高频
+
   
 ## API文档
 
