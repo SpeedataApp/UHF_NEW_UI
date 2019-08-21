@@ -191,6 +191,14 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         Log.w("as3992_6C", "id is " + soundId);
+        // 盘点回调函数
+        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
+            @Override
+            public void getInventoryData(SpdInventoryData var1) {
+                handler.sendMessage(handler.obtainMessage(1, var1));
+                Log.d("UHFService", "回调");
+            }
+        });
     }
 
     public void initData() {
@@ -260,9 +268,11 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             switch (msg.what) {
                 case 1:
                     scant++;
+                    long iop = System.currentTimeMillis();
                     if (mTbtnSound.isChecked()) {
                         soundPool.play(soundId, 1, 1, 0, 0, 1);
                     }
+                    Log.e("zzc", "=soundPool.play=====" + (System.currentTimeMillis() - iop));
                     SpdInventoryData var1 = (SpdInventoryData) msg.obj;
                     int j;
                     for (j = 0; j < uhfCardBeanList.size(); j++) {
@@ -324,14 +334,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         //取消掩码
         iuhfService.selectCard(1, "", false);
         iuhfService.inventoryStart();
-        // 盘点回调函数
-        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
-            @Override
-            public void getInventoryData(SpdInventoryData var1) {
-                handler.sendMessage(handler.obtainMessage(1, var1));
-                Log.d("UHFService", "回调");
-            }
-        });
         inSearch = true;
         mLlFind.setVisibility(View.GONE);
         mLlPause.setVisibility(View.VISIBLE);
@@ -540,7 +542,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
      * 更新显示数据
      */
     private void updateRateCount() {
-
+        Log.e("zzc", "==updateRateCount==");
         long mlEndTime = System.currentTimeMillis();
 
         double rate = Math.ceil((scant * 1.0) * 1000 / (mlEndTime - startCheckingTime));
@@ -552,8 +554,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         tagNumTv.setText(String.format("%s", String.valueOf(uhfCardBeanList.size())));
 
         totalTime.setText(String.format(getResources().getString(R.string.spend_time) + "%s", String.valueOf(getTimeFromMillisecond(totalTimeCount))));
-
-
     }
 
     private void sendUpddateService() {

@@ -67,7 +67,7 @@ public class MyApp extends Application {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         // 初始化Bugly
-        Bugly.init(getApplicationContext(), "75242a29e5", true, strategy);
+        Bugly.init(getApplicationContext(), "d39e936d74", true, strategy);
 
         Log.d("UHFService", "MyApp onCreate");
     }
