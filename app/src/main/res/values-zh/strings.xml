@@ -201,7 +201,7 @@
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">重置</string>
 
-    <string name="power_range">天线功率值范围为5 ~ 33</string>
+    <string name="power_range">天线功率值范围为5 ~ 30</string>
     <string name="set_power_fail">设置天线功率失败</string>
     <string name="set_power_ok">设置天线功率成功</string>
 
@@ -271,7 +271,7 @@
     <string name="item_uhf_re">连续UHF</string>
     <string name="tv_open_float">打开悬浮框</string>
     
-    <string name="power_tips">范围5~33</string>
+    <string name="power_tips">范围5~30</string>
     <string name="low_power">电量低禁用超高频</string>
     <string name="high_temp">温度过高禁用超高频</string>
     <string name="dialog_exit">请按确定键关闭超高频</string>
@@ -293,4 +293,7 @@
     <string name="s0_tips">(适合少量标签读取)</string>
     <string name="s1_tips">(适合大量标签群读)</string>
     <string name="s2s3_tips">(配合算法标志使用)</string>
+
+    <string name="loop_sleep">循环间隔</string>
+    <string name="loop_sleep_hint">时间</string>
 </resources>

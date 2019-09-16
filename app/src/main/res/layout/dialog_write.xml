@@ -133,6 +133,58 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp">
+
+            <CheckBox
+                android:id="@+id/cb_loop_send"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:text="@string/set_server_loop"
+                android:textColor="@color/text_set_dark"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@id/et_loop_time"
+                android:gravity="center_vertical"
+                android:text="@string/loop_sleep"
+                android:textColor="@color/text_set_dark"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_loop_time"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/tv_ms"
+                android:background="@null"
+                android:hint="@string/loop_sleep_hint"
+                android:inputType="number"
+                android:padding="5dp"
+                android:text="500"
+                android:textColor="@color/text_set_dark"
+                android:textColorHint="@color/text_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_ms"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
+                android:text="ms"
+                android:textColor="@color/text_set_dark"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/textView_write_status"
             android:layout_width="match_parent"

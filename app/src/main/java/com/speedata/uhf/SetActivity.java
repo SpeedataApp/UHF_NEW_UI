@@ -42,14 +42,10 @@ public class SetActivity extends Activity {
                     iuhfService = MyApp.getInstance().getIuhfService();
                     try {
                         if (iuhfService != null) {
-                            if (openDev()) {
-                                return;
+                            MyApp.isOpenDev = openDev();
+                            if (MyApp.isOpenDev) {
+                                initParam();
                             }
-                            int i;
-                            i = iuhfService.setAntennaPower(30);
-                            Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
-                            i = iuhfService.setQueryTagGroup(0, 0, 0);
-                            Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -71,7 +67,28 @@ public class SetActivity extends Activity {
                 }
             }
         };
-        handler.postDelayed(runnable,500);
+        handler.postDelayed(runnable, 500);
+    }
+
+    private void initParam() {
+        int i;
+        i = iuhfService.setAntennaPower(SharedXmlUtil.getInstance(this).read(MyApp.UHF_POWER, 30));
+        Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
+        i = iuhfService.setQueryTagGroup(0, SharedXmlUtil.getInstance(this).read(MyApp.UHF_SESSION, 0), 0);
+        Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
+        SystemClock.sleep(100);
+        i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 100));
+        Log.d("zzc:", "===isFirstInit===setReadTime:" + i);
+        i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 50));
+        Log.d("zzc:", "===isFirstInit===setSleep:" + i);
+        SystemClock.sleep(100);
+        i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
+        Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
+        SystemClock.sleep(100);
+        i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 3));
+        Log.d("zzc:", "===isFirstInit===setFreqRegion:" + i);
+        SystemClock.sleep(500);
+        Log.d("zzc:", "===isFirstInit===setFreqRegion:" + iuhfService.getFreqRegion());
     }
 
     @Override
@@ -82,7 +99,6 @@ public class SetActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -108,17 +124,20 @@ public class SetActivity extends Activity {
      * 上电开串口
      */
     private boolean openDev() {
-        if (iuhfService.openDev() != 0) {
-            Toast.makeText(this, "Open serialport failed", Toast.LENGTH_SHORT).show();
-            new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
+        if (!MyApp.isOpenDev) {
+            if (iuhfService.openDev() != 0) {
+                Toast.makeText(this, "Open serialport failed", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(this).setTitle(R.string.DIA_ALERT).setMessage(R.string.DEV_OPEN_ERR).setPositiveButton(R.string.DIA_CHECK, new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            }).show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).show();
+                return false;
+            }
             return true;
         }
-        return false;
+        return true;
     }
 }

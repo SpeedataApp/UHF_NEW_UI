@@ -133,7 +133,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             int ivp = iuhfService.getAntennaPower();
             Log.d("zzc:", "==天线功率==" + ivp);
             if (ivp > 0) {
-                etPower.setText("" + ivp);
+                if (ivp > 30) {
+                    etPower.setText("" + (ivp - 3));
+                } else {
+                    etPower.setText("" + ivp);
+                }
                 Log.d("zzc:", "==天线功率==获取成功==");
             }
         }
@@ -272,6 +276,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
 
     private void getFreq() {
         freqRegion = iuhfService.getFreqRegion();
+        Log.d("zzc:", "===isFirstInit===setFreqRegion:==" + iuhfService.getFreqRegion());
         String r2k = "r2k";
         if (r2k.equals(model)) {
             if (freqRegion == IUHFService.REGION_CHINA_920_925) {
@@ -380,7 +385,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.set_title_iv:
                 //退出
                 finish();
@@ -418,29 +422,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 setInvCon(invConRegion);
                 break;
             case R.id.btn_algorithm_set:
-                InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this, iuhfService);
-                inventorySettingDialog.setTitle(getResources().getString(R.string.algorithm_set));
-                inventorySettingDialog.show();
-                inventorySettingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        if (MyApp.isFastMode) {
-                            setFreqBtn.setEnabled(false);
-                            setSessionBtn.setEnabled(false);
-                            setInvConBtn.setEnabled(false);
-                            tvSetFreq.setEnabled(false);
-                            tvSetS2.setEnabled(false);
-                            tvSetInvCon.setEnabled(false);
-                        } else {
-                            setFreqBtn.setEnabled(true);
-                            setSessionBtn.setEnabled(true);
-                            setInvConBtn.setEnabled(true);
-                            tvSetFreq.setEnabled(true);
-                            tvSetS2.setEnabled(true);
-                            tvSetInvCon.setEnabled(true);
-                        }
-                    }
-                });
+                setAlgorithm();
                 break;
             case R.id.set_server_prefix:
                 intent = new Intent();
@@ -460,39 +442,62 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_set_read_time:
                 String time = etReadTime.getText().toString();
-                if (time.isEmpty()) {
-                    time = "0";
-                }
-                int readTime = Integer.parseInt(time);
-                if (readTime < 0) {
-                    readTime = 0;
-                    etReadTime.setText("0");
-                }
-                if (readTime > 3000) {
-                    etReadTime.setText("3000");
-                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.toast_readtime), Toast.LENGTH_SHORT
-                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
-                    return;
-                }
-                iuhfService.setReadTime(readTime);
-                ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
-                        , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                setInvTime(time);
                 break;
             case R.id.btn_set_sleep:
                 String sleep = etSleep.getText().toString();
-                if (sleep.isEmpty()) {
-                    sleep = "0";
-                }
-                int sleepTime = Integer.parseInt(sleep);
-                if (sleepTime < 0) {
-                    sleepTime = 0;
-                }
-                iuhfService.setSleep(sleepTime);
-                ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
-                        , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                setInvSleep(sleep);
                 break;
             default:
                 break;
+        }
+    }
+
+
+    private void setInvTime(String time) {
+        try {
+            if (time.isEmpty()) {
+                time = "0";
+            }
+            int readTime = Integer.parseInt(time);
+            if (readTime < 0) {
+                readTime = 0;
+                etReadTime.setText("0");
+            }
+            if (readTime > 3000) {
+                etReadTime.setText("3000");
+                ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.toast_readtime), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                return;
+            }
+            iuhfService.setReadTime(readTime);
+            SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_TIME, readTime);
+            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+        }
+    }
+
+    private void setInvSleep(String sleep) {
+        try {
+            if (sleep.isEmpty()) {
+                sleep = "0";
+            }
+            int sleepTime = Integer.parseInt(sleep);
+            if (sleepTime < 0) {
+                sleepTime = 0;
+            }
+            iuhfService.setSleep(sleepTime);
+            SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_SLEEP, sleepTime);
+            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
         }
     }
 
@@ -514,6 +519,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {
+                    SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_FREQ, region);
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 }
@@ -533,6 +539,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             public void run() {
                 int setQueryTagGroup = iuhfService.setQueryTagGroup(0, session, 0);
                 if (setQueryTagGroup == 0) {
+                    SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_SESSION, session);
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {
@@ -559,20 +566,41 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void run() {
                 int p = Integer.parseInt(power);
-//                p += 3;
+                int p33 = p + 3;
                 int m = 33;
-                if ((p < 5) || (p > m)) {
+                if ((p < 5) || (p33 > m)) {
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.power_range), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 } else {
-                    int rv = iuhfService.setAntennaPower(p);
-                    if (rv < 0) {
-                        ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT
-                                , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                    if (p33 > 30) {
+                        int rv = iuhfService.setAntennaPower(p33);
+                        if (rv < 0) {
+                            int res = iuhfService.setAntennaPower(p);
+                            if (res < 0) {
+                                ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT
+                                        , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                                enabled();
+                                return;
+                            }
+                        } else {
+                            SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_POWER, p33);
+                            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT
+                                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                            enabled();
+                            return;
+                        }
                     } else {
-                        ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT
-                                , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                        int rv = iuhfService.setAntennaPower(p);
+                        if (rv < 0) {
+                            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_fail), Toast.LENGTH_SHORT
+                                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
+                            enabled();
+                            return;
+                        }
                     }
+                    SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_POWER, p);
+                    ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_power_ok), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 }
                 enabled();
             }
@@ -592,6 +620,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 int caddr = 0, csize = 6;
                 int mode = iuhfService.setInvMode(w, caddr, csize);
                 if (mode == 0) {
+                    SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_CON, w);
                     ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
 
@@ -600,6 +629,32 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                             , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 }
                 enabled();
+            }
+        });
+    }
+
+    private void setAlgorithm() {
+        InventorySettingDialog inventorySettingDialog = new InventorySettingDialog(this, iuhfService);
+        inventorySettingDialog.setTitle(getResources().getString(R.string.algorithm_set));
+        inventorySettingDialog.show();
+        inventorySettingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (MyApp.isFastMode) {
+                    setFreqBtn.setEnabled(false);
+                    setSessionBtn.setEnabled(false);
+                    setInvConBtn.setEnabled(false);
+                    tvSetFreq.setEnabled(false);
+                    tvSetS2.setEnabled(false);
+                    tvSetInvCon.setEnabled(false);
+                } else {
+                    setFreqBtn.setEnabled(true);
+                    setSessionBtn.setEnabled(true);
+                    setInvConBtn.setEnabled(true);
+                    tvSetFreq.setEnabled(true);
+                    tvSetS2.setEnabled(true);
+                    tvSetInvCon.setEnabled(true);
+                }
             }
         });
     }

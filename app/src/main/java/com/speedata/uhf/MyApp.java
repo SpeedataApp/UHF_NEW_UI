@@ -48,6 +48,12 @@ public class MyApp extends Application {
      * 是否启动快速模式
      */
     public static boolean isFastMode = false;
+    public final static String UHF_FREQ = "uhf_freq";
+    public final static String UHF_SESSION = "uhf_session";
+    public final static String UHF_POWER = "uhf_power";
+    public final static String UHF_INV_CON = "uhf_inv_con";
+    public final static String UHF_INV_TIME = "uhf_inv_time";
+    public final static String UHF_INV_SLEEP = "uhf_inv_sleep";
 
     public static MyApp getInstance() {
         return m_application;
@@ -89,15 +95,6 @@ public class MyApp extends Application {
         try {
             iuhfService = UHFManager.getUHFService(getApplicationContext());
             Log.d("UHFService", "iuhfService初始化: " + iuhfService);
-            if (isFirstInit && iuhfService != null) {
-                int i = 0;
-                i = iuhfService.setReadTime(100);
-                Log.d("zzc:", "===isFirstInit===setReadTime:" + i);
-                i = iuhfService.setSleep(50);
-                Log.d("zzc:", "===isFirstInit===setSleep:" + i);
-                //改变标志位，保证程序启动仅执行一次
-                isFirstInit = false;
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Handler handler = new Handler(Looper.getMainLooper());

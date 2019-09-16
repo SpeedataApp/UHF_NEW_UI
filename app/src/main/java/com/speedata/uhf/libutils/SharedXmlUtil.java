@@ -31,25 +31,33 @@ public class SharedXmlUtil {
         mEditor = mShared.edit();
     }
 
-//    private SharedXmlUtil(Context context) {
+    //    private SharedXmlUtil(Context context) {
 //        mShared = context.getSharedPreferences(
 //                context.getString(R.string.app_name),
 //                Context.MODE_MULTI_PROCESS);
 //        mEditor = mShared.edit();
 //    }
 //
-//    public static SharedXmlUtil getInstance(Context context) {
-//        synchronized (lock) {
-//            if (mSharedXmlUtil == null) {
-//                mSharedXmlUtil = new SharedXmlUtil(context);
-//            }
-//            return mSharedXmlUtil;
-//        }
-//    }
 
     /**
      * 获取实例
+     *
      * @param context 上下文
+     * @return SharedXmlUtil对象
+     */
+    public static SharedXmlUtil getInstance(Context context) {
+        synchronized (lock) {
+            if (mSharedXmlUtil == null) {
+                mSharedXmlUtil = new SharedXmlUtil(context, "uhf");
+            }
+            return mSharedXmlUtil;
+        }
+    }
+
+    /**
+     * 获取实例
+     *
+     * @param context  上下文
      * @param filename 文件名称
      * @return SharedXmlUtil对象
      */
@@ -64,7 +72,8 @@ public class SharedXmlUtil {
 
     /**
      * 写
-     * @param key key
+     *
+     * @param key   key
      * @param value String值
      */
     public void write(String key, String value) {
@@ -77,7 +86,8 @@ public class SharedXmlUtil {
 
     /**
      * 写
-     * @param key key
+     *
+     * @param key   key
      * @param value boolean值
      */
     public void write(String key, boolean value) {
@@ -90,6 +100,7 @@ public class SharedXmlUtil {
 
     /**
      * 写
+     *
      * @param key
      * @param value int值
      */
@@ -103,6 +114,7 @@ public class SharedXmlUtil {
 
     /**
      * 写
+     *
      * @param key
      * @param value float值
      */
@@ -116,6 +128,7 @@ public class SharedXmlUtil {
 
     /**
      * 写
+     *
      * @param key
      * @param value long值
      */
@@ -129,26 +142,28 @@ public class SharedXmlUtil {
 
     /**
      * 读
+     *
      * @param key
-     * @param defValue  String值
+     * @param defValue String值
      * @return String
      */
     public String read(String key, String defValue) {
 //        synchronized (lock) {
-            String string = defValue;
-            try {
-                string = mShared.getString(key, defValue);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return string;
+        String string = defValue;
+        try {
+            string = mShared.getString(key, defValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return string;
 //        }
     }
 
     /**
      * 读
+     *
      * @param key
-     * @param defValue  boolean 值
+     * @param defValue boolean 值
      * @return boolean
      */
     public boolean read(String key, boolean defValue) {
@@ -159,6 +174,7 @@ public class SharedXmlUtil {
 
     /**
      * 读
+     *
      * @param key
      * @param defValue int值
      * @return int
@@ -168,8 +184,10 @@ public class SharedXmlUtil {
             return mShared.getInt(key, defValue);
         }
     }
+
     /**
      * 读
+     *
      * @param key
      * @param defValue float值
      * @return float
@@ -182,6 +200,7 @@ public class SharedXmlUtil {
 
     /**
      * 读
+     *
      * @param key
      * @param defValue long值
      * @return long
@@ -194,6 +213,7 @@ public class SharedXmlUtil {
 
     /**
      * 删除
+     *
      * @param key key
      */
     public void delete(String key) {

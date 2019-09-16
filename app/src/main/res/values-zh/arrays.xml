@@ -12,7 +12,6 @@
         <item>920_925</item>
         <item>902_928</item>
         <item>865_868</item>
-        <item>当前状态为定频</item>
     </string-array>
     <string-array name="freq">
         <item>840_845</item>

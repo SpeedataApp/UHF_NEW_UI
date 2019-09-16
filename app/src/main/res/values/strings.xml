@@ -204,7 +204,7 @@
     <string name="permalock_pwd_type">Permalock</string>
     <string name="reset">Reset</string>
 
-    <string name="power_range">antenna power value range is 5 ~ 33</string>
+    <string name="power_range">antenna power value range is 5 ~ 30</string>
     <string name="set_power_fail">set antenna power failed</string>
     <string name="set_power_ok">set antenna power OK</string>
     <string name="dialog_uhf_off">UHF has been switched off. Please re-enter the application. </string>
@@ -276,7 +276,7 @@
     <string name="item_uhf_re">Continuous UHF</string>
     <string name="tv_open_float">Open the suspension window</string>
 
-    <string name="power_tips">range 5 ~ 33</string>
+    <string name="power_tips">range 5 ~ 30</string>
     <string name="low_power">Low power UHF is forbidden</string>
     <string name="high_temp">High temperature UHF is forbidden</string>
     <string name="dialog_exit">Press OK to turn off uhf</string>
@@ -297,4 +297,7 @@
     <string name="s0_tips">(Suitable for reading a small number of tags)</string>
     <string name="s1_tips">(Suitable for large number of tag groups to read)</string>
     <string name="s2s3_tips">(Use with algorithm target)</string>
+
+    <string name="loop_sleep">Loop interval</string>
+    <string name="loop_sleep_hint">time</string>
 </resources>

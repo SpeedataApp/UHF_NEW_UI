@@ -5,12 +5,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +50,9 @@ public class WriteCardDialog extends Dialog implements
     private String model;
     private EditText writeContent;
     private boolean isSuccess = false;
+    private CheckBox cbLoop;
+    private EditText etLoopTime;
+    private int loopTime = 500;
 
     public WriteCardDialog(Context context, IUHFService iuhfService,
                            int whichChoose, String currentTagEpc, String model) {
@@ -66,19 +72,7 @@ public class WriteCardDialog extends Dialog implements
         //设置背景为透明
         Objects.requireNonNull(getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
         setContentView(R.layout.dialog_write);
-
-        ok = (Button) findViewById(R.id.btn_write_ok);
-        ok.setOnClickListener(this);
-        cancel = (ImageView) findViewById(R.id.iv_write_cancle);
-        cancel.setOnClickListener(this);
-
-        status = (TextView) findViewById(R.id.textView_write_status);
-
-        writeAddr = (EditText) findViewById(R.id.editText_write_addr);
-        writeCount = (EditText) findViewById(R.id.editText_write_count);
-        writePasswd = (EditText) findViewById(R.id.editText_write_passwd);
-        writeContent = (EditText) findViewById(R.id.et_content);
-
+        initView();
         iuhfService.setOnWriteListener(new OnSpdWriteListener() {
             @Override
             public void getWriteData(SpdWriteData var1) {
@@ -132,8 +126,9 @@ public class WriteCardDialog extends Dialog implements
             final String strCount = writeCount.getText().toString();
             final String strPasswd = writePasswd.getText().toString();
             final String strContent = writeContent.getText().toString().replace(" ", "");
+            String time = etLoopTime.getText().toString();
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)
-                    || TextUtils.isEmpty(strContent)) {
+                    || TextUtils.isEmpty(strContent) || TextUtils.isEmpty(time)) {
                 Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -145,25 +140,19 @@ public class WriteCardDialog extends Dialog implements
                 final byte[] write = StringUtils.stringToByte(strContent);
                 final int addr = Integer.parseInt(strAddr);
                 final int count = Integer.parseInt(strCount);
+                loopTime = Integer.parseInt(time);
                 if (count * 4 != strContent.length()) {
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.toast6), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                status.setText(R.string.write_status);
-                isSuccess = false;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
-                        if (writeArea != 0) {
-                            handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
-                        }
-                    }
-                }).start();
+                ok.setEnabled(false);
+                WriteThread writeThread = new WriteThread(addr, count, strPasswd, write);
+                writeThread.start();
             } catch (NumberFormatException e) {
                 handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast3)));
             }
         } else if (v == cancel) {
+            cbLoop.setChecked(false);
             dismiss();
         }
     }
@@ -180,4 +169,74 @@ public class WriteCardDialog extends Dialog implements
             }
         }
     };
+
+    private void initView() {
+        ok = (Button) findViewById(R.id.btn_write_ok);
+        ok.setOnClickListener(this);
+        cancel = (ImageView) findViewById(R.id.iv_write_cancle);
+        cancel.setOnClickListener(this);
+
+        status = (TextView) findViewById(R.id.textView_write_status);
+
+        writeAddr = (EditText) findViewById(R.id.editText_write_addr);
+        writeCount = (EditText) findViewById(R.id.editText_write_count);
+        writePasswd = (EditText) findViewById(R.id.editText_write_passwd);
+        writeContent = (EditText) findViewById(R.id.et_content);
+
+        etLoopTime = findViewById(R.id.et_loop_time);
+        cbLoop = findViewById(R.id.cb_loop_send);
+    }
+
+    private class WriteThread extends Thread {
+
+        private int addr, count;
+        private String strPasswd;
+        private byte[] write;
+        int i = 0;
+
+        WriteThread(int addr, int count, String strPasswd, byte[] write) {
+            this.addr = addr;
+            this.count = count;
+            this.strPasswd = strPasswd;
+            this.write = write;
+        }
+
+        @Override
+        public void run() {
+            do {
+                Handler mHand = new Handler(Looper.getMainLooper());
+                mHand.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        status.setText(R.string.write_status);
+                    }
+                });
+                isSuccess = false;
+                int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
+                if (writeArea != 0) {
+                    handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+                }
+                Log.d("zzc:", "==write==" + i++);
+                try {
+                    Thread.sleep(loopTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while (cbLoop.isChecked());
+            Handler mHandler = new Handler(Looper.getMainLooper());
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ok.setEnabled(true);
+                    Log.d("zzc:", "==write  run  end==" + i++);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        cbLoop.setChecked(false);
+        super.onStop();
+    }
 }
