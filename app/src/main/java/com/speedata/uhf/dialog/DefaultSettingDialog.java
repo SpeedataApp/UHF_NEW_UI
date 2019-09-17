@@ -5,14 +5,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.uhf.MyApp;
 import com.speedata.uhf.R;
+import com.speedata.uhf.libutils.ToastUtil;
 
 /**
  * @author zzc
@@ -21,6 +23,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     private Context mContext;
     private IUHFService iuhfService;
     private TextView mTvXhMode, mTvDefaultMode, mTvS0Mode, mTvS1Mode;
+    private boolean isSuccess = false;
 
     public DefaultSettingDialog(@NonNull Context context, IUHFService iuhfService) {
         super(context);
@@ -68,20 +71,25 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
         switch (v.getId()) {
             case R.id.tv_xh_setting:
                 setXHMode();
+                normalTips(isSuccess);
                 break;
             case R.id.tv_default_setting:
                 setDefaultMode();
+                normalTips(isSuccess);
                 break;
             case R.id.tv_s0_setting:
                 setS0FastMode();
+                fastTips(isSuccess);
                 break;
             case R.id.tv_s1_setting:
                 setS1FastMode();
+                fastTips(isSuccess);
                 break;
             default:
                 break;
         }
-        dismiss();
+
+
     }
 
     /**
@@ -90,14 +98,27 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     private void setXHMode() {
         int i;
         i = iuhfService.setAntennaPower(27);
-        Log.d("zzc:", "===DefaultSettingDialog===setAntennaPower:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
         i = iuhfService.setQueryTagGroup(0, 0, 0);
-        Log.d("zzc:", "===DefaultSettingDialog===setQueryTagGroup:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
         SystemClock.sleep(100);
         i = iuhfService.setReadTime(200);
-        Log.d("zzc:", "===DefaultSettingDialog===setReadTime:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
         i = iuhfService.setSleep(300);
-        Log.d("zzc:", "===DefaultSettingDialog===setSleep:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
+        isSuccess = true;
     }
 
     /**
@@ -105,15 +126,31 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
      */
     private void setDefaultMode() {
         int i;
-        i = iuhfService.setAntennaPower(30);
-        Log.d("zzc:", "===DefaultSettingDialog===setAntennaPower:" + i);
+        i = iuhfService.setAntennaPower(33);
+        if (i != 0) {
+            i = iuhfService.setAntennaPower(30);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
+        }
         i = iuhfService.setQueryTagGroup(0, 0, 0);
-        Log.d("zzc:", "===DefaultSettingDialog===setQueryTagGroup:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
         SystemClock.sleep(100);
         i = iuhfService.setReadTime(100);
-        Log.d("zzc:", "===DefaultSettingDialog===setReadTime:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
         i = iuhfService.setSleep(50);
-        Log.d("zzc:", "===DefaultSettingDialog===setSleep:" + i);
+        if (i != 0) {
+            isSuccess = false;
+            return;
+        }
+        isSuccess = true;
     }
 
     /**
@@ -126,19 +163,31 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             if (i == 0) {
                 MyApp.isFastMode = false;
                 mTvS0Mode.setText(mContext.getString(R.string.tv_s0_mode));
+                isSuccess = true;
+            } else {
+                isSuccess = false;
             }
         } else {
             i = iuhfService.setAntennaPower(30);
-            Log.d("zzc:", "===DefaultSettingDialog===setAntennaPower:" + i);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
             i = iuhfService.setQueryTagGroup(0, 0, 0);
-            Log.d("zzc:", "===DefaultSettingDialog===setQueryTagGroup:" + i);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
             SystemClock.sleep(100);
             i = iuhfService.startFastMode();
             if (i == 0) {
                 MyApp.isFastMode = true;
                 mTvS0Mode.setText(mContext.getString(R.string.btn_stop_fast));
+            } else {
+                isSuccess = false;
+                return;
             }
-            Log.d("zzc:", "===DefaultSettingDialog===startFastMode:" + i);
+            isSuccess = true;
         }
     }
 
@@ -152,19 +201,65 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             if (i == 0) {
                 MyApp.isFastMode = false;
                 mTvS1Mode.setText(mContext.getString(R.string.tv_s1_mode));
+                isSuccess = true;
+            } else {
+                isSuccess = false;
             }
         } else {
             i = iuhfService.setAntennaPower(30);
-            Log.d("zzc:", "===DefaultSettingDialog===setAntennaPower:" + i);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
             i = iuhfService.setQueryTagGroup(0, 1, 0);
-            Log.d("zzc:", "===DefaultSettingDialog===setQueryTagGroup:" + i);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
             SystemClock.sleep(100);
             i = iuhfService.startFastMode();
             if (i == 0) {
                 MyApp.isFastMode = true;
                 mTvS1Mode.setText(mContext.getString(R.string.btn_stop_fast));
+            } else {
+                isSuccess = false;
+                return;
             }
-            Log.d("zzc:", "===DefaultSettingDialog===startFastMode:" + i);
+            isSuccess = true;
         }
     }
+
+    private void normalTips(boolean isSuccess) {
+        if (isSuccess) {
+            ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
+            dismiss();
+        } else {
+            ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
+                    , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
+        }
+    }
+
+    private void fastTips(boolean isSuccess) {
+        if (MyApp.isFastMode) {
+            if (isSuccess) {
+                ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_start_fast_success), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
+                dismiss();
+            } else {
+                ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_start_fast_failed), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
+            }
+        } else {
+            if (isSuccess) {
+                ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_stop_fast_success), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
+                dismiss();
+            } else {
+                ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_stop_fast_failed), Toast.LENGTH_SHORT
+                        , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
+            }
+        }
+    }
+
 }

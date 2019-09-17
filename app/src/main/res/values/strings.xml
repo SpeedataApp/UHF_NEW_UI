@@ -301,8 +301,8 @@
     <string name="loop_sleep">Loop interval</string>
     <string name="loop_sleep_hint">time</string>
 
-    <string name="tv_xh_mode">续航模式</string>
-    <string name="tv_default_mode">远距离模式（默认）</string>
-    <string name="tv_s0_mode">s0 快速模式</string>
-    <string name="tv_s1_mode">s1 快速模式</string>
+    <string name="tv_xh_mode">Life pattern</string>
+    <string name="tv_default_mode">Remote mode (default)</string>
+    <string name="tv_s0_mode">s0 Fast mode</string>
+    <string name="tv_s1_mode">s1 Fast mode</string>
 </resources>
