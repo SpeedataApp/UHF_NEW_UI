@@ -312,6 +312,7 @@ public class MyService extends Service {
      * 上电开串口
      */
     private boolean openDev() {
+        Log.d("zzc", "==MyService==openDev==" + MyApp.isOpenDev);
         if (!MyApp.isOpenDev) {
             if (MyApp.getInstance().getIuhfService() != null) {
                 final int i = MyApp.getInstance().getIuhfService().openDev();
@@ -337,6 +338,7 @@ public class MyService extends Service {
             return true;
         }
     }
+
     private void setBuilder() {
         UHFManager uhfManager = new UHFManager();
         uhfManager.setOnBanMsgListener(new OnSpdBanMsgListener() {
@@ -358,13 +360,13 @@ public class MyService extends Service {
 
     }
 
-        @Override
-        public void onDestroy () {
-            super.onDestroy();
-            Log.d(TAG, "===onDestroy===");
-            soundPool.release();
-            if (receiver != null) {
-                unregisterReceiver(receiver);
-            }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "===onDestroy===");
+        soundPool.release();
+        if (receiver != null) {
+            unregisterReceiver(receiver);
         }
     }
+}

@@ -45,6 +45,7 @@ public class SetActivity extends Activity {
                             MyApp.isOpenDev = openDev();
                             if (MyApp.isOpenDev) {
                                 initParam();
+                                Log.d("zzc", "initParam()==over");
                             }
                         }
                     } catch (Exception e) {

@@ -31,12 +31,14 @@ import android.widget.ToggleButton;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.utils.CommonUtils;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.adapter.UhfCardAdapter;
 import com.speedata.uhf.adapter.UhfCardBean;
+import com.speedata.uhf.dialog.DefaultSettingDialog;
 import com.speedata.uhf.excel.EPCBean;
 import com.speedata.uhf.libutils.excel.ExcelUtils;
 
@@ -86,6 +88,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private Button btnExport;
     private Button mBtSearch;
     private ImageView mIvSet;
+    private ImageView mIvMenu;
 
     private UhfCardAdapter uhfCardAdapter;
     private List<UhfCardBean> uhfCardBeanList = new ArrayList<>();
@@ -145,7 +148,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         iuhfService = MyApp.getInstance().getIuhfService();
-        model = SharedXmlUtil.getInstance(NewMainActivity.this).read("model", "");
+        model = UHFManager.getUHFModel();
         initView();
         initData();
         initReceive();
@@ -154,7 +157,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     public void initView() {
         setContentView(R.layout.activity_main);
-
+        mIvMenu = findViewById(R.id.iv_menu);
+        mIvMenu.setOnClickListener(this);
         //设置
         mIvSet = (ImageView) findViewById(R.id.iv_set);
         //搜索按钮
@@ -413,7 +417,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                     stopUhf();
                 } else {
                     startUhf();
-
                 }
                 break;
             case R.id.btn_export:
@@ -425,38 +428,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                         .setDimAmount(0.5f)
                         .show();
                 if (uhfCardBeanList.size() > 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            List<EPCBean> epcBeanList = new ArrayList<>();
-                            for (UhfCardBean uhfCardBean : uhfCardBeanList) {
-                                EPCBean epcBean = new EPCBean();
-                                epcBean.setEPC(uhfCardBean.getEpc());
-                                epcBean.setTID_USER(uhfCardBean.getTidUser());
-                                epcBeanList.add(epcBean);
-                            }
-                            if (epcBeanList.size() > 0) {
-                                try {
-                                    ExcelUtils.getInstance()
-                                            .setSHEET_NAME("UHFMsg")//设置表格名称
-                                            .setFONT_COLOR(Colour.BLUE)//设置标题字体颜色
-                                            .setFONT_TIMES(8)//设置标题字体大小
-                                            .setFONT_BOLD(true)//设置标题字体是否斜体
-                                            .setBACKGROND_COLOR(Colour.GRAY_25)//设置标题背景颜色
-                                            .setContent_list_Strings(epcBeanList)//设置excel内容
-                                            .setWirteExcelPath(Environment.getExternalStorageDirectory() + File.separator + "UHFMsg.xls")
-                                            .createExcel(NewMainActivity.this);
-                                    handler.sendMessage(handler.obtainMessage(2));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    handler.sendMessage(handler.obtainMessage(3));
-                                }
-                            } else {
-                                handler.sendMessage(handler.obtainMessage(3));
-                            }
-                        }
-                    }).start();
-
+                    ExportThread exportThread = new ExportThread();
+                    exportThread.start();
                 } else {
                     kProgressHUD.dismiss();
                     boolean cn = "CN".equals(this.getApplicationContext().getResources().getConfiguration().locale.getCountry());
@@ -489,6 +462,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 });
                 alertDialog1 = alertBuilder.create();
                 alertDialog1.show();
+            case R.id.iv_menu:
+                DefaultSettingDialog defaultSettingDialog = new DefaultSettingDialog(this, iuhfService);
+                defaultSettingDialog.show();
+                break;
             default:
                 break;
         }
@@ -649,5 +626,43 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             return minutes + "m: " + second + "." + milli + "s";
         }
         return hours + "h: " + minutes + "m: " + second + "." + milli + "s";
+    }
+
+    private class ExportThread extends Thread {
+        @Override
+        public void run() {
+            List<EPCBean> epcBeanList = new ArrayList<>();
+            for (UhfCardBean uhfCardBean : uhfCardBeanList) {
+                EPCBean epcBean = new EPCBean();
+                epcBean.setEPC(uhfCardBean.getEpc());
+                epcBean.setTID_USER(uhfCardBean.getTidUser());
+                epcBeanList.add(epcBean);
+            }
+            if (epcBeanList.size() > 0) {
+                try {
+                    ExcelUtils.getInstance()
+                            //设置表格名称
+                            .setSHEET_NAME("UHFMsg")
+                            //设置标题字体颜色
+                            .setFONT_COLOR(Colour.BLUE)
+                            //设置标题字体大小
+                            .setFONT_TIMES(8)
+                            //设置标题字体是否斜体
+                            .setFONT_BOLD(true)
+                            //设置标题背景颜色
+                            .setBACKGROND_COLOR(Colour.GRAY_25)
+                            //设置excel内容
+                            .setContent_list_Strings(epcBeanList)
+                            .setWirteExcelPath(Environment.getExternalStorageDirectory() + File.separator + "UHFMsg.xls")
+                            .createExcel(NewMainActivity.this);
+                    handler.sendMessage(handler.obtainMessage(2));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    handler.sendMessage(handler.obtainMessage(3));
+                }
+            } else {
+                handler.sendMessage(handler.obtainMessage(3));
+            }
+        }
     }
 }

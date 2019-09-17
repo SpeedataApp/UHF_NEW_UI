@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.MyApp;
 import com.speedata.uhf.R;
@@ -92,7 +93,7 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
     }
 
     private void initData() {
-        String model = SharedXmlUtil.getInstance(mContext).read("model", "");
+        String model = UHFManager.getUHFModel();
         if ("r2k".equals(model)) {
             r2kLayout.setVisibility(View.VISIBLE);
             xinLianLayout.setVisibility(View.GONE);

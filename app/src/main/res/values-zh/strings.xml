@@ -296,4 +296,9 @@
 
     <string name="loop_sleep">循环间隔</string>
     <string name="loop_sleep_hint">时间</string>
+
+    <string name="tv_xh_mode">续航模式</string>
+    <string name="tv_default_mode">远距离模式（默认）</string>
+    <string name="tv_s0_mode">s0 快速模式</string>
+    <string name="tv_s1_mode">s1 快速模式</string>
 </resources>

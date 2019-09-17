@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_xh_setting" />
+
+    <TextView
+        android:id="@+id/tv_xh_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_default_item_select"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="@string/tv_xh_mode"
+        android:textColor="@color/commom_text_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_default_setting" />
+
+    <TextView
+        android:id="@+id/tv_default_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_default_item_select"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="@string/tv_default_mode"
+        android:textColor="@color/commom_text_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_xh_setting" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_s0_setting" />
+
+    <TextView
+        android:id="@+id/tv_s0_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_default_item_select"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="@string/tv_s0_mode"
+        android:textColor="@color/commom_text_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_default_setting" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/tran_gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_s1_setting" />
+
+    <TextView
+        android:id="@+id/tv_s1_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_default_item_select"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="@string/tv_s1_mode"
+        android:textColor="@color/commom_text_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_s0_setting" />
+
+</android.support.constraint.ConstraintLayout>

@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements OnClickListener {
             }
             return;
         }
-        model = SharedXmlUtil.getInstance(MainActivity.this).read("model", "");
+        model = UHFManager.getUHFModel();
         initUI();
         Version.append("-" + model);
 //        newWakeLock();

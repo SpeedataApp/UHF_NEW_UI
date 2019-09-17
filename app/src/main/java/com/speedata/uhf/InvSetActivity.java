@@ -23,6 +23,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.CommonUtils;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.dialog.InventorySettingDialog;
@@ -80,7 +81,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     @SuppressLint("SetTextI18n")
     private void initData() {
         //获取模块型号
-        model = SharedXmlUtil.getInstance(this).read("model", "");
+        model = UHFManager.getUHFModel();
         mVersionTv.append("-" + model);
         //判断服务是否存在
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
