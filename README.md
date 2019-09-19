@@ -15,7 +15,7 @@ allprojects {
 ```
 ```
  dependencies {
-    compile 'com.github.SpeedataG:UHF:8.0.2'
+    implementation 'com.github.SpeedataG:UHF:8.0.3'
   }
 ```
 ## 高温禁用说明
