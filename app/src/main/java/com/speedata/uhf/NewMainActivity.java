@@ -348,6 +348,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         uhfCardBeanList.clear();
         startCheckingTime = System.currentTimeMillis();
         mFindBtn.setText(R.string.Stop_Search_Btn);
+        mIvMenu.setEnabled(false);
         mBtSearch.setEnabled(false);
         mIvSet.setEnabled(false);
         mEtSearch.setEnabled(false);
@@ -368,6 +369,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         iuhfService.inventoryStop();
         inSearch = false;
         mFindBtn.setText(R.string.Start_Search_Btn);
+        mIvMenu.setEnabled(true);
         mBtSearch.setEnabled(true);
         mIvSet.setEnabled(true);
         mEtSearch.setEnabled(true);

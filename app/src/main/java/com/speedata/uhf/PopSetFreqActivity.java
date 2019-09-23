@@ -53,8 +53,10 @@ public class PopSetFreqActivity extends BaseActivity {
         ArrayAdapter<String> tmp;
         if ("r2k".equals(model)){
             tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.r2k_freq));
-        }else {
+        }else if ("xinlian".equals(model)){
             tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.freq));
+        }else {
+            tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.yi_xin_freq));
         }
         lvFreq.setAdapter(tmp);
 

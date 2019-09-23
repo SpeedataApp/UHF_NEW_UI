@@ -19,6 +19,14 @@
         <item>902_928</item>
         <item>865_868</item>
     </string-array>
+    <string-array name="yi_xin_freq">
+        <item>中国1</item>
+        <item>中国2</item>
+        <item>欧洲</item>
+        <item>美国</item>
+        <item>韩国</item>
+        <item>日本</item>
+    </string-array>
 
 
     <string-array name="arr_Q">

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 
 
@@ -45,7 +46,6 @@ public class SetActivity extends Activity {
                             MyApp.isOpenDev = openDev();
                             if (MyApp.isOpenDev) {
                                 initParam();
-                                Log.d("zzc", "initParam()==over");
                             }
                         }
                     } catch (Exception e) {
@@ -73,23 +73,26 @@ public class SetActivity extends Activity {
 
     private void initParam() {
         int i;
-        i = iuhfService.setAntennaPower(SharedXmlUtil.getInstance(this).read(MyApp.UHF_POWER, 30));
-        Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
-        i = iuhfService.setQueryTagGroup(0, SharedXmlUtil.getInstance(this).read(MyApp.UHF_SESSION, 0), 0);
-        Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
-        SystemClock.sleep(100);
-        i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 100));
-        Log.d("zzc:", "===isFirstInit===setReadTime:" + i);
-        i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 50));
-        Log.d("zzc:", "===isFirstInit===setSleep:" + i);
-        SystemClock.sleep(100);
-        i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
-        Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
-        SystemClock.sleep(100);
         i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 3));
         Log.d("zzc:", "===isFirstInit===setFreqRegion:" + i);
-        SystemClock.sleep(500);
+        SystemClock.sleep(600);
         Log.d("zzc:", "===isFirstInit===setFreqRegion:" + iuhfService.getFreqRegion());
+        i = iuhfService.setAntennaPower(SharedXmlUtil.getInstance(this).read(MyApp.UHF_POWER, 30));
+        Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
+        SystemClock.sleep(100);
+        if (!"yixin".equals(UHFManager.getUHFModel())) {
+            i = iuhfService.setQueryTagGroup(0, SharedXmlUtil.getInstance(this).read(MyApp.UHF_SESSION, 0), 0);
+            Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
+            SystemClock.sleep(100);
+        }
+        if ("xinlian".equals(UHFManager.getUHFModel())) {
+            i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 100));
+            i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 50));
+        }else {
+            i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
+            Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
+        }
+        SystemClock.sleep(100);
     }
 
     @Override

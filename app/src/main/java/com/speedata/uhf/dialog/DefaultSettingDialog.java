@@ -24,6 +24,9 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     private IUHFService iuhfService;
     private TextView mTvXhMode, mTvDefaultMode, mTvS0Mode, mTvS1Mode;
     private boolean isSuccess = false;
+    private final String xinLian = "xinlian";
+    private final String yiXin = "yiXin";
+    private final String r2k = "r2k";
 
     public DefaultSettingDialog(@NonNull Context context, IUHFService iuhfService) {
         super(context);
@@ -47,7 +50,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     }
 
     private void initData() {
-        if ("xinlian".equals(UHFManager.getUHFModel())) {
+        if (xinLian.equals(UHFManager.getUHFModel())) {
             if (MyApp.isFastMode) {
                 mTvXhMode.setEnabled(false);
                 mTvDefaultMode.setEnabled(false);
@@ -102,21 +105,25 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             isSuccess = false;
             return;
         }
-        i = iuhfService.setQueryTagGroup(0, 0, 0);
-        if (i != 0) {
-            isSuccess = false;
-            return;
+        if (!yiXin.equals(UHFManager.getUHFModel())) {
+            i = iuhfService.setQueryTagGroup(0, 0, 0);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
+            SystemClock.sleep(100);
         }
-        SystemClock.sleep(100);
-        i = iuhfService.setReadTime(200);
-        if (i != 0) {
-            isSuccess = false;
-            return;
-        }
-        i = iuhfService.setSleep(300);
-        if (i != 0) {
-            isSuccess = false;
-            return;
+        if (xinLian.equals(UHFManager.getUHFModel())) {
+            i = iuhfService.setReadTime(200);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
+            i = iuhfService.setSleep(300);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
         }
         isSuccess = true;
     }
@@ -134,21 +141,25 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
                 return;
             }
         }
-        i = iuhfService.setQueryTagGroup(0, 0, 0);
-        if (i != 0) {
-            isSuccess = false;
-            return;
+        if (!yiXin.equals(UHFManager.getUHFModel())){
+            i = iuhfService.setQueryTagGroup(0, 0, 0);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
+            SystemClock.sleep(100);
         }
-        SystemClock.sleep(100);
-        i = iuhfService.setReadTime(100);
-        if (i != 0) {
-            isSuccess = false;
-            return;
-        }
-        i = iuhfService.setSleep(50);
-        if (i != 0) {
-            isSuccess = false;
-            return;
+        if (xinLian.equals(UHFManager.getUHFModel())){
+            i = iuhfService.setReadTime(100);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
+            i = iuhfService.setSleep(50);
+            if (i != 0) {
+                isSuccess = false;
+                return;
+            }
         }
         isSuccess = true;
     }

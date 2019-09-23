@@ -63,10 +63,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private EditText etLoopTime;
     private CheckBox checkBoxLoop, checkBoxLongDown;
     private TableLayout tableLayout5, tableLayout4;
-    private TableRow trReadTime, trSleep;
+    private TableRow trReadTime, trSleep, trSession;
     private EditText etReadTime, etSleep;
     private Button setReadTimeBtn, setSleepBtn;
     private TextView mVersionTv;
+    private final String yiXin = "yixin";
 
 
     @Override
@@ -103,14 +104,18 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         if (iuhfService == null) {
             return;
         }
-        if ("r2k".equals(model)) {
-            trReadTime.setVisibility(View.GONE);
-            trSleep.setVisibility(View.GONE);
-        } else {
+        if ("xinlian".equals(model)) {
             trReadTime.setVisibility(View.VISIBLE);
             trSleep.setVisibility(View.VISIBLE);
             etReadTime.setText("" + iuhfService.getReadTime());
             etSleep.setText("" + iuhfService.getSleep());
+        } else if (yiXin.equals(model)) {
+            trSession.setVisibility(View.GONE);
+            trReadTime.setVisibility(View.GONE);
+            trSleep.setVisibility(View.GONE);
+        } else {
+            trReadTime.setVisibility(View.GONE);
+            trSleep.setVisibility(View.GONE);
         }
         if (MyApp.isFastMode) {
             setFreqBtn.setEnabled(false);
@@ -128,8 +133,10 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             tvSetInvCon.setEnabled(true);
             //获取定频
             getFreq();
-            //获取通话项
-            getSession();
+            if (!UHFManager.getUHFModel().equals(yiXin)) {
+                //获取通话项
+                getSession();
+            }
             //获取天线功率
             int ivp = iuhfService.getAntennaPower();
             Log.d("zzc:", "==天线功率==" + ivp);
@@ -172,9 +179,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             case 2:
                 tvPrefix.setText(getResources().getString(R.string.pix_crlf));
                 break;
-            case 3:
-                tvPrefix.setText(getResources().getString(R.string.pix_none));
-                break;
             default:
                 tvPrefix.setText(getResources().getString(R.string.pix_none));
                 break;
@@ -189,9 +193,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             case 2:
                 tvSuffix.setText(getResources().getString(R.string.pix_crlf));
                 break;
-            case 3:
-                tvSuffix.setText(getResources().getString(R.string.pix_none));
-                break;
             default:
                 tvSuffix.setText(getResources().getString(R.string.pix_none));
                 break;
@@ -203,6 +204,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         mIvQuitSet = (ImageView) findViewById(R.id.set_title_iv);
         tvSetFreq = (TextView) findViewById(R.id.set_freq_tv);
         tvSetS2 = (TextView) findViewById(R.id.set_s2_tv);
+        trSession = findViewById(R.id.tr_session);
         tvSetInvCon = (TextView) findViewById(R.id.set_onlyepc_tv);
         mIvQuitSet.setOnClickListener(this);
         tvSetFreq.setOnClickListener(this);
@@ -279,15 +281,17 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         freqRegion = iuhfService.getFreqRegion();
         Log.d("zzc:", "===isFirstInit===setFreqRegion:==" + iuhfService.getFreqRegion());
         String r2k = "r2k";
+        String xinLian = "xinlian";
+        String yiXin = "yixin";
         if (r2k.equals(model)) {
             if (freqRegion == IUHFService.REGION_CHINA_920_925) {
-                tvSetFreq.setText("920_925");
+                tvSetFreq.setText(getResources().getStringArray(R.array.r2k_freq)[1]);
             } else if (freqRegion == IUHFService.REGION_CHINA_840_845) {
-                tvSetFreq.setText("840_845");
+                tvSetFreq.setText(getResources().getStringArray(R.array.r2k_freq)[0]);
             } else if (freqRegion == IUHFService.REGION_CHINA_902_928) {
-                tvSetFreq.setText("902_928");
+                tvSetFreq.setText(getResources().getStringArray(R.array.r2k_freq)[2]);
             } else if (freqRegion == IUHFService.REGION_EURO_865_868) {
-                tvSetFreq.setText("865_868");
+                tvSetFreq.setText(getResources().getStringArray(R.array.r2k_freq)[3]);
             } else if (freqRegion == -1) {
                 tvSetFreq.setText("...");
                 Log.e("r2000_kt45", "read region setting read failed");
@@ -295,18 +299,42 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 tvSetFreq.setText(getResources().getString(R.string.set_freq_item1));
                 etFreqPoint.setText(String.valueOf(new DecimalFormat("0.000").format(freqRegion / 1000.0)));
             }
-        } else {
+        } else if (xinLian.equals(model)) {
             if (freqRegion == IUHFService.REGION_CHINA_920_925) {
-                tvSetFreq.setText("920_925");
+                tvSetFreq.setText(getResources().getStringArray(R.array.freq)[1]);
             } else if (freqRegion == IUHFService.REGION_CHINA_840_845) {
-                tvSetFreq.setText("840_845");
+                tvSetFreq.setText(getResources().getStringArray(R.array.freq)[0]);
             } else if (freqRegion == IUHFService.REGION_CHINA_902_928) {
-                tvSetFreq.setText("902_928");
+                tvSetFreq.setText(getResources().getStringArray(R.array.freq)[2]);
             } else if (freqRegion == IUHFService.REGION_EURO_865_868) {
-                tvSetFreq.setText("865_868");
+                tvSetFreq.setText(getResources().getStringArray(R.array.freq)[3]);
             } else {
                 tvSetFreq.setText("...");
                 Log.e("r2000_kt45", "read region setting read failed");
+            }
+        } else if (yiXin.equals(model)) {
+            switch (freqRegion) {
+                case 0x01:
+                    tvSetFreq.setText(getResources().getStringArray(R.array.yi_xin_freq)[0]);
+                    break;
+                case 0x02:
+                    tvSetFreq.setText(getResources().getStringArray(R.array.yi_xin_freq)[1]);
+                    break;
+                case 0x04:
+                    tvSetFreq.setText(getResources().getStringArray(R.array.yi_xin_freq)[2]);
+                    break;
+                case 0x08:
+                    tvSetFreq.setText(getResources().getStringArray(R.array.yi_xin_freq)[3]);
+                    break;
+                case 0x16:
+                    tvSetFreq.setText(getResources().getStringArray(R.array.yi_xin_freq)[4]);
+                    break;
+                case 0x32:
+                    tvSetFreq.setText(getResources().getStringArray(R.array.yi_xin_freq)[5]);
+                    break;
+                default:
+                    tvSetFreq.setText("...");
+                    break;
             }
         }
     }
@@ -506,10 +534,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
      * @param region 设置定频
      */
     private void setFreq(final int region) {
-        int p = 4;
-        if (region >= p) {
-            return;
-        }
         unEnabled();
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {

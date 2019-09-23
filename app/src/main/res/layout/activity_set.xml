@@ -58,7 +58,7 @@
                         android:textSize="14sp" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow android:id="@+id/tr_session">
 
                     <TextView
                         android:layout_width="wrap_content"

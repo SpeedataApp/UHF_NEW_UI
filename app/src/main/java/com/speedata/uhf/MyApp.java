@@ -79,6 +79,7 @@ public class MyApp extends Application {
     }
 
     public IUHFService getIuhfService() {
+        Log.d("zzc:", "IUHFService===" + iuhfService);
         return iuhfService;
     }
 
