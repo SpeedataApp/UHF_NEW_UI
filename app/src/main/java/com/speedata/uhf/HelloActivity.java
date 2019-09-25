@@ -75,7 +75,7 @@ public class HelloActivity extends Activity {
 
     private void initParam() {
         int i;
-        i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 3));
+        i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 2));
         Log.d("zzc:", "===isFirstInit===setFreqRegion:" + i);
         SystemClock.sleep(600);
         Log.d("zzc:", "===isFirstInit===setFreqRegion:" + iuhfService.getFreqRegion());
