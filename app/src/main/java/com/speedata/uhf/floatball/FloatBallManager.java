@@ -176,6 +176,7 @@ public class FloatBallManager {
                 imageView.setImageResource(R.mipmap.icon_uhf_re);
                 break;
             default:
+                imageView.setImageResource(R.mipmap.icon_home);
                 break;
         }
     }

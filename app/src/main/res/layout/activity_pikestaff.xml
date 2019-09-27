@@ -17,100 +17,355 @@
 
 
     <ScrollView
+        android:id="@+id/sc_sd60rt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
+        <include layout="@layout/item_list_check" />
+
+    </ScrollView>
+    <ScrollView
+        android:id="@+id/sc_sd55uhf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="左按键"
+                android:gravity="center_vertical"
+                android:textColor="@color/set_title"
+                android:textSize="18sp"
+                android:layout_marginLeft="34dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="34dp"
+                android:layout_marginBottom="20dp"/>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/start_scan_tv_left"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/item_scan"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_start_scan_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/start_uhf_tv_left"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/item_uhf"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_start_uhf_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/start_uhf_re_left"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/item_uhf_re"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_start_uhf_re_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/home_tv_left"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="HOME"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/home_cb_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/back_tv_left"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="BACK"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/back_cb_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+            </LinearLayout>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="34dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="34dp"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:id="@+id/start_scan_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/item_scan"
-                    android:textColor="@color/commom_text_color"
-                    android:textSize="18sp" />
-
-                <CheckBox
-                    android:id="@+id/cb_start_scan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_gray" />
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"
+                android:text="右按键"
+                android:textColor="@color/set_title"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="34dp"
-                android:layout_marginBottom="20dp">
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
 
-                <TextView
-                    android:id="@+id/start_uhf_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/item_uhf"
-                    android:textColor="@color/commom_text_color"
-                    android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
 
-                <CheckBox
-                    android:id="@+id/cb_start_uhf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/start_scan_tv_right"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/item_scan"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_start_scan_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/start_uhf_tv_right"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/item_uhf"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_start_uhf_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/start_uhf_re_right"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/item_uhf_re"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_start_uhf_re_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/home_tv_right"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="HOME"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/home_cb_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="34dp"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/back_tv_right"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="BACK"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/back_cb_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_gray" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="34dp"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:id="@+id/start_uhf_re"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/item_uhf_re"
-                    android:textColor="@color/commom_text_color"
-                    android:textSize="18sp" />
-
-                <CheckBox
-                    android:id="@+id/cb_start_uhf_re"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/text_gray" />
         </LinearLayout>
     </ScrollView>
 

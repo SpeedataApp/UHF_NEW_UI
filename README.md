@@ -16,6 +16,8 @@ allprojects {
 ```
  dependencies {
     implementation 'com.github.SpeedataG:UHF:8.0.4'
+    //模块上电引用
+    implementation 'com.github.SpeedataG:Device:1.6.8'
   }
 ```
 ## 高温禁用说明
