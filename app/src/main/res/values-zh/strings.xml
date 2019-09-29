@@ -104,8 +104,8 @@
 
     <string name="uhf_config">UHF</string>
     <string name="uhf_config_summary">UHF设置</string>
-    <string name="qb_config">枪柄</string>
-    <string name="qb_config_summary">枪柄设置</string>
+    <string name="qb_config">按键设置</string>
+    <string name="qb_config_summary">自定义快捷键</string>
 
 
     <!--NEW-->
@@ -269,6 +269,11 @@
     <string name="item_scan">激光扫描</string>
     <string name="item_uhf">单次UHF</string>
     <string name="item_uhf_re">连续UHF</string>
+    <string name="item_home">HOME键</string>
+    <string name="item_back">返回键</string>
+    <string name="item_left">左侧按键</string>
+    <string name="item_right">右侧按键</string>
+    <string name="item_qb">枪柄按键</string>
     <string name="tv_open_float">打开悬浮框</string>
     
     <string name="power_tips">范围5~30</string>
@@ -278,6 +283,7 @@
     <string name="dialog_ok">确定</string>
     <string name="dialog_title_warning">警告</string>
     <string name="dialog_uhf_off">UHF已下电，请重新进入应用</string>
+    <string name="dialog_module_none">模块不存在</string>
 
     <string name="btn_start_fast">启用快速模式</string>
     <string name="btn_stop_fast">停用快速模式</string>

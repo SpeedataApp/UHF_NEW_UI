@@ -38,12 +38,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="左按键"
+                android:text="@string/item_left"
                 android:gravity="center_vertical"
                 android:textColor="@color/set_title"
                 android:textSize="18sp"
                 android:layout_marginLeft="34dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="34dp"
                 android:layout_marginBottom="20dp"/>
 
@@ -156,7 +156,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="HOME"
+                        android:text="@string/item_home"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp" />
 
@@ -184,7 +184,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="BACK"
+                        android:text="@string/item_back"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp" />
 
@@ -204,11 +204,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="34dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="34dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_vertical"
-                android:text="右按键"
+                android:text="@string/item_right"
                 android:textColor="@color/set_title"
                 android:textSize="18sp" />
 
@@ -322,7 +322,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="HOME"
+                        android:text="@string/item_home"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp" />
 
@@ -350,7 +350,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="BACK"
+                        android:text="@string/item_back"
                         android:textColor="@color/commom_text_color"
                         android:textSize="16sp" />
 

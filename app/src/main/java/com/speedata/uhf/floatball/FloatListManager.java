@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.speedata.uhf.BaseActivity;
+import com.speedata.uhf.HelloActivity;
 import com.speedata.uhf.MyApp;
+import com.speedata.uhf.PikestaffActivity;
 import com.speedata.uhf.R;
+import com.speedata.uhf.SetActivity;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
 import com.yhao.floatwindow.PermissionListener;
@@ -181,7 +184,7 @@ public class FloatListManager {
                 .setViewStateListener(mViewStateListener)
                 .setPermissionListener(mPermissionListener)
                 .setDesktopShow(true)
-                .setFilter(false, BaseActivity.class)
+                .setFilter(false, BaseActivity.class, HelloActivity.class, SetActivity.class, PikestaffActivity.class)
                 .setTag("FloatListTag")
                 .build();
     }

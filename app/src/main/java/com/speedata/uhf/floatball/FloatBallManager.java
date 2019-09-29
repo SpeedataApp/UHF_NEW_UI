@@ -12,6 +12,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 
 import com.speedata.uhf.BaseActivity;
+import com.speedata.uhf.PikestaffActivity;
 import com.speedata.uhf.R;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
@@ -159,7 +160,7 @@ public class FloatBallManager {
                 .setViewStateListener(mViewStateListener)
                 .setPermissionListener(mPermissionListener)
                 .setDesktopShow(true)
-                .setFilter(true, BaseActivity.class)
+                .setFilter(true, BaseActivity.class, PikestaffActivity.class)
                 .setTag("FloatBallTag")
                 .build();
     }

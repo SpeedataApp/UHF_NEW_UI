@@ -4,6 +4,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_qb"
+        android:gravity="center_vertical"
+        android:textColor="@color/set_title"
+        android:textSize="18sp"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="34dp"
+        android:layout_marginBottom="20dp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

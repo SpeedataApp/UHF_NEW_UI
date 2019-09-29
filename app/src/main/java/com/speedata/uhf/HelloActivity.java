@@ -46,6 +46,9 @@ public class HelloActivity extends Activity {
                 } else {
                     MyApp.getInstance().setIuhfService();
                     iuhfService = MyApp.getInstance().getIuhfService();
+                    if (iuhfService == null) {
+                        return;
+                    }
                     try {
                         if (iuhfService != null) {
                             MyApp.isOpenDev = openDev();
@@ -57,14 +60,12 @@ public class HelloActivity extends Activity {
                         e.printStackTrace();
                     }
                     SystemClock.sleep(100);
-                    Log.d("zzc:", "===将要开启服务===getQueryTagGroup:" + iuhfService.getQueryTagGroup());
                     if ("SD60".equals(xinghao) || "SD60RT".equals(xinghao) || xinghao.contains("KT50") || xinghao.contains("KT55")
-                            || "SD55L".equals(xinghao)) {
+                            || "SD55L".equals(xinghao) || "SD55UHF".equals(xinghao)) {
                         Log.d("UHFService", "startService==main==");
                         startService(new Intent(HelloActivity.this, MyService.class));
                         SharedXmlUtil.getInstance(HelloActivity.this).write("server", true);
                     }
-                    Log.d("zzc:", "===开启完服务===getQueryTagGroup:" + iuhfService.getQueryTagGroup());
                     SystemClock.sleep(1000);
                     startActivity(it);
                 }
@@ -90,7 +91,7 @@ public class HelloActivity extends Activity {
         if ("xinlian".equals(UHFManager.getUHFModel())) {
             i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 100));
             i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 50));
-        }else {
+        } else {
             i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
             Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
         }

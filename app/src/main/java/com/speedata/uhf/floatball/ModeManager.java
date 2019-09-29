@@ -48,6 +48,19 @@ public class ModeManager {
      */
     public static final int MODE_UHF_RE = 3;
 
+    /**
+     * home键
+     */
+    public static final int MODE_HOME = 4;
+    /**
+     * 返回键
+     */
+    public static final int MODE_BACK = 5;
+    /**
+     * 不自定义
+     */
+    public static final int MODE_NONE = 6;
+
     private static ModeManager manager;
     SharedXmlUtil sharedXmlUtil;
     private Context context;
@@ -55,7 +68,7 @@ public class ModeManager {
 
     private ModeManager(Context context) {
         this.context = context;
-        sharedXmlUtil = SharedXmlUtil.getInstance(context, "rfid_float_button");
+        sharedXmlUtil = SharedXmlUtil.getInstance(context);
     }
 
     public static ModeManager getInstance(Context context) {
@@ -102,7 +115,17 @@ public class ModeManager {
                 sharedXmlUtil.write("current_mode", MODE_UHF_RE);
                 changeView();
                 break;
+            case MODE_HOME:
+                sharedXmlUtil.write("current_mode", MODE_HOME);
+                changeView();
+                break;
+            case MODE_BACK:
+                sharedXmlUtil.write("current_mode", MODE_BACK);
+                changeView();
+                break;
             default:
+                sharedXmlUtil.write("current_mode", MODE_NONE);
+                changeView();
                 result = -1;
                 break;
         }

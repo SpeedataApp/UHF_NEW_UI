@@ -16,8 +16,10 @@ import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.floatball.FloatBallManager;
 import com.speedata.uhf.floatball.FloatListManager;
+import com.speedata.uhf.floatball.FloatWarnManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.yhao.floatwindow.FloatWindow;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -102,11 +104,10 @@ public class MyApp extends Application {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    boolean cn = getApplicationContext().getResources().getConfiguration().locale.getCountry().equals("CN");
-                    if (cn) {
-                        Toast.makeText(getApplicationContext(), "模块不存在", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Module does not exist", Toast.LENGTH_SHORT).show();
+                    FloatWarnManager.getInstance(getApplicationContext(), getResources().getString(R.string.dialog_module_none));
+                    FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
+                    if (floatWarnManager != null) {
+                        FloatWindow.get("FloatWarnTag").show();
                     }
                 }
             });

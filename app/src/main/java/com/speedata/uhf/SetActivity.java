@@ -41,6 +41,9 @@ public class SetActivity extends Activity {
                 if (MyApp.getInstance().getIuhfService() == null) {
                     MyApp.getInstance().setIuhfService();
                     iuhfService = MyApp.getInstance().getIuhfService();
+                    if (iuhfService == null) {
+                        return;
+                    }
                     try {
                         if (iuhfService != null) {
                             MyApp.isOpenDev = openDev();
@@ -88,7 +91,7 @@ public class SetActivity extends Activity {
         if ("xinlian".equals(UHFManager.getUHFModel())) {
             i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 100));
             i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 50));
-        }else {
+        } else {
             i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
             Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
         }

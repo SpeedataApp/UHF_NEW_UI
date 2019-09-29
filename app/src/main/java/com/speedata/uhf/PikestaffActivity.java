@@ -52,6 +52,10 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
      * 返回键
      */
     public static final int MODE_BACK = 5;
+    /**
+     * 不自定义
+     */
+    public static final int MODE_NONE = 6;
     String action = "updata_state";
     private ModeManager modeManager;
     BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -105,42 +109,51 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
             cbLeft[i].setOnCheckedChangeListener(this);
             cbRight[i].setOnCheckedChangeListener(this);
         }
-//        if (Build.MODEL.contains("SD55")){
-//            scSD60RT.setVisibility(View.GONE);
-//            scSD55uhf.setVisibility(View.VISIBLE);
-//        }else {
-//            scSD60RT.setVisibility(View.VISIBLE);
-//            scSD55uhf.setVisibility(View.GONE);
-//        }
+        if (Build.MODEL.contains("SD55")) {
+            scSD60RT.setVisibility(View.GONE);
+            scSD55uhf.setVisibility(View.VISIBLE);
+        } else {
+            scSD60RT.setVisibility(View.VISIBLE);
+            scSD55uhf.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        sharedXmlUtil = SharedXmlUtil.getInstance(this, "rfid_float_button");
+        sharedXmlUtil = SharedXmlUtil.getInstance(this);
         setCheckBoxStatus();
     }
 
     private void setCheckBoxStatus() {
-        int mode = modeManager.getScanMode();
-        if (mode == MODE_SCAN) {
-            cbStartScan.setChecked(true);
-            cbLeft[0].setChecked(true);
-        } else if (mode == MODE_UHF) {
-            cbStartUhf.setChecked(true);
-            cbLeft[1].setChecked(true);
-        } else if (mode == MODE_UHF_RE){
-            cbStartUhfMore.setChecked(true);
-            cbLeft[2].setChecked(true);
-        }else if (mode == MODE_HOME){
-            cbLeft[3].setChecked(true);
-        }else if (mode == MODE_BACK){
-            cbLeft[4].setChecked(true);
-        }else {
-            for (int i = 0; i < 5; i++) {
-                cbLeft[i].setChecked(false);
+        if (Build.MODEL.contains("SD55")) {
+            int modeLeft = sharedXmlUtil.read("current_mode_left", MODE_SCAN);
+            if (modeLeft == 6) {
+                for (int i = 0; i < 5; i++) {
+                    cbLeft[i].setChecked(false);
+                }
+            } else {
+                cbLeft[modeLeft - 1].setChecked(true);
+            }
+            int modeRight = sharedXmlUtil.read("current_mode_right", MODE_SCAN);
+            if (modeRight == 6) {
+                for (int i = 0; i < 5; i++) {
+                    cbRight[i].setChecked(false);
+                }
+            } else {
+                cbRight[modeRight - 1].setChecked(true);
+            }
+        } else {
+            int mode = modeManager.getScanMode();
+            if (mode == MODE_SCAN) {
+                cbStartScan.setChecked(true);
+            } else if (mode == MODE_UHF) {
+                cbStartUhf.setChecked(true);
+            } else if (mode == MODE_UHF_RE) {
+                cbStartUhfMore.setChecked(true);
             }
         }
+
     }
 
     @Override
@@ -158,30 +171,28 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mutex(buttonView, isChecked);
+    }
+
+    private void mutex(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.cb_start_scan:
-                if (isChecked) {
-                    cbStartUhf.setChecked(false);
-                    cbStartUhfMore.setChecked(false);
-                    SystemProperties.set("persist.sys.PistolKey", "scan");
-                    modeManager.changeScanMode(ModeManager.MODE_SCAN);
-                }
+                cbStartUhf.setChecked(false);
+                cbStartUhfMore.setChecked(false);
+                buttonView.setChecked(isChecked);
+                modeManager.changeScanMode(ModeManager.MODE_SCAN);
                 break;
             case R.id.cb_start_uhf:
-                if (isChecked) {
-                    cbStartScan.setChecked(false);
-                    cbStartUhfMore.setChecked(false);
-                    SystemProperties.set("persist.sys.PistolKey", "uhf");
-                    modeManager.changeScanMode(ModeManager.MODE_UHF);
-                }
+                cbStartScan.setChecked(false);
+                cbStartUhfMore.setChecked(false);
+                buttonView.setChecked(isChecked);
+                modeManager.changeScanMode(ModeManager.MODE_UHF);
                 break;
             case R.id.cb_start_uhf_re:
-                if (isChecked) {
-                    cbStartScan.setChecked(false);
-                    cbStartUhf.setChecked(false);
-                    SystemProperties.set("persist.sys.PistolKey", "uhf");
-                    modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
-                }
+                cbStartScan.setChecked(false);
+                cbStartUhf.setChecked(false);
+                buttonView.setChecked(isChecked);
+                modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
                 break;
             case R.id.cb_start_scan_left:
             case R.id.cb_start_uhf_left:
@@ -192,6 +203,7 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
                     cbLeft[i].setChecked(false);
                 }
                 buttonView.setChecked(isChecked);
+                setLeftKey(buttonView, isChecked);
                 break;
             case R.id.cb_start_scan_right:
             case R.id.cb_start_uhf_right:
@@ -202,36 +214,81 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
                     cbRight[i].setChecked(false);
                 }
                 buttonView.setChecked(isChecked);
+                setRightKey(buttonView, isChecked);
                 break;
             default:
                 break;
         }
-        switch (buttonView.getId()) {
-            case R.id.cb_start_scan_left:
-            case R.id.cb_start_scan_right:
-                SystemProperties.set("persist.sys.PistolKey", "scan");
-                modeManager.changeScanMode(ModeManager.MODE_SCAN);
-                break;
-            case R.id.cb_start_uhf_left:
-            case R.id.cb_start_uhf_right:
-                SystemProperties.set("persist.sys.PistolKey", "uhf");
-                modeManager.changeScanMode(ModeManager.MODE_UHF);
-                break;
-            case R.id.cb_start_uhf_re_left:
-            case R.id.cb_start_uhf_re_right:
-                SystemProperties.set("persist.sys.PistolKey", "uhf");
-                modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
-                break;
-            case R.id.home_cb_left:
-            case R.id.home_cb_right:
-                sharedXmlUtil.write("current_mode",MODE_HOME);
-                break;
-            case R.id.back_cb_left:
-            case R.id.back_cb_right:
-                sharedXmlUtil.write("current_mode",MODE_BACK);
-                break;
-            default:
-                break;
+    }
+
+    private void setLeftKey(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            switch (buttonView.getId()) {
+                case R.id.cb_start_scan_left:
+                    sharedXmlUtil.write("current_mode_left", MODE_SCAN);
+                    SystemProperties.set("persist.sys.KeyF4", "scan");
+                    modeManager.changeScanMode(ModeManager.MODE_SCAN);
+                    break;
+                case R.id.cb_start_uhf_left:
+                    sharedXmlUtil.write("current_mode_left", MODE_UHF);
+                    SystemProperties.set("persist.sys.KeyF4", "uhf");
+                    modeManager.changeScanMode(ModeManager.MODE_UHF);
+                    break;
+                case R.id.cb_start_uhf_re_left:
+                    sharedXmlUtil.write("current_mode_left", MODE_UHF_RE);
+                    SystemProperties.set("persist.sys.KeyF4", "uhf");
+                    modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
+                    break;
+                case R.id.home_cb_left:
+                    sharedXmlUtil.write("current_mode_left", MODE_HOME);
+                    SystemProperties.set("persist.sys.KeyF4", "home");
+                    modeManager.changeScanMode(ModeManager.MODE_HOME);
+                    break;
+                case R.id.back_cb_left:
+                    sharedXmlUtil.write("current_mode", MODE_BACK);
+                    sharedXmlUtil.write("current_mode_left", MODE_BACK);
+                    SystemProperties.set("persist.sys.KeyF4", "back");
+                    modeManager.changeScanMode(ModeManager.MODE_BACK);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            sharedXmlUtil.write("current_mode_left", MODE_NONE);
+            SystemProperties.set("persist.sys.KeyF4", "none");
+            modeManager.changeScanMode(ModeManager.MODE_NONE);
+        }
+    }
+
+    private void setRightKey(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            switch (buttonView.getId()) {
+                case R.id.cb_start_scan_right:
+                    sharedXmlUtil.write("current_mode_right", MODE_SCAN);
+                    SystemProperties.set("persist.sys.KeyF5", "scan");
+                    break;
+                case R.id.cb_start_uhf_right:
+                    sharedXmlUtil.write("current_mode_right", MODE_UHF);
+                    SystemProperties.set("persist.sys.KeyF5", "uhf");
+                    break;
+                case R.id.cb_start_uhf_re_right:
+                    sharedXmlUtil.write("current_mode_right", MODE_UHF_RE);
+                    SystemProperties.set("persist.sys.KeyF5", "uhf");
+                    break;
+                case R.id.home_cb_right:
+                    sharedXmlUtil.write("current_mode_right", MODE_HOME);
+                    SystemProperties.set("persist.sys.KeyF5", "home");
+                    break;
+                case R.id.back_cb_right:
+                    sharedXmlUtil.write("current_mode_right", MODE_BACK);
+                    SystemProperties.set("persist.sys.KeyF5", "back");
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            sharedXmlUtil.write("current_mode_right", MODE_NONE);
+            SystemProperties.set("persist.sys.KeyF5", "none");
         }
     }
 

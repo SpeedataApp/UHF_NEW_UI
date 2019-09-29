@@ -12,6 +12,7 @@ import android.media.SoundPool;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.util.Log;
 
@@ -24,6 +25,9 @@ import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.floatball.ModeManager;
 import com.yhao.floatwindow.FloatWindow;
 
+import java.text.Format;
+import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -221,16 +225,38 @@ public class MyService extends Service {
         registerReceiver(receiver, filter);
     }
 
+    private class ListThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            try {
+                sleep(60000);
+                if (linkedList != null) {
+                    if (!linkedList.isEmpty()) {
+                        String epc = (String) linkedList.removeFirst();
+                        Log.d("zzcEpc", "= remove =" + epc);
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private LinkedList linkedList;
+
     private void startScan() {
         final int mode = ModeManager.getInstance(MyService.this).getScanMode();
         MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
             @Override
             public void getInventoryData(SpdInventoryData var1) {
-
                 String epc = var1.getEpc();
-                if (!epc.isEmpty() && isStart) {
-                    Log.d(TAG, "===inventoryStop===");
-                    sendEpc(var1.getEpc());
+                if (!epc.isEmpty() && isStart && !linkedList.contains(var1.getEpc())) {
+                    sendEpc(epc);
+                    linkedList.addLast(var1.getEpc());
+//                    Log.d("zzcEpc", "= add =" + epc);
+                    ListThread listThread = new ListThread();
+                    listThread.start();
                     boolean isOnce = mode == MODE_UHF;
                     if (isOnce) {
                         //停止盘点
@@ -251,9 +277,14 @@ public class MyService extends Service {
                 case MODE_UHF_RE:
                     if (!isStart) {
                         MyApp.getInstance().getIuhfService().inventoryStart();
+                        linkedList = new LinkedList();
                         isStart = true;
                     } else {
                         MyApp.getInstance().getIuhfService().inventoryStop();
+                        if (linkedList != null) {
+                            linkedList.clear();
+                            linkedList = null;
+                        }
                         isStart = false;
                         cancelTimer();
                     }

@@ -105,8 +105,8 @@
 
     <string name="uhf_config">UHF</string>
     <string name="uhf_config_summary">UHF Settings</string>
-    <string name="qb_config">Pikestaff</string>
-    <string name="qb_config_summary">Pikestaff Settings</string>
+    <string name="qb_config">Button Settings</string>
+    <string name="qb_config_summary">Custom shortcuts</string>
 
 
 
@@ -208,6 +208,7 @@
     <string name="set_power_fail">set antenna power failed</string>
     <string name="set_power_ok">set antenna power OK</string>
     <string name="dialog_uhf_off">UHF has been switched off. Please re-enter the application. </string>
+    <string name="dialog_module_none">Module does not exist</string>
 
     <string name="write_success">Write Success</string>
     <string name="write_fail">Write Failed</string>
@@ -274,6 +275,11 @@
     <string name="item_scan">Laser scanning</string>
     <string name="item_uhf">Single UHF</string>
     <string name="item_uhf_re">Continuous UHF</string>
+    <string name="item_home">HOME KEY</string>
+    <string name="item_back">BACK KEY</string>
+    <string name="item_left">Left Button</string>
+    <string name="item_right">Right Button</string>
+    <string name="item_qb">Pikestaff Button</string>
     <string name="tv_open_float">Open the suspension window</string>
 
     <string name="power_tips">range 5 ~ 30</string>
