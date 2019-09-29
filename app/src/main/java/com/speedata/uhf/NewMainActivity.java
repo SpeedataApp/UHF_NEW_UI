@@ -464,6 +464,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 });
                 alertDialog1 = alertBuilder.create();
                 alertDialog1.show();
+                break;
             case R.id.iv_menu:
                 DefaultSettingDialog defaultSettingDialog = new DefaultSettingDialog(this, iuhfService);
                 defaultSettingDialog.show();

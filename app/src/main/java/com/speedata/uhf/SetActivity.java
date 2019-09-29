@@ -89,8 +89,8 @@ public class SetActivity extends Activity {
             SystemClock.sleep(100);
         }
         if ("xinlian".equals(UHFManager.getUHFModel())) {
-            i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 100));
-            i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 50));
+            i = iuhfService.setReadTime(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 50));
+            i = iuhfService.setSleep(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 0));
         } else {
             i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
             Log.d("zzc:", "===isFirstInit===setInvMode:" + i);

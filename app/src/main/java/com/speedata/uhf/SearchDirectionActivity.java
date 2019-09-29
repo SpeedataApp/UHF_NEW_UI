@@ -138,9 +138,8 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_title_iv:
-                finish();
-                break;
             case R.id.search_stop:
+                iuhfService.inventoryStop();
                 finish();
                 break;
             default:
@@ -151,7 +150,6 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onStop() {
         Log.w("stop", "im stopping");
-        iuhfService.inventoryStop();
         soundPool.release();
         super.onStop();
     }
