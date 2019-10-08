@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -150,13 +151,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             }
         }
         //获取盘点模式
-        if ("r2k".equals(model)) {
+        if (!yiXin.equals(model)) {
             tableLayoutInvCon.setVisibility(View.VISIBLE);
+            SystemClock.sleep(500);
             invConRegion = iuhfService.getInvMode(0);
             switch (invConRegion) {
-                case 0:
-                    tvSetInvCon.setText("Only EPC");
-                    break;
                 case 1:
                     tvSetInvCon.setText("EPC + TID");
                     break;
@@ -164,6 +163,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                     tvSetInvCon.setText("EPC + USER");
                     break;
                 default:
+                    tvSetInvCon.setText("Only EPC");
                     break;
             }
         } else {

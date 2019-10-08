@@ -42,7 +42,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     api 'org.greenrobot:eventbus:3.0.0'
     //7.6.9
-    api 'com.github.SpeedataG:UHF:8.0.4'
+    api 'com.github.SpeedataG:UHF:8.0.5'
     api 'com.github.SpeedataG:Device:1.6.8'
     //引用超高频不需要引用下面
     api 'com.tencent.bugly:nativecrashreport:3.3.1'
