@@ -118,8 +118,8 @@
     <string name="set_freq_hint">set freq</string>
     <string name="set_s2">session</string>
     <string name="set_s2_hint">select</string>
-    <string name="set_read_time">inventory timeout</string>
-    <string name="set_sleep">counting interval</string>
+    <string name="set_read_time">working time</string>
+    <string name="set_sleep">Time to rest</string>
     <string name="antenna_p_hint">antenna power</string>
     <string name="set_inv">inventory</string>
     <string name="set_freq_point">set freq point</string>
@@ -227,9 +227,9 @@
     <string name="fixed_algorithm">FixedAlgorithm</string>
     <string name="target">Target:</string>
     <string name="retry_count">retry count:</string>
-    <string name="start_q_value">Starting Q Value：</string>
+    <string name="start_q_value">Starting Q Value:</string>
     <string name="q_value_range">Q value range:</string>
-    <string name="threshold">threshold：</string>
+    <string name="threshold">threshold:</string>
     <string name="q_value">Q value:</string>
     <string name="is_repeat">Whether to repeat:</string>
     <string name="btn_set_algorithm">SetAlgorithm</string>
@@ -237,6 +237,11 @@
     <string name="gen2_target">Target:</string>
     <string name="btn_get_value">GetValue</string>
     <string name="check_close_server">Turn off uhf backend services</string>
+    <string name="keep_time">Residence time</string>
+    <string name="btn_set_time">set time</string>
+    <string name="btn_get_all_time">get time</string>
+    <string name="btn_open_low_power">Turn on low power mode</string>
+    <string name="btn_close_low_power">Turn off low power mode</string>
 
     <!--InventorySettingDialog-->
     <string name="toast_try">Please enter the number of retries</string>

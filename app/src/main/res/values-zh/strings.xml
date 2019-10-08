@@ -116,8 +116,8 @@
     <string name="set_freq_hint">选择合适的定频</string>
     <string name="set_s2">通话项</string>
     <string name="set_s2_hint">选择</string>
-    <string name="set_read_time">盘点超时</string>
-    <string name="set_sleep">盘点间隔</string>
+    <string name="set_read_time">工作时间</string>
+    <string name="set_sleep">休息时间</string>
     <string name="antenna_p_hint">填写功率大小</string>
     <string name="set_inv">盘点内容</string>
     <string name="set_freq_point">设置频点</string>
@@ -232,6 +232,11 @@
     <string name="gen2_target">目标：</string>
     <string name="btn_get_value">获取数值</string>
     <string name="check_close_server">关闭超高频后台服务</string>
+    <string name="keep_time">驻留时间</string>
+    <string name="btn_set_time">设置时间</string>
+    <string name="btn_get_all_time">获取时间</string>
+    <string name="btn_open_low_power">开启低功耗模式</string>
+    <string name="btn_close_low_power">关闭低功耗模式</string>
 
     <!--InventorySettingDialog-->
     <string name="toast_try">请输入重试次数</string>

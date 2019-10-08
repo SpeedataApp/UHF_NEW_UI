@@ -118,7 +118,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             trReadTime.setVisibility(View.GONE);
             trSleep.setVisibility(View.GONE);
         }
-        if (MyApp.isFastMode) {
+        if (MyApp.isFastMode && "xinlian".equals(model)) {
             setFreqBtn.setEnabled(false);
             setSessionBtn.setEnabled(false);
             setInvConBtn.setEnabled(false);

@@ -223,19 +223,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="45dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="4dp">
 
             <Button
                 android:id="@+id/set_algorithm"
                 style="@style/ButtonStyle"
                 android:layout_weight="1"
                 android:background="@drawable/btn_b_g_select"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:text="@string/btn_set_algorithm"
                 android:textColor="@color/text_white" />
 
@@ -245,11 +242,121 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_b_g_select"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:text="@string/btn_get_algorithm"
                 android:textColor="@color/text_white" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_low_power"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <TextView
+                    style="@style/TextBlueStyle"
+                    android:text="@string/keep_time" />
+
+                <EditText
+                    android:id="@+id/keep_work_time"
+                    style="@style/EditStyle_w_40"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="2000" />
+                <TextView
+                    style="@style/TextBlueStyle"
+                    android:text="ms" />
+                <Button
+                    android:id="@+id/set_keep_work_time"
+                    style="@style/ButtonStyle"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_b_g_select"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/btn_set"
+                    android:textColor="@color/text_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <TextView
+                    style="@style/TextBlueStyle"
+                    android:text="@string/set_read_time" />
+
+                <EditText
+                    android:id="@+id/et_work_time"
+                    style="@style/EditStyle_w_40"
+                    android:ems="3"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="100" />
+                <TextView
+                    style="@style/TextBlueStyle"
+                    android:text="ms" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <TextView
+                    style="@style/TextBlueStyle"
+                    android:text="@string/set_sleep" />
+
+                <EditText
+                    android:id="@+id/et_sleep_time"
+                    style="@style/EditStyle_w_40"
+                    android:ems="3"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="400" />
+                <TextView
+                    style="@style/TextBlueStyle"
+                    android:text="ms" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:padding="4dp">
+                <Button
+                    android:id="@+id/set_time"
+                    style="@style/ButtonStyle"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_b_g_select"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/btn_set_time"
+                    android:textColor="@color/text_white" />
+                <Button
+                    android:id="@+id/get_all_time"
+                    style="@style/ButtonStyle"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_b_g_select"
+                    android:text="@string/btn_get_all_time"
+                    android:textColor="@color/text_white" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:padding="4dp">
+            <Button
+                android:id="@+id/btn_low_power"
+                style="@style/ButtonStyle"
+                android:layout_weight="1"
+                android:background="@drawable/btn_b_g_select"
+                android:text="@string/btn_open_low_power"
+                android:textColor="@color/text_white" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

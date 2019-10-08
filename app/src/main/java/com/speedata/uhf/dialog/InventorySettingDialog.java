@@ -1,5 +1,6 @@
 package com.speedata.uhf.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -23,8 +24,9 @@ import com.uhf.structures.FixedQParams;
 
 /**
  * R2000模块唯一的盘点设置选项，旗连模块没有本页面
- *
+ * <p>
  * 芯联模块已加入算法
+ *
  * @author zzc
  */
 public class InventorySettingDialog extends Dialog implements View.OnClickListener {
@@ -73,10 +75,11 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
     private LinearLayout fixedAlgorithmLayout;
     private Context mContext;
 
-    private LinearLayout r2kLayout, xinLianLayout;
+    private LinearLayout r2kLayout, xinLianLayout, mLlLowPowerMode;
     private Spinner spQValue, spGen2Target;
     private IUHFService iuhfService;
-    private Button btnFastMode;
+    private Button btnFastMode, btnLowPowerMode;
+    private EditText etKeepTime, etWorkTime, etSleepTime;
 
     public InventorySettingDialog(@NonNull Context context, IUHFService iuhfService) {
         super(context);
@@ -97,12 +100,19 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
         if ("r2k".equals(model)) {
             r2kLayout.setVisibility(View.VISIBLE);
             xinLianLayout.setVisibility(View.GONE);
+            if (MyApp.isFastMode) {
+                btnLowPowerMode.setText(mContext.getString(R.string.btn_close_low_power));
+                mLlLowPowerMode.setVisibility(View.VISIBLE);
+            }else {
+                btnLowPowerMode.setText(mContext.getString(R.string.btn_open_low_power));
+                mLlLowPowerMode.setVisibility(View.GONE);
+            }
         } else {
             r2kLayout.setVisibility(View.GONE);
             xinLianLayout.setVisibility(View.VISIBLE);
-            if(MyApp.isFastMode){
+            if (MyApp.isFastMode) {
                 btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
-            }else {
+            } else {
                 btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
             }
         }
@@ -128,23 +138,27 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
         xinLianLayout = findViewById(R.id.ll_xinlian);
 
         //设置算法
-        Button setAlgorithm = findViewById(R.id.set_algorithm);
-        setAlgorithm.setOnClickListener(this);
+        findViewById(R.id.set_algorithm).setOnClickListener(this);
         //获取算法
-        Button getAlgorithm = findViewById(R.id.get_algorithm);
-        getAlgorithm.setOnClickListener(this);
+        findViewById(R.id.get_algorithm).setOnClickListener(this);
 
         //芯联模块设置
         spQValue = findViewById(R.id.sp_qvalue);
         spGen2Target = findViewById(R.id.sp_gen2_target);
-        Button btnQValue = findViewById(R.id.set_qvalue);
-        Button btnGen2Target = findViewById(R.id.set_gen2_target);
-        btnQValue.setOnClickListener(this);
-        btnGen2Target.setOnClickListener(this);
-        Button getValueBtn = findViewById(R.id.btn_get_value);
-        getValueBtn.setOnClickListener(this);
+        findViewById(R.id.set_qvalue).setOnClickListener(this);
+        findViewById(R.id.set_gen2_target).setOnClickListener(this);
+        findViewById(R.id.btn_get_value).setOnClickListener(this);
         btnFastMode = findViewById(R.id.btn_fast_mode);
         btnFastMode.setOnClickListener(this);
+        mLlLowPowerMode = findViewById(R.id.ll_low_power);
+        btnLowPowerMode = findViewById(R.id.btn_low_power);
+        btnLowPowerMode.setOnClickListener(this);
+        etKeepTime = findViewById(R.id.keep_work_time);
+        etWorkTime = findViewById(R.id.et_work_time);
+        etSleepTime = findViewById(R.id.et_sleep_time);
+        findViewById(R.id.set_keep_work_time).setOnClickListener(this);
+        findViewById(R.id.set_time).setOnClickListener(this);
+        findViewById(R.id.get_all_time).setOnClickListener(this);
     }
 
     /**
@@ -246,35 +260,13 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
                 if (rbDynamicAlgorithm.isChecked()) {
                     //动态算法
                     setDynamicAlgorithm();
-
                 } else if (rbFixedAlgorithm.isChecked()) {
                     //固定算法
                     setFixedAlgorithm();
-
                 }
                 break;
             case R.id.get_algorithm:
-                if (rbDynamicAlgorithm.isChecked()) {
-                    DynamicQParams dynamicQParams = new DynamicQParams();
-                    int dynamicState = iuhfService.getDynamicAlgorithm(dynamicQParams);
-                    if (dynamicState == 0) {
-                        spTarget.setSelection(dynamicQParams.toggleTarget);
-                        etTry.setText(String.valueOf(dynamicQParams.retryCount));
-                        etStartQ.setText(String.valueOf(dynamicQParams.startQValue));
-                        etMinValue.setText(String.valueOf(dynamicQParams.minQValue));
-                        etMaxValue.setText(String.valueOf(dynamicQParams.maxQValue));
-                        etThreshold.setText(String.valueOf(dynamicQParams.thresholdMultiplier));
-                    }
-                } else if (rbFixedAlgorithm.isChecked()) {
-                    FixedQParams fixedQParams = new FixedQParams();
-                    int fixedState = iuhfService.getFixedAlgorithm(fixedQParams);
-                    if (fixedState == 0) {
-                        spTarget.setSelection(fixedQParams.toggleTarget);
-                        etTry.setText(String.valueOf(fixedQParams.retryCount));
-                        spRepeat.setSelection(fixedQParams.repeatUntiNoTags);
-                        etQValue.setText(String.valueOf(fixedQParams.qValue));
-                    }
-                }
+                getAlgorithm();
                 break;
             case R.id.rb_dynamic_algorithm:
                 dynamicAlgorithmLayout.setVisibility(View.VISIBLE);
@@ -304,31 +296,140 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
                 getGen2Value();
                 break;
             case R.id.btn_fast_mode:
-                if (!MyApp.isFastMode) {
-                    //没有启用,启用，改变标志位
-                    result = MyApp.getInstance().getIuhfService().startFastMode();
-                    if (result == 0) {
-                        MyApp.isFastMode = true;
-                        btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_success), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_failed), Toast.LENGTH_LONG).show();
-                    }
-
-                } else {
-                    //已经启用了，需要停止，改变标志位
-                    result = MyApp.getInstance().getIuhfService().stopFastMode();
-                    if (result == 0) {
-                        MyApp.isFastMode = false;
-                        btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_success), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_failed), Toast.LENGTH_LONG).show();
-                    }
-                }
+                setFastMode();
+                break;
+            case R.id.btn_low_power:
+                setLowPowerMode();
+                break;
+            case R.id.set_keep_work_time:
+                setDwellTime();
+                break;
+            case R.id.set_time:
+                setTime();
+                break;
+            case R.id.get_all_time:
+                getAllTime();
                 break;
             default:
                 break;
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getAllTime() {
+        int result = MyApp.getInstance().getIuhfService().getDwellTime();
+        if (result > 0) {
+            etKeepTime.setText("" + result);
+        }else {
+            Toast.makeText(mContext, R.string.toast_get_fail, Toast.LENGTH_LONG).show();
+            return;
+        }
+        int[] res = MyApp.getInstance().getIuhfService().getLowpowerScheduler();
+        if (res != null) {
+            etWorkTime.setText("" + res[0]);
+            etSleepTime.setText("" + res[1]);
+            Toast.makeText(mContext, R.string.toast_get_success, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(mContext, R.string.toast_get_fail, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setTime() {
+        String workTime = etWorkTime.getText().toString();
+        String sleepTime = etSleepTime.getText().toString();
+        if (workTime.isEmpty()) {
+            workTime = "0";
+            etWorkTime.setText("0");
+        }
+        if (sleepTime.isEmpty()) {
+            sleepTime = "0";
+            etSleepTime.setText("0");
+        }
+        int invOnTime = Integer.parseInt(workTime);
+        int invOffTime = Integer.parseInt(sleepTime);
+        int res = MyApp.getInstance().getIuhfService().setLowpowerScheduler(invOnTime, invOffTime);
+        if (res == 0) {
+            Toast.makeText(mContext, R.string.toast_set_success, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(mContext, R.string.toast_set_fail, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setDwellTime() {
+        String keepTime = etKeepTime.getText().toString();
+        if (keepTime.isEmpty()) {
+            keepTime = "0";
+            etKeepTime.setText("0");
+        }
+        int dwellTime = Integer.parseInt(keepTime);
+        int res = MyApp.getInstance().getIuhfService().setDwellTime(dwellTime);
+        if (res == 0) {
+            Toast.makeText(mContext, R.string.toast_set_success, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(mContext, R.string.toast_set_fail, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setLowPowerMode() {
+        if (!MyApp.isFastMode) {
+            MyApp.getInstance().getIuhfService().setInvMode(2);
+            btnLowPowerMode.setText(mContext.getString(R.string.btn_close_low_power));
+            mLlLowPowerMode.setVisibility(View.VISIBLE);
+            MyApp.isFastMode = true;
+        } else {
+            MyApp.getInstance().getIuhfService().setInvMode(1);
+            btnLowPowerMode.setText(mContext.getString(R.string.btn_open_low_power));
+            mLlLowPowerMode.setVisibility(View.GONE);
+            MyApp.isFastMode = false;
+        }
+    }
+
+    private void setFastMode() {
+        if (!MyApp.isFastMode) {
+            //没有启用,启用，改变标志位
+            int result = MyApp.getInstance().getIuhfService().startFastMode();
+            if (result == 0) {
+                MyApp.isFastMode = true;
+                btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_success), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_failed), Toast.LENGTH_LONG).show();
+            }
+
+        } else {
+            //已经启用了，需要停止，改变标志位
+            int result = MyApp.getInstance().getIuhfService().stopFastMode();
+            if (result == 0) {
+                MyApp.isFastMode = false;
+                btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_success), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_failed), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void getAlgorithm() {
+        if (rbDynamicAlgorithm.isChecked()) {
+            DynamicQParams dynamicQParams = new DynamicQParams();
+            int dynamicState = iuhfService.getDynamicAlgorithm(dynamicQParams);
+            if (dynamicState == 0) {
+                spTarget.setSelection(dynamicQParams.toggleTarget);
+                etTry.setText(String.valueOf(dynamicQParams.retryCount));
+                etStartQ.setText(String.valueOf(dynamicQParams.startQValue));
+                etMinValue.setText(String.valueOf(dynamicQParams.minQValue));
+                etMaxValue.setText(String.valueOf(dynamicQParams.maxQValue));
+                etThreshold.setText(String.valueOf(dynamicQParams.thresholdMultiplier));
+            }
+        } else if (rbFixedAlgorithm.isChecked()) {
+            FixedQParams fixedQParams = new FixedQParams();
+            int fixedState = iuhfService.getFixedAlgorithm(fixedQParams);
+            if (fixedState == 0) {
+                spTarget.setSelection(fixedQParams.toggleTarget);
+                etTry.setText(String.valueOf(fixedQParams.retryCount));
+                spRepeat.setSelection(fixedQParams.repeatUntiNoTags);
+                etQValue.setText(String.valueOf(fixedQParams.qValue));
+            }
         }
     }
 
