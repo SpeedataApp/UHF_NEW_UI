@@ -105,7 +105,7 @@ public class MyService extends Service {
                         if (MyApp.isLongDown) {
                             //停止盘点
                             MyApp.getInstance().getIuhfService().inventoryStop();
-                            isStart = false;
+                            MyApp.isStart = false;
                             cancelTimer();
                             return;
                         }
@@ -179,7 +179,7 @@ public class MyService extends Service {
                     mTime++;
                     if (mTime >= loopTime) {
                         MyApp.getInstance().getIuhfService().inventoryStop();
-                        isStart = false;
+                        MyApp.isStart = false;
                         cancelTimer();
                     }
                 }
@@ -251,7 +251,7 @@ public class MyService extends Service {
             @Override
             public void getInventoryData(SpdInventoryData var1) {
                 String epc = var1.getEpc();
-                if (!epc.isEmpty() && isStart && !linkedList.contains(var1.getEpc())) {
+                if (!epc.isEmpty() && MyApp.isStart && !linkedList.contains(var1.getEpc())) {
                     sendEpc(epc);
                     linkedList.addLast(var1.getEpc());
 //                    Log.d("zzcEpc", "= add =" + epc);
@@ -261,7 +261,7 @@ public class MyService extends Service {
                     if (isOnce) {
                         //停止盘点
                         MyApp.getInstance().getIuhfService().inventoryStop();
-                        isStart = false;
+                        MyApp.isStart = false;
                     }
                 }
             }
@@ -275,17 +275,19 @@ public class MyService extends Service {
                     break;
                 case MODE_UHF:
                 case MODE_UHF_RE:
-                    if (!isStart) {
+                    if (!MyApp.isStart) {
                         MyApp.getInstance().getIuhfService().inventoryStart();
                         linkedList = new LinkedList();
-                        isStart = true;
+//                        isStart = true;
+                        MyApp.isStart = true;
                     } else {
                         MyApp.getInstance().getIuhfService().inventoryStop();
                         if (linkedList != null) {
                             linkedList.clear();
                             linkedList = null;
                         }
-                        isStart = false;
+//                        isStart = false;
+                        MyApp.isStart = false;
                         cancelTimer();
                     }
                     break;

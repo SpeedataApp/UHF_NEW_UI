@@ -91,6 +91,10 @@ public class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (MyApp.getInstance().getIuhfService() != null) {
+            MyApp.getInstance().getIuhfService().inventoryStop();
+            MyApp.isStart = false;
+        }
     }
 
     @Override

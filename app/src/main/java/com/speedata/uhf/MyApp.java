@@ -35,6 +35,7 @@ public class MyApp extends Application {
      */
     private static MyApp m_application;
     private IUHFService iuhfService;
+    public static boolean isStart = false;
     public static boolean isOpenDev = false;
     public static boolean isOpenServer = true;
     public static int mPrefix = 3;
