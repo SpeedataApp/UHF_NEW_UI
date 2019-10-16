@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -21,6 +22,7 @@ import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdBanMsgListener;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
+import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.floatball.ModeManager;
 import com.yhao.floatwindow.FloatWindow;
@@ -55,10 +57,6 @@ public class MyService extends Service {
     private SoundPool soundPool;
     private int soundId;
     private boolean isStart = false;
-    /**
-     * 扫头扫描模式
-     */
-    public final int MODE_SCAN = 1;
     /**
      * 超高频单次模式
      */
@@ -246,7 +244,14 @@ public class MyService extends Service {
     private LinkedList linkedList;
 
     private void startScan() {
-        final int mode = ModeManager.getInstance(MyService.this).getScanMode();
+        int modeLeft = SharedXmlUtil.getInstance(this).read("current_mode_left", 6);
+        int modeRight = SharedXmlUtil.getInstance(this).read("current_mode_right", 6);
+        int mode = ModeManager.getInstance(MyService.this).getScanMode();
+        boolean isOnce = false;
+        if (mode == MODE_UHF || modeLeft == MODE_UHF || modeRight == MODE_UHF) {
+            isOnce = true;
+        }
+        boolean finalIsOnce = isOnce;
         MyApp.getInstance().getIuhfService().setOnInventoryListener(new OnSpdInventoryListener() {
             @Override
             public void getInventoryData(SpdInventoryData var1) {
@@ -257,8 +262,7 @@ public class MyService extends Service {
 //                    Log.d("zzcEpc", "= add =" + epc);
                     ListThread listThread = new ListThread();
                     listThread.start();
-                    boolean isOnce = mode == MODE_UHF;
-                    if (isOnce) {
+                    if (finalIsOnce) {
                         //停止盘点
                         MyApp.getInstance().getIuhfService().inventoryStop();
                         MyApp.isStart = false;
@@ -267,35 +271,19 @@ public class MyService extends Service {
             }
         });
         if (MyApp.getInstance().getIuhfService() != null) {
-            switch (mode) {
-                case MODE_SCAN:
-                    //调用扫头扫描
-//                    SystemProperties.set("persist.sys.scanstopimme", "false");
-//                    sendBroadcast(new Intent(SCAN_BARCODE));
-                    Log.d("zzcTest", "扫描没有执行");
-                    break;
-                case MODE_UHF:
-                case MODE_UHF_RE:
-                    if (!MyApp.isStart) {
-                        MyApp.getInstance().getIuhfService().inventoryStart();
-                        linkedList = new LinkedList();
-//                        isStart = true;
-                        MyApp.isStart = true;
-                    } else {
-                        MyApp.getInstance().getIuhfService().inventoryStop();
-                        if (linkedList != null) {
-                            linkedList.clear();
-                            linkedList = null;
-                        }
-//                        isStart = false;
-                        MyApp.isStart = false;
-                        cancelTimer();
-                    }
-                    break;
-                default:
-                    break;
+            if (!MyApp.isStart) {
+                MyApp.getInstance().getIuhfService().inventoryStart();
+                linkedList = new LinkedList();
+                MyApp.isStart = true;
+            } else {
+                MyApp.getInstance().getIuhfService().inventoryStop();
+                if (linkedList != null) {
+                    linkedList.clear();
+                    linkedList = null;
+                }
+                MyApp.isStart = false;
+                cancelTimer();
             }
-
         }
     }
 

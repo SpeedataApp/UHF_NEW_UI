@@ -227,28 +227,28 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
                 case R.id.cb_start_scan_left:
                     sharedXmlUtil.write("current_mode_left", MODE_SCAN);
                     SystemProperties.set("persist.sys.KeyF4", "scan");
-                    modeManager.changeScanMode(ModeManager.MODE_SCAN);
+//                    modeManager.changeScanMode(ModeManager.MODE_SCAN);
                     break;
                 case R.id.cb_start_uhf_left:
                     sharedXmlUtil.write("current_mode_left", MODE_UHF);
                     SystemProperties.set("persist.sys.KeyF4", "uhf");
-                    modeManager.changeScanMode(ModeManager.MODE_UHF);
+//                    modeManager.changeScanMode(ModeManager.MODE_UHF);
                     break;
                 case R.id.cb_start_uhf_re_left:
                     sharedXmlUtil.write("current_mode_left", MODE_UHF_RE);
                     SystemProperties.set("persist.sys.KeyF4", "uhf");
-                    modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
+//                    modeManager.changeScanMode(ModeManager.MODE_UHF_RE);
                     break;
                 case R.id.home_cb_left:
                     sharedXmlUtil.write("current_mode_left", MODE_HOME);
                     SystemProperties.set("persist.sys.KeyF4", "home");
-                    modeManager.changeScanMode(ModeManager.MODE_HOME);
+//                    modeManager.changeScanMode(ModeManager.MODE_HOME);
                     break;
                 case R.id.back_cb_left:
                     sharedXmlUtil.write("current_mode", MODE_BACK);
                     sharedXmlUtil.write("current_mode_left", MODE_BACK);
                     SystemProperties.set("persist.sys.KeyF4", "back");
-                    modeManager.changeScanMode(ModeManager.MODE_BACK);
+//                    modeManager.changeScanMode(ModeManager.MODE_BACK);
                     break;
                 default:
                     break;
@@ -256,7 +256,7 @@ public class PikestaffActivity extends Activity implements CompoundButton.OnChec
         } else {
             sharedXmlUtil.write("current_mode_left", MODE_NONE);
             SystemProperties.set("persist.sys.KeyF4", "none");
-            modeManager.changeScanMode(ModeManager.MODE_NONE);
+//            modeManager.changeScanMode(ModeManager.MODE_NONE);
         }
     }
 

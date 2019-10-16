@@ -3,6 +3,7 @@ package com.speedata.uhf;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -68,6 +70,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private EditText etReadTime, etSleep;
     private Button setReadTimeBtn, setSleepBtn;
     private TextView mVersionTv;
+    private RelativeLayout rlFloatSwitch;
 
 
     @Override
@@ -99,6 +102,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             checkBoxLoop.setChecked(MyApp.isLoop);
             etLoopTime.setEnabled(MyApp.isLoop);
             checkBoxLongDown.setChecked(MyApp.isLongDown);
+            if (Build.MODEL.contains("SD55")) {
+                rlFloatSwitch.setVisibility(View.GONE);
+            }
         }
         iuhfService = MyApp.getInstance().getIuhfService();
         if (iuhfService == null) {
@@ -116,7 +122,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             trReadTime.setVisibility(View.GONE);
             trSleep.setVisibility(View.GONE);
         }
-        if (MyApp.isFastMode && UHFManager.FACTORY_XINLIAN.equals(model)) {
+        if (MyApp.isFastMode && model.contains(UHFManager.FACTORY_XINLIAN)) {
             setFreqBtn.setEnabled(false);
             setSessionBtn.setEnabled(false);
             setInvConBtn.setEnabled(false);
@@ -134,9 +140,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             getFreq();
             //获取天线功率
             getPower();
-            if (model.contains(UHFManager.FACTORY_R2000)) {
+            if (!model.equals(UHFManager.FACTORY_YIXIN)) {
                 //获取通话项
                 getSession();
+            }
+            if (model.contains(UHFManager.FACTORY_R2000)) {
                 tableLayoutInvCon.setVisibility(View.VISIBLE);
                 //获取盘点模式
                 getInvCon();
@@ -190,6 +198,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         checkBoxLongDown = findViewById(R.id.check_long_down);
         tableLayout5 = findViewById(R.id.set_tab5);
         tableLayout4 = findViewById(R.id.set_tab4);
+        rlFloatSwitch = findViewById(R.id.rl_float_switch);
         openFloatWindow = findViewById(R.id.toggle_set_float);
         openFloatWindow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
