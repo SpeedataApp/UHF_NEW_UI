@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string-array name="way">
         <item>Reserved</item>
         <item>EPC</item>
@@ -54,6 +54,19 @@
         <item>B</item>
         <item>A-B</item>
         <item>B-A</item>
+    </string-array>
+
+    <string-array name="inv_con">
+        <item>仅EPC</item>
+        <item>EPC+TID</item>
+        <item>EPC+USER</item>
+    </string-array>
+
+    <string-array name="pix">
+        <item>换行</item>
+        <item>空格</item>
+        <item>回车换行</item>
+        <item>无</item>
     </string-array>
 
 </resources>

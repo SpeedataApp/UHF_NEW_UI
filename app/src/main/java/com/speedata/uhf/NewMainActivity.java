@@ -18,6 +18,7 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -40,6 +41,7 @@ import com.speedata.uhf.adapter.UhfCardAdapter;
 import com.speedata.uhf.adapter.UhfCardBean;
 import com.speedata.uhf.dialog.DefaultSettingDialog;
 import com.speedata.uhf.excel.EPCBean;
+import com.speedata.uhf.libutils.ToastUtil;
 import com.speedata.uhf.libutils.excel.ExcelUtils;
 
 import java.io.BufferedWriter;
@@ -394,9 +396,15 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_set:
-                //设置
-                Intent intent = new Intent(this, InvSetActivity.class);
-                startActivity(intent);
+                if (MyApp.isFastMode && model.contains(UHFManager.FACTORY_XINLIAN)) {
+                    //开启快速模式禁用设置
+                    ToastUtil.customToastView(this, getResources().getString(R.string.toast_stop_fast_tips), Toast.LENGTH_SHORT
+                            , (TextView) LayoutInflater.from(this).inflate(R.layout.layout_toast, null));
+                } else {
+                    //设置
+                    Intent intent = new Intent(this, InvSetActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.bt_search:
                 //搜索

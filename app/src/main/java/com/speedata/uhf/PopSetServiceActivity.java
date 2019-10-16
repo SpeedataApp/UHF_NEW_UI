@@ -49,7 +49,7 @@ public class PopSetServiceActivity extends BaseActivity {
     }
 
     public void initData() {
-        itemPrefix = new String[]{getResources().getString(R.string.pix_newline), getResources().getString(R.string.pix_space), getResources().getString(R.string.pix_crlf), getResources().getString(R.string.pix_none)};
+        itemPrefix = getResources().getStringArray(R.array.pix);
         ArrayAdapter<String> tmp;
         tmp = new ArrayAdapter<>(PopSetServiceActivity.this, R.layout.item_set_popup, itemPrefix);
         listView.setAdapter(tmp);

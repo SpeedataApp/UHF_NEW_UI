@@ -297,10 +297,6 @@
     <string name="toast_stop_fast_success">快速模式已关闭</string>
     <string name="toast_stop_fast_failed">关闭快速模式失败</string>
 
-    <string name="pix_newline">换行</string>
-    <string name="pix_space">空格</string>
-    <string name="pix_crlf">回车换行</string>
-    <string name="pix_none">无</string>
     <string name="s0_tips">(适合少量标签读取)</string>
     <string name="s1_tips">(适合大量标签群读)</string>
     <string name="s2s3_tips">(配合算法标志使用)</string>
@@ -312,4 +308,5 @@
     <string name="tv_default_mode">远距离模式（默认）</string>
     <string name="tv_s0_mode">s0 快速模式</string>
     <string name="tv_s1_mode">s1 快速模式</string>
+    <string name="toast_stop_fast_tips">请先关闭快速模式</string>
 </resources>

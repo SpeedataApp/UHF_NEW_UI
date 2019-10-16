@@ -301,10 +301,6 @@
     <string name="toast_stop_fast_success">Fast mode closed</string>
     <string name="toast_stop_fast_failed">Fast mode shutdown failed</string>
 
-    <string name="pix_newline">newline</string>
-    <string name="pix_space">space</string>
-    <string name="pix_crlf">CRLF</string>
-    <string name="pix_none">none</string>
     <string name="s0_tips">(Suitable for reading a small number of tags)</string>
     <string name="s1_tips">(Suitable for large number of tag groups to read)</string>
     <string name="s2s3_tips">(Use with algorithm target)</string>
@@ -316,4 +312,5 @@
     <string name="tv_default_mode">Remote mode (default)</string>
     <string name="tv_s0_mode">s0 Fast mode</string>
     <string name="tv_s1_mode">s1 Fast mode</string>
+    <string name="toast_stop_fast_tips">Please turn off fast mode first</string>
 </resources>

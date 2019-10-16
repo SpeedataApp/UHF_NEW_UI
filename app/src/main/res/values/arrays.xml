@@ -58,5 +58,16 @@
         <item>A-B</item>
         <item>B-A</item>
     </string-array>
+    <string-array name="inv_con">
+        <item>Only EPC</item>
+        <item>EPC+TID</item>
+        <item>EPC+USER</item>
+    </string-array>
+    <string-array name="pix">
+        <item>newline</item>
+        <item>space</item>
+        <item>CRLF</item>
+        <item>none</item>
+    </string-array>
 
 </resources>

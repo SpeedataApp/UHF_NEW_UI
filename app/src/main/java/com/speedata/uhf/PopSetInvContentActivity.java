@@ -25,7 +25,7 @@ public class PopSetInvContentActivity extends BaseActivity {
 
     private String invCon;
 
-    private String[] slist = {"Only EPC", "EPC + TID", "EPC + USER"};
+    private String[] slist;
 
 
     @Override
@@ -47,6 +47,7 @@ public class PopSetInvContentActivity extends BaseActivity {
     }
 
     public void initData() {
+        slist = getResources().getStringArray(R.array.inv_con);
         ArrayAdapter<String> tmp;
         tmp = new ArrayAdapter<>(PopSetInvContentActivity.this, R.layout.item_set_popup, slist);
         lvInvCon.setAdapter(tmp);

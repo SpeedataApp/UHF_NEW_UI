@@ -24,9 +24,6 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     private IUHFService iuhfService;
     private TextView mTvXhMode, mTvDefaultMode, mTvS0Mode, mTvS1Mode;
     private boolean isSuccess = false;
-    private final String xinLian = "xinlian";
-    private final String yiXin = "yiXin";
-    private final String r2k = "r2k";
 
     public DefaultSettingDialog(@NonNull Context context, IUHFService iuhfService) {
         super(context);
@@ -50,7 +47,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     }
 
     private void initData() {
-        if (xinLian.equals(UHFManager.getUHFModel())) {
+        if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
             if (MyApp.isFastMode) {
                 mTvXhMode.setEnabled(false);
                 mTvDefaultMode.setEnabled(false);
@@ -105,7 +102,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             isSuccess = false;
             return;
         }
-        if (!yiXin.equals(UHFManager.getUHFModel())) {
+        if (!UHFManager.FACTORY_YIXIN.equals(UHFManager.getUHFModel())) {
             i = iuhfService.setQueryTagGroup(0, 0, 0);
             if (i != 0) {
                 isSuccess = false;
@@ -113,7 +110,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             }
             SystemClock.sleep(100);
         }
-        if (xinLian.equals(UHFManager.getUHFModel())) {
+        if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
             i = iuhfService.setReadTime(200);
             if (i != 0) {
                 isSuccess = false;
@@ -141,7 +138,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
                 return;
             }
         }
-        if (!yiXin.equals(UHFManager.getUHFModel())) {
+        if (!UHFManager.FACTORY_YIXIN.equals(UHFManager.getUHFModel())) {
             i = iuhfService.setQueryTagGroup(0, 0, 0);
             if (i != 0) {
                 isSuccess = false;
@@ -149,7 +146,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             }
             SystemClock.sleep(100);
         }
-        if (xinLian.equals(UHFManager.getUHFModel())) {
+        if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
             i = iuhfService.setReadTime(50);
             if (i != 0) {
                 isSuccess = false;
@@ -240,7 +237,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
     }
 
     private void fastTips(boolean isOpenFast) {
-        if (isOpenFast){
+        if (isOpenFast) {
             if (MyApp.isFastMode) {
                 ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_start_fast_success), Toast.LENGTH_SHORT
                         , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
@@ -249,7 +246,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
                 ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_start_fast_failed), Toast.LENGTH_SHORT
                         , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));
             }
-        }else {
+        } else {
             if (MyApp.isFastMode) {
                 ToastUtil.customToastView(mContext, mContext.getResources().getString(R.string.toast_stop_fast_failed), Toast.LENGTH_SHORT
                         , (TextView) LayoutInflater.from(mContext).inflate(R.layout.layout_toast, null));

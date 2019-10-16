@@ -270,8 +270,9 @@ public class MyService extends Service {
             switch (mode) {
                 case MODE_SCAN:
                     //调用扫头扫描
-                    SystemProperties.set("persist.sys.scanstopimme", "false");
-                    sendBroadcast(new Intent(SCAN_BARCODE));
+//                    SystemProperties.set("persist.sys.scanstopimme", "false");
+//                    sendBroadcast(new Intent(SCAN_BARCODE));
+                    Log.d("zzcTest", "扫描没有执行");
                     break;
                 case MODE_UHF:
                 case MODE_UHF_RE:
