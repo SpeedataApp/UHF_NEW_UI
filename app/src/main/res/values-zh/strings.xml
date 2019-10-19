@@ -166,6 +166,7 @@
     <string name="toast1">参数不能为空</string>
     <string name="toast2">参数不正确</string>
     <string name="toast3">地址或块数过大，请重新输入</string>
+    <string name="toast_loop_sleep">循环间隔数值太大</string>
     <string name="toast4">epc长度过大</string>
     <string name="toast5">请输入8位数密码</string>
     <string name="toast6">内容长度与块数不匹配</string>
@@ -257,8 +258,6 @@
     <string name="toast_set_q_fail">Q值设置失败</string>
     <string name="toast_set_target_ok">target设置成功</string>
     <string name="toast_set_target_fail">target设置失败</string>
-    <string name="toast_get_q_fail">Q值获取失败</string>
-    <string name="toast_get_target_fail">Target获取失败</string>
     <string name="toast_get_success">获取成功</string>
     <string name="toast_get_fail">获取失败</string>
 

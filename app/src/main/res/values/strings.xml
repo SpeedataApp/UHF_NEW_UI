@@ -168,6 +168,7 @@
     <!--读卡、写卡-->
     <string name="toast1">can not empty</string>
     <string name="toast2">incorrect</string>
+    <string name="toast_loop_sleep">The interval between cycles is too large</string>
     <string name="toast3">Address or block size too large, please re - enter </string>
     <string name="toast4">The epc length is too large</string>
     <string name="toast5">Please enter your 8-digit password</string>
@@ -262,8 +263,6 @@
     <string name="toast_set_q_fail">Q value setting failed</string>
     <string name="toast_set_target_ok">Target set successfully</string>
     <string name="toast_set_target_fail">Target setting failed</string>
-    <string name="toast_get_q_fail">Failed to get Q value</string>
-    <string name="toast_get_target_fail">Target fetch failed</string>
     <string name="toast_get_success">Get success</string>
     <string name="toast_get_fail">Get fail</string>
 

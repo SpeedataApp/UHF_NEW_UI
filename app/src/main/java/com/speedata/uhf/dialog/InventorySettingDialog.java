@@ -78,7 +78,7 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
     private LinearLayout r2kLayout, xinLianLayout, mLlLowPowerMode;
     private Spinner spQValue, spGen2Target;
     private IUHFService iuhfService;
-    private Button btnFastMode, btnLowPowerMode;
+    private Button btnLowPowerMode;
     private EditText etKeepTime, etWorkTime, etSleepTime;
 
     public InventorySettingDialog(@NonNull Context context, IUHFService iuhfService) {
@@ -110,11 +110,6 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
         } else {
             r2kLayout.setVisibility(View.GONE);
             xinLianLayout.setVisibility(View.VISIBLE);
-            if (MyApp.isFastMode) {
-                btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
-            } else {
-                btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
-            }
         }
     }
 
@@ -148,8 +143,6 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
         findViewById(R.id.set_qvalue).setOnClickListener(this);
         findViewById(R.id.set_gen2_target).setOnClickListener(this);
         findViewById(R.id.btn_get_value).setOnClickListener(this);
-        btnFastMode = findViewById(R.id.btn_fast_mode);
-        btnFastMode.setOnClickListener(this);
         mLlLowPowerMode = findViewById(R.id.ll_low_power);
         btnLowPowerMode = findViewById(R.id.btn_low_power);
         btnLowPowerMode.setOnClickListener(this);
@@ -295,9 +288,6 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
             case R.id.btn_get_value:
                 getGen2Value();
                 break;
-            case R.id.btn_fast_mode:
-                setFastMode();
-                break;
             case R.id.btn_low_power:
                 setLowPowerMode();
                 break;
@@ -372,40 +362,15 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
 
     private void setLowPowerMode() {
         if (!MyApp.isFastMode) {
-            MyApp.getInstance().getIuhfService().setInvMode(2);
+            MyApp.getInstance().getIuhfService().switchInvMode(2);
             btnLowPowerMode.setText(mContext.getString(R.string.btn_close_low_power));
             mLlLowPowerMode.setVisibility(View.VISIBLE);
             MyApp.isFastMode = true;
         } else {
-            MyApp.getInstance().getIuhfService().setInvMode(1);
+            MyApp.getInstance().getIuhfService().switchInvMode(1);
             btnLowPowerMode.setText(mContext.getString(R.string.btn_open_low_power));
             mLlLowPowerMode.setVisibility(View.GONE);
             MyApp.isFastMode = false;
-        }
-    }
-
-    private void setFastMode() {
-        if (!MyApp.isFastMode) {
-            //没有启用,启用，改变标志位
-            int result = MyApp.getInstance().getIuhfService().startFastMode();
-            if (result == 0) {
-                MyApp.isFastMode = true;
-                btnFastMode.setText(mContext.getResources().getString(R.string.btn_stop_fast));
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_success), Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_start_fast_failed), Toast.LENGTH_LONG).show();
-            }
-
-        } else {
-            //已经启用了，需要停止，改变标志位
-            int result = MyApp.getInstance().getIuhfService().stopFastMode();
-            if (result == 0) {
-                MyApp.isFastMode = false;
-                btnFastMode.setText(mContext.getResources().getString(R.string.btn_start_fast));
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_success), Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.toast_stop_fast_failed), Toast.LENGTH_LONG).show();
-            }
         }
     }
 
@@ -436,17 +401,9 @@ public class InventorySettingDialog extends Dialog implements View.OnClickListen
     private void getGen2Value() {
         int[] res = iuhfService.getGen2AllValue();
         if (res != null) {
-            if (res[0] >= 0) {
-                spQValue.setSelection(res[0]);
-            } else {
-                Toast.makeText(mContext, R.string.toast_get_q_fail, Toast.LENGTH_LONG).show();
-            }
-            if (res[1] >= 0) {
-                spGen2Target.setSelection(res[1]);
-            } else {
-                Toast.makeText(mContext, R.string.toast_get_target_fail, Toast.LENGTH_LONG).show();
-            }
             if (res[0] >= 0 && res[1] >= 0) {
+                spQValue.setSelection(res[0]);
+                spGen2Target.setSelection(res[1]);
                 Toast.makeText(mContext, R.string.toast_get_success, Toast.LENGTH_LONG).show();
             }
         } else {

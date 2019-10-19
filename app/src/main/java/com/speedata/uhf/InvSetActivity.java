@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -66,11 +67,12 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private EditText etLoopTime;
     private CheckBox checkBoxLoop, checkBoxLongDown;
     private TableLayout tableLayout5, tableLayout4;
-    private TableRow trReadTime, trSleep, trSession;
+    private TableRow trSession;
     private EditText etReadTime, etSleep;
-    private Button setReadTimeBtn, setSleepBtn;
+    private Button setTimeBtn;
     private TextView mVersionTv;
     private RelativeLayout rlFloatSwitch;
+    private LinearLayout setTimeLayout2;
 
 
     @Override
@@ -111,16 +113,14 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         if (model.contains(UHFManager.FACTORY_XINLIAN)) {
-            trReadTime.setVisibility(View.VISIBLE);
-            trSleep.setVisibility(View.VISIBLE);
-            etReadTime.setText("" + iuhfService.getReadTime());
-            etSleep.setText("" + iuhfService.getSleep());
+            setTimeLayout2.setVisibility(View.VISIBLE);
+            etReadTime.setText("" + iuhfService.getLowpowerScheduler()[0]);
+            etSleep.setText("" + iuhfService.getLowpowerScheduler()[1]);
         } else {
             if (UHFManager.FACTORY_YIXIN.equals(model)) {
                 trSession.setVisibility(View.GONE);
             }
-            trReadTime.setVisibility(View.GONE);
-            trSleep.setVisibility(View.GONE);
+            setTimeLayout2.setVisibility(View.GONE);
         }
         if (MyApp.isFastMode && model.contains(UHFManager.FACTORY_XINLIAN)) {
             setFreqBtn.setEnabled(false);
@@ -180,7 +180,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         setPowerBtn.setOnClickListener(this);
         setInvConBtn = findViewById(R.id.btn_set_invent);
         setInvConBtn.setOnClickListener(this);
-        tableLayoutInvCon = findViewById(R.id.set_tab2);
+        tableLayoutInvCon = findViewById(R.id.set_tab3);
         algorithmSetBtn = findViewById(R.id.btn_algorithm_set);
         algorithmSetBtn.setOnClickListener(this);
         tvPrefix = findViewById(R.id.set_server_prefix);
@@ -223,16 +223,13 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 }
             }
         });
-        trReadTime = findViewById(R.id.set_tr_timeout);
-        trSleep = findViewById(R.id.set_tr_sleep);
         etReadTime = findViewById(R.id.set_read_time);
         etSleep = findViewById(R.id.set_sleep);
-        setReadTimeBtn = findViewById(R.id.btn_set_read_time);
-        setSleepBtn = findViewById(R.id.btn_set_sleep);
-        setReadTimeBtn.setOnClickListener(this);
-        setSleepBtn.setOnClickListener(this);
+        setTimeBtn = findViewById(R.id.btn_set_time);
+        setTimeBtn.setOnClickListener(this);
         mVersionTv = (TextView) findViewById(R.id.tv_version_model);
         mVersionTv.setText(CommonUtils.getAppVersionName(this));
+        setTimeLayout2 = findViewById(R.id.set_tab2);
     }
 
     private void getFreq() {
@@ -434,13 +431,10 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 intent.setClass(this, PopSetServiceActivity.class);
                 startActivityForResult(intent, 5);
                 break;
-            case R.id.btn_set_read_time:
+            case R.id.btn_set_time:
                 String time = etReadTime.getText().toString();
-                setInvTime(time);
-                break;
-            case R.id.btn_set_sleep:
                 String sleep = etSleep.getText().toString();
-                setInvSleep(sleep);
+                setInvTime(time, sleep);
                 break;
             default:
                 break;
@@ -448,15 +442,23 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    private void setInvTime(String time) {
+    private void setInvTime(String invOnTime, String invOffTime) {
         try {
-            if (time.isEmpty()) {
-                time = "0";
+            if (invOnTime.isEmpty()) {
+                invOnTime = "0";
             }
-            int readTime = Integer.parseInt(time);
+            int readTime = Integer.parseInt(invOnTime);
             if (readTime < 0) {
                 readTime = 0;
                 etReadTime.setText("0");
+            }
+            if (invOffTime.isEmpty()) {
+                invOffTime = "0";
+            }
+            int sleepTime = Integer.parseInt(invOffTime);
+            if (sleepTime < 0) {
+                sleepTime = 0;
+                etSleep.setText("0");
             }
             if (readTime > 3000) {
                 etReadTime.setText("3000");
@@ -464,27 +466,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                         , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
                 return;
             }
-            iuhfService.setReadTime(readTime);
+            iuhfService.setLowpowerScheduler(readTime, sleepTime);
             SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_TIME, readTime);
-            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
-                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_failed), Toast.LENGTH_SHORT
-                    , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));
-        }
-    }
-
-    private void setInvSleep(String sleep) {
-        try {
-            if (sleep.isEmpty()) {
-                sleep = "0";
-            }
-            int sleepTime = Integer.parseInt(sleep);
-            if (sleepTime < 0) {
-                sleepTime = 0;
-            }
-            iuhfService.setSleep(sleepTime);
             SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_SLEEP, sleepTime);
             ToastUtil.customToastView(InvSetActivity.this, getResources().getString(R.string.set_success), Toast.LENGTH_SHORT
                     , (TextView) LayoutInflater.from(InvSetActivity.this).inflate(R.layout.layout_toast, null));

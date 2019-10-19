@@ -93,98 +93,6 @@
                         android:textSize="14sp" />
                 </TableRow>
 
-                <TableRow android:id="@+id/set_tr_timeout">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                        android:padding="14dp"
-                        android:text="@string/set_read_time"
-                        android:textColor="@color/commom_text_color"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/set_read_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:hint="@string/set_read_time"
-                        android:inputType="number"
-                        android:padding="14dp"
-                        android:text="50"
-                        android:textColor="@color/text_set_dark"
-                        android:textColorHint="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="ms"
-                        android:textColor="@color/commom_text_color"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/btn_set_read_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="14dp"
-                        android:background="@drawable/btn_b_g_select"
-                        android:text="@string/btn_ok"
-                        android:textColor="@color/text_white"
-                        android:textSize="14sp" />
-                </TableRow>
-
-                <TableRow android:id="@+id/set_tr_sleep">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                        android:padding="14dp"
-                        android:text="@string/set_sleep"
-                        android:textColor="@color/commom_text_color"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/set_sleep"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:hint="@string/set_sleep"
-                        android:inputType="number"
-                        android:padding="14dp"
-                        android:text="0"
-                        android:textColor="@color/text_set_dark"
-                        android:textColorHint="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="ms"
-                        android:textColor="@color/commom_text_color"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/btn_set_sleep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="14dp"
-                        android:background="@drawable/btn_b_g_select"
-                        android:text="@string/btn_ok"
-                        android:textColor="@color/text_white"
-                        android:textSize="14sp" />
-                </TableRow>
-
                 <TableRow>
 
                     <LinearLayout
@@ -266,11 +174,107 @@
 
             </TableLayout>
 
-            <TableLayout
+            <LinearLayout
                 android:id="@+id/set_tab2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/set_tab1"
+                android:layout_marginTop="10dp"
+                android:background="@color/text_white">
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TableRow android:id="@+id/set_tr_timeout">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center_vertical"
+                            android:padding="14dp"
+                            android:text="@string/set_read_time"
+                            android:textColor="@color/commom_text_color"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/set_read_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="@string/set_read_time"
+                            android:inputType="number"
+                            android:padding="14dp"
+                            android:text="50"
+                            android:textColor="@color/text_set_dark"
+                            android:textColorHint="@color/text_gray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="ms"
+                            android:textColor="@color/commom_text_color"
+                            android:textSize="14sp" />
+                    </TableRow>
+
+                    <TableRow android:id="@+id/set_tr_sleep">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center_vertical"
+                            android:padding="14dp"
+                            android:text="@string/set_sleep"
+                            android:textColor="@color/commom_text_color"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/set_sleep"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="@string/set_sleep"
+                            android:inputType="number"
+                            android:padding="14dp"
+                            android:text="0"
+                            android:textColor="@color/text_set_dark"
+                            android:textColorHint="@color/text_gray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="ms"
+                            android:textColor="@color/commom_text_color"
+                            android:textSize="14sp" />
+                    </TableRow>
+                </TableLayout>
+
+                <Button
+                    android:id="@+id/btn_set_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/btn_b_g_select"
+                    android:text="@string/btn_ok"
+                    android:textColor="@color/text_white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/set_tab3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/set_tab2"
                 android:layout_marginTop="10dp"
                 android:background="@color/text_white"
                 android:visibility="visible">
@@ -359,10 +363,10 @@
             </TableLayout>
 
             <TableLayout
-                android:id="@+id/set_tab3"
+                android:id="@+id/set_tab4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/set_tab2"
+                android:layout_below="@id/set_tab3"
                 android:layout_marginTop="10dp"
                 android:background="@color/text_white"
                 android:paddingStart="14dp"
@@ -380,10 +384,10 @@
             </TableLayout>
 
             <TableLayout
-                android:id="@+id/set_tab4"
+                android:id="@+id/set_tab5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/set_tab3"
+                android:layout_below="@+id/set_tab4"
                 android:layout_marginTop="10dp"
                 android:background="@color/text_white"
                 android:paddingLeft="14dp"
@@ -452,10 +456,10 @@
             </TableLayout>
 
             <TableLayout
-                android:id="@+id/set_tab5"
+                android:id="@+id/set_tab6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/set_tab4"
+                android:layout_below="@+id/set_tab5"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/text_white"

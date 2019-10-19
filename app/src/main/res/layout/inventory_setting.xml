@@ -431,17 +431,6 @@
             android:padding="10dp">
 
             <Button
-                android:id="@+id/btn_fast_mode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/btn_b_g_select"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/btn_start_fast"
-                android:textColor="@color/text_white" />
-
-            <Button
                 android:id="@+id/btn_get_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

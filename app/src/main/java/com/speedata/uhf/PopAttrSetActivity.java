@@ -240,11 +240,11 @@ public class PopAttrSetActivity extends BaseActivity {
             return;
         }
         final byte[] write = StringUtils.stringToByte(epcstr);
-        final int epcl;
+        final int epcLen;
         try {
-            epcl = Integer.parseInt(countstr, 10);
+            epcLen = Integer.parseInt(countstr, 10);
         } catch (NumberFormatException e) {
-            Toast.makeText(PopAttrSetActivity.this,getResources().getString(R.string.toast4),Toast.LENGTH_SHORT).show();
+            Toast.makeText(PopAttrSetActivity.this, getResources().getString(R.string.toast4), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -252,7 +252,7 @@ public class PopAttrSetActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int writeArea = setEPC(epcl, password, write);
+                int writeArea = iuhfService.setNewEpc(password, epcLen, write);
                 if (writeArea != 0) {
                     handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.toast2)));
                 }
@@ -295,33 +295,6 @@ public class PopAttrSetActivity extends BaseActivity {
             }
         }).start();
 
-    }
-
-    int setEPC(int epclength, String passwd, byte[] ePC) {
-        byte[] res;
-        int len = 31;
-        if (epclength > len) {
-            return -3;
-        }
-        len = 2;
-        if (epclength * len < ePC.length) {
-            return -3;
-        }
-        res = iuhfService.read_area(IUHFService.EPC_A, 1, 1, passwd);
-        if (res == null) {
-            return -5;
-        }
-        res[0] = (byte) ((res[0] & 0x7) | (epclength << 3));
-        byte[] f = new byte[2 + epclength * 2];
-        try {
-            System.arraycopy(res, 0, f, 0, 2);
-            System.arraycopy(ePC, 0, f, 2, epclength * 2);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
-        SystemClock.sleep(500);
-        return iuhfService.writeArea(IUHFService.EPC_A, 1, f.length / 2, passwd, f);
     }
 
     Handler handler = new Handler() {

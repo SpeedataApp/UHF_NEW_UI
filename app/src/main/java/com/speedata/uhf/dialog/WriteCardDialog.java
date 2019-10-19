@@ -128,7 +128,7 @@ public class WriteCardDialog extends Dialog implements
             final String strContent = writeContent.getText().toString().replace(" ", "");
             String time = etLoopTime.getText().toString();
             if (TextUtils.isEmpty(strAddr) || TextUtils.isEmpty(strCount) || TextUtils.isEmpty(strPasswd)
-                    || TextUtils.isEmpty(strContent) || TextUtils.isEmpty(time)) {
+                    || TextUtils.isEmpty(strContent) || (cbLoop.isChecked() && TextUtils.isEmpty(time))) {
                 Toast.makeText(mContext, R.string.toast1, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -137,10 +137,15 @@ public class WriteCardDialog extends Dialog implements
                 return;
             }
             try {
+                loopTime = Integer.parseInt(time);
+            }catch (NumberFormatException e) {
+                handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast_loop_sleep)));
+                return;
+            }
+            try {
                 final byte[] write = StringUtils.stringToByte(strContent);
                 final int addr = Integer.parseInt(strAddr);
                 final int count = Integer.parseInt(strCount);
-                loopTime = Integer.parseInt(time);
                 if (count * 4 != strContent.length()) {
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.toast6), Toast.LENGTH_SHORT).show();
                     return;

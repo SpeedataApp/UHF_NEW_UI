@@ -111,12 +111,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             SystemClock.sleep(100);
         }
         if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
-            i = iuhfService.setReadTime(200);
-            if (i != 0) {
-                isSuccess = false;
-                return;
-            }
-            i = iuhfService.setSleep(300);
+            i = iuhfService.setLowpowerScheduler(200, 300);
             if (i != 0) {
                 isSuccess = false;
                 return;
@@ -147,12 +142,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
             SystemClock.sleep(100);
         }
         if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
-            i = iuhfService.setReadTime(50);
-            if (i != 0) {
-                isSuccess = false;
-                return;
-            }
-            i = iuhfService.setSleep(0);
+            i = iuhfService.setLowpowerScheduler(50, 0);
             if (i != 0) {
                 isSuccess = false;
                 return;
@@ -168,7 +158,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
         int i;
         if (MyApp.isFastMode) {
             isSuccess = false;
-            i = iuhfService.stopFastMode();
+            i = iuhfService.switchInvMode(2);
             if (i == 0) {
                 MyApp.isFastMode = false;
                 mTvS0Mode.setText(mContext.getString(R.string.tv_s0_mode));
@@ -184,7 +174,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
                 return;
             }
             SystemClock.sleep(100);
-            i = iuhfService.startFastMode();
+            i = iuhfService.switchInvMode(1);
             if (i != 0) {
                 return;
             }
@@ -200,7 +190,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
         int i;
         if (MyApp.isFastMode) {
             isSuccess = false;
-            i = iuhfService.stopFastMode();
+            i = iuhfService.switchInvMode(2);
             if (i == 0) {
                 MyApp.isFastMode = false;
                 mTvS1Mode.setText(mContext.getString(R.string.tv_s1_mode));
@@ -216,7 +206,7 @@ public class DefaultSettingDialog extends Dialog implements View.OnClickListener
                 return;
             }
             SystemClock.sleep(100);
-            i = iuhfService.startFastMode();
+            i = iuhfService.switchInvMode(1);
             if (i != 0) {
                 return;
             }
