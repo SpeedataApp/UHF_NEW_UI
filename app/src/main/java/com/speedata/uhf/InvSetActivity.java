@@ -66,7 +66,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private TextView tvPrefix, tvSuffix;
     private EditText etLoopTime;
     private CheckBox checkBoxLoop, checkBoxLongDown;
-    private TableLayout tableLayout5, tableLayout4;
+    private TableLayout tableLayout5, tableLayout6;
     private TableRow trSession;
     private EditText etReadTime, etSleep;
     private Button setTimeBtn;
@@ -98,8 +98,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             checkBoxLoop.setEnabled(false);
             etLoopTime.setEnabled(false);
             checkBoxLongDown.setEnabled(false);
+            tableLayout6.setVisibility(View.GONE);
             tableLayout5.setVisibility(View.GONE);
-            tableLayout4.setVisibility(View.GONE);
         } else {
             checkBoxLoop.setChecked(MyApp.isLoop);
             etLoopTime.setEnabled(MyApp.isLoop);
@@ -196,8 +196,8 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             }
         });
         checkBoxLongDown = findViewById(R.id.check_long_down);
+        tableLayout6 = findViewById(R.id.set_tab6);
         tableLayout5 = findViewById(R.id.set_tab5);
-        tableLayout4 = findViewById(R.id.set_tab4);
         rlFloatSwitch = findViewById(R.id.rl_float_switch);
         openFloatWindow = findViewById(R.id.toggle_set_float);
         openFloatWindow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -344,11 +344,11 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         //判断服务是否存在
         isExistServer = SharedXmlUtil.getInstance(this).read("server", false);
         if (isExistServer) {
+            tableLayout6.setVisibility(View.VISIBLE);
             tableLayout5.setVisibility(View.VISIBLE);
-            tableLayout4.setVisibility(View.VISIBLE);
         } else {
+            tableLayout6.setVisibility(View.GONE);
             tableLayout5.setVisibility(View.GONE);
-            tableLayout4.setVisibility(View.GONE);
         }
         if ("open".equals(SharedXmlUtil.getInstance(this).read("floatWindow", "close"))) {
             openFloatWindow.setChecked(true);
