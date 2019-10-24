@@ -51,11 +51,11 @@ public class PopSetFreqActivity extends BaseActivity {
         //获取设备型号
         String model = UHFManager.getUHFModel();
         ArrayAdapter<String> tmp;
-        if ("r2k".equals(model)){
+        if (UHFManager.FACTORY_R2000.equals(model)) {
             tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.r2k_freq));
-        }else if ("xinlian".equals(model)){
+        } else if (model.contains(UHFManager.FACTORY_XINLIAN)) {
             tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.freq));
-        }else {
+        } else {
             tmp = new ArrayAdapter<>(PopSetFreqActivity.this, R.layout.item_set_popup, getResources().getStringArray(R.array.yi_xin_freq));
         }
         lvFreq.setAdapter(tmp);
