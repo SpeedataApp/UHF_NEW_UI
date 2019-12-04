@@ -143,8 +143,6 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             if (!model.equals(UHFManager.FACTORY_YIXIN)) {
                 //获取通话项
                 getSession();
-            }
-            if (model.contains(UHFManager.FACTORY_R2000)) {
                 tableLayoutInvCon.setVisibility(View.VISIBLE);
                 //获取盘点模式
                 getInvCon();

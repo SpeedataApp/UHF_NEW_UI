@@ -15,7 +15,7 @@ allprojects {
 ```
 ```
  dependencies {
-    implementation 'com.github.SpeedataG:UHF:8.1.2'
+    implementation 'com.github.SpeedataG:UHF:8.1.3'
     //模块上电引用
     implementation 'com.github.SpeedataG:Device:1.6.8'
   }
