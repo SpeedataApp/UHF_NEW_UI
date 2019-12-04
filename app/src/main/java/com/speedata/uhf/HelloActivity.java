@@ -87,13 +87,11 @@ public class HelloActivity extends Activity {
             i = iuhfService.setQueryTagGroup(0, SharedXmlUtil.getInstance(this).read(MyApp.UHF_SESSION, 0), 0);
             Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
             SystemClock.sleep(100);
+            i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
+            Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
         }
         if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
             iuhfService.setLowpowerScheduler(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 50), SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 0));
-        }
-        if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_R2000)) {
-            i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
-            Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
         }
         SystemClock.sleep(100);
     }
