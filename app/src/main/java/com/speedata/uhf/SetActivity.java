@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
@@ -33,6 +34,7 @@ public class SetActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         setContentView(R.layout.activity_hello);
         final Intent it = new Intent(this, InvSetActivity.class);
         runnable = new Runnable() {
