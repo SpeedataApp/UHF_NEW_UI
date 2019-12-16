@@ -22,9 +22,10 @@ import android.widget.Toast;
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.bean.SpdWriteData;
 import com.speedata.libuhf.interfaces.OnSpdWriteListener;
+import com.speedata.libuhf.utils.ErrorStatus;
 import com.speedata.libuhf.utils.StringUtils;
 import com.speedata.uhf.R;
-import com.speedata.uhf.libutils.ErrorStatus;
+
 
 import java.util.Objects;
 
@@ -88,7 +89,7 @@ public class WriteCardDialog extends Dialog implements
                     stringBuilder.append(mContext.getResources().getString(R.string.write_success)).append("\n");
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
                 } else {
-                    stringBuilder.append(mContext.getResources().getString(R.string.write_fail)).append(":").append(ErrorStatus.getErrorStatus(var1.getStatus())).append("\n");
+                    stringBuilder.append(mContext.getResources().getString(R.string.write_fail)).append(":").append(ErrorStatus.getErrorStatus(mContext,var1.getStatus())).append("\n");
                 }
                 if (!isSuccess) {
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));

@@ -1,10 +1,8 @@
 package com.speedata.uhf;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -19,11 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.bean.SpdWriteData;
 import com.speedata.libuhf.interfaces.OnSpdWriteListener;
 import com.speedata.libuhf.utils.StringUtils;
-import com.speedata.uhf.libutils.ErrorStatus;
+import com.speedata.libuhf.utils.ErrorStatus;
 
 /**
  * 卡片属性设置弹框
@@ -139,7 +136,7 @@ public class PopAttrSetActivity extends BaseActivity {
                     stringBuilder.append(getResources().getString(R.string.set_success)).append("\n");
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
                 } else {
-                    stringBuilder.append(getResources().getString(R.string.set_failed)).append(ErrorStatus.getErrorStatus(var1.getStatus())).append("\n");
+                    stringBuilder.append(getResources().getString(R.string.set_failed)).append(ErrorStatus.getErrorStatus(PopAttrSetActivity.this, var1.getStatus())).append("\n");
                 }
                 if (!isSuccess) {
                     handler.sendMessage(handler.obtainMessage(1, stringBuilder));
