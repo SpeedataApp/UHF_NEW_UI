@@ -215,7 +215,7 @@
     <string name="write_fail">Write Failed</string>
     <string name="read_fail">Read Failed</string>
 
-    <string name="welcome">Welcome to uhf applications</string>
+    <string name="welcome">Welcome to uhf application</string>
     <string name="count_not_zero">blocks cannot be 0</string>
 
     <string name="algorithm_set">Algorithm Settings</string>

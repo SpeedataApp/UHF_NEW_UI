@@ -15,11 +15,11 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <!--开机自启-->
+<!--    &lt;!&ndash;开机自启&ndash;&gt;
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--屏幕唤醒 屏幕解锁-->
+    &lt;!&ndash;屏幕唤醒 屏幕解锁&ndash;&gt;
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->
 
     <application
         android:name=".MyApp"
@@ -137,11 +137,11 @@
                 android:resource="@string/qb_config_summary" />
         </activity>
 
-        <receiver android:name=".BootReceiver">
+        <!--<receiver android:name=".BootReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
     </application>
 
