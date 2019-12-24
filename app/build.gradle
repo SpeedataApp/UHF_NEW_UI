@@ -6,11 +6,11 @@ android {
         applicationId "com.speedata.uhf"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 32
-        versionName "NEW2.3.6"
+        versionCode 33
+        versionName "NEW2.3.7"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -42,7 +42,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     api 'org.greenrobot:eventbus:3.0.0'
     //7.6.9
-    implementation 'com.github.SpeedataG:UHF:8.1.5'
+    implementation 'com.github.SpeedataG:UHF:8.1.7'
     implementation 'com.github.SpeedataG:Device:1.6.8'
     //引用超高频不需要引用下面
     api 'com.tencent.bugly:nativecrashreport:3.3.1'
