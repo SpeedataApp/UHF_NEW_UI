@@ -41,8 +41,10 @@ import com.speedata.uhf.adapter.UhfCardAdapter;
 import com.speedata.uhf.adapter.UhfCardBean;
 import com.speedata.uhf.dialog.DefaultSettingDialog;
 import com.speedata.uhf.excel.EPCBean;
+import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.libutils.ToastUtil;
 import com.speedata.uhf.libutils.excel.ExcelUtils;
+import com.yhao.floatwindow.FloatWindow;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -122,7 +124,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
             if (!MyApp.isOpenServer) {
                 String action = intent.getAction();
-//                assert action != null;
                 switch (Objects.requireNonNull(action)) {
                     case START_SCAN:
                         //启动超高频扫描
@@ -149,8 +150,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         //强制为竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        iuhfService = MyApp.getInstance().getIuhfService();
-        model = UHFManager.getUHFModel();
+        initUhf();
         initView();
         initData();
         initReceive();
@@ -197,27 +197,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
         Log.w("as3992_6C", "id is " + soundId);
-        // 盘点回调函数
-        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
-            @Override
-            public void getInventoryData(SpdInventoryData var1) {
-                handler.sendMessage(handler.obtainMessage(1, var1));
-                Log.d("UHFService", "回调");
-            }
-        });
     }
 
     public void initData() {
-        //上电
-        try {
-            if (iuhfService != null) {
-                if (openDev()) {
-                    return;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        model = UHFManager.getUHFModel();
         // 加载适配器
         uhfCardAdapter = new UhfCardAdapter(this, R.layout.item_uhf_card, uhfCardBeanList);
         mListViewCard.setAdapter(uhfCardAdapter);
@@ -315,6 +298,14 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                     } else {
                         Toast.makeText(NewMainActivity.this, "There is a problem in exporting! Please try again", Toast.LENGTH_SHORT).show();
                     }
+                case -1:
+                    int status = (int) msg.obj;
+                    if (cn) {
+                        Toast.makeText(NewMainActivity.this, "盘点失败:" + status, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(NewMainActivity.this, "Inventory Failed:" + status, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -339,6 +330,20 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         }
         //取消掩码
         iuhfService.selectCard(1, "", false);
+        // 盘点回调函数
+        iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
+            @Override
+            public void getInventoryData(SpdInventoryData var1) {
+                handler.sendMessage(handler.obtainMessage(1, var1));
+                Log.d("UHFService", "回调");
+            }
+
+            @Override
+            public void onInventoryStatus(int status) {
+                handler.sendMessage(handler.obtainMessage(-1, status));
+                Log.d("UHFService", "盘点失败" + status);
+            }
+        });
         iuhfService.inventoryStart();
         inSearch = true;
         mLlFind.setVisibility(View.GONE);
@@ -516,13 +521,13 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                     }
                 }).show();
                 MyApp.isOpenDev = false;
-                return true;
+                return false;
             } else {
                 Log.d("UHFService", "上电成功");
             }
         }
         MyApp.isOpenDev = true;
-        return false;
+        return true;
     }
 
 
@@ -674,6 +679,37 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             } else {
                 handler.sendMessage(handler.obtainMessage(3));
             }
+        }
+    }
+
+    private void initUhf() {
+        iuhfService = MyApp.getInstance().getIuhfService();
+        if (iuhfService != null) {
+            SystemClock.sleep(1000);
+        } else {
+            MyApp.getInstance().setIuhfService();
+            iuhfService = MyApp.getInstance().getIuhfService();
+            if (iuhfService == null) {
+                FloatWarnManager.getInstance(getApplicationContext(), getResources().getString(R.string.dialog_module_none));
+                FloatWarnManager floatWarnManager = FloatWarnManager.getFloatWarnManager();
+                if (floatWarnManager != null) {
+                    FloatWindow.get("FloatWarnTag").show();
+                }
+                return;
+            }
+            try {
+                MyApp.isOpenDev = openDev();
+                if (MyApp.isOpenDev) {
+                    MyApp.getInstance().initParam();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            SystemClock.sleep(100);
+            Log.d("UHFService", "startService==main==");
+            startService(new Intent(this, MyService.class));
+            SharedXmlUtil.getInstance(this).write("server", true);
+            SystemClock.sleep(1000);
         }
     }
 }

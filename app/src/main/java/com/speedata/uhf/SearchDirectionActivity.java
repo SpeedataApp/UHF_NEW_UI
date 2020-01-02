@@ -100,6 +100,11 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
                 handler.sendMessage(handler.obtainMessage(1, var1));
                 Log.w("as3992_6C", "id is " + soundId);
             }
+
+            @Override
+            public void onInventoryStatus(int status) {
+
+            }
         });
     }
 

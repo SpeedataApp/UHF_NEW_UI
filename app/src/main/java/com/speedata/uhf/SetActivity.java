@@ -50,7 +50,7 @@ public class SetActivity extends Activity {
                         if (iuhfService != null) {
                             MyApp.isOpenDev = openDev();
                             if (MyApp.isOpenDev) {
-                                initParam();
+                                MyApp.getInstance().initParam();
                             }
                         }
                     } catch (Exception e) {
@@ -76,27 +76,6 @@ public class SetActivity extends Activity {
         handler.postDelayed(runnable, 500);
     }
 
-    private void initParam() {
-        int i;
-        i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 2));
-        Log.d("zzc:", "===isFirstInit===setFreqRegion:" + i);
-        SystemClock.sleep(600);
-        Log.d("zzc:", "===isFirstInit===setFreqRegion:" + iuhfService.getFreqRegion());
-        i = iuhfService.setAntennaPower(SharedXmlUtil.getInstance(this).read(MyApp.UHF_POWER, 30));
-        Log.d("zzc:", "===isFirstInit===setAntennaPower:" + i);
-        SystemClock.sleep(100);
-        if (!UHFManager.getUHFModel().equals(UHFManager.FACTORY_YIXIN)) {
-            i = iuhfService.setQueryTagGroup(0, SharedXmlUtil.getInstance(this).read(MyApp.UHF_SESSION, 0), 0);
-            Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
-            SystemClock.sleep(100);
-            i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
-            Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
-        }
-        if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {
-            iuhfService.setLowpowerScheduler(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_TIME, 50), SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_SLEEP, 0));
-        }
-        SystemClock.sleep(100);
-    }
 
     @Override
     protected void onStart() {

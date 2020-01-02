@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Splash">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/bg_a</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="MyToggleBtn" parent="@android:style/Widget.CompoundButton">
         <item name="android:button">@drawable/toggle_btn</item>
     </style>

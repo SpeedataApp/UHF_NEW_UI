@@ -269,6 +269,11 @@ public class MyService extends Service {
                     }
                 }
             }
+
+            @Override
+            public void onInventoryStatus(int status) {
+
+            }
         });
         if (MyApp.getInstance().getIuhfService() != null) {
             if (!MyApp.isStart) {
