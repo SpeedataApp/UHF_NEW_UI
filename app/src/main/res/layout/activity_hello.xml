@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_white"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/empy_state" />
@@ -18,5 +17,5 @@
         android:layout_marginBottom="40dp"
         android:text="@string/welcome"
         android:textSize="24sp" />
-
+-->
 </LinearLayout>
