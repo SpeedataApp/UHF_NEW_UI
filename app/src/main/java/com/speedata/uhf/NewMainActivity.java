@@ -58,37 +58,23 @@ import jxl.write.Colour;
 
 /**
  * 主界面
+ * The home page
  *
  * @author zzc
  */
 public class NewMainActivity extends BaseActivity implements View.OnClickListener {
 
-    /**
-     * 搜索输入框
-     */
     private TextView mEtSearch;
     private AlertDialog alertDialog1;
-    /**
-     * 寻卡
-     */
     private Button mFindBtn;
     private LinearLayout mLlFind, mLlListBg, mLlPause;
-    /**
-     * 寻卡列表
-     */
     private ListView mListViewCard;
     private TextView mTvListMsg;
-    /**
-     * 声音开关
-     */
     private ToggleButton mTbtnSound;
     private TextView tagNumTv;
     private TextView speedTv;
     private TextView totalTime;
     private TextView mVersionTv;
-    /**
-     * 导出
-     */
     private Button btnExport;
     private Button mBtSearch;
     private ImageView mIvSet;
@@ -103,14 +89,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private SoundPool soundPool;
     private int soundId;
     private String model;
-    /**
-     * 退出计时
-     */
     private long mkeyTime = 0;
     private long scant = 0;
-    /**
-     * 盘点命令下发后截取的系统时间
-     */
     private long startCheckingTime;
     private static final String CHARGING_PATH = "/sys/class/misc/bq25601/regdump/";
     private File file;
@@ -126,7 +106,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 String action = intent.getAction();
                 switch (Objects.requireNonNull(action)) {
                     case START_SCAN:
-                        //启动超高频扫描
+                        //启动超高频扫描 Start uhf scan
                         if (inSearch) {
                             return;
                         }
@@ -148,8 +128,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //强制为竖屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initUhf();
         initView();
         initData();
@@ -161,9 +139,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_main);
         mIvMenu = findViewById(R.id.iv_menu);
         mIvMenu.setOnClickListener(this);
-        //设置
         mIvSet = (ImageView) findViewById(R.id.iv_set);
-        //搜索按钮
         mBtSearch = (Button) findViewById(R.id.bt_search);
         mEtSearch = findViewById(R.id.et_search);
         mEtSearch.setOnClickListener(this);
@@ -201,10 +177,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     public void initData() {
         model = UHFManager.getUHFModel();
-        // 加载适配器
+        // 加载适配器 Load adapter
         uhfCardAdapter = new UhfCardAdapter(this, R.layout.item_uhf_card, uhfCardBeanList);
         mListViewCard.setAdapter(uhfCardAdapter);
-        // 列表回调item点击事件
+        // 列表回调item点击事件 List callback item click event
         mListViewCard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -219,7 +195,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 }
                 int res = iuhfService.selectCard(1, epcStr, true);
                 if (res == 0) {
-                    // 选卡成功 set_current_tag_epc
+                    // 选卡成功 Selected card success
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putString("epcName", epcStr);
@@ -238,6 +214,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 注册广播
+     * Registered broadcasting
      */
     private void initReceive() {
         IntentFilter filter = new IntentFilter();
@@ -245,8 +222,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         filter.addAction(STOP_SCAN);
         registerReceiver(receiver, filter);
     }
-
-    //新的Listener回调参考代码
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -315,6 +290,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 开始盘点
+     * Start inventory
      */
     private void startUhf() {
         if (iuhfService == null) {
@@ -328,9 +304,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //取消掩码
+        //取消掩码 Cancel the mask
         iuhfService.selectCard(1, "", false);
-        // 盘点回调函数
+        // 盘点回调函数 callback function
         iuhfService.setOnInventoryListener(new OnSpdInventoryListener() {
             @Override
             public void getInventoryData(SpdInventoryData var1) {
@@ -342,6 +318,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             public void onInventoryStatus(int status) {
                 handler.sendMessage(handler.obtainMessage(-1, status));
                 Log.d("UHFService", "盘点失败" + status);
+                iuhfService.inventoryStart();
             }
         });
         iuhfService.inventoryStart();
@@ -368,6 +345,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 停止盘点
+     * Stop inventory
      */
     private void stopUhf() {
         if (iuhfService == null) {
@@ -396,23 +374,24 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 处理监听事件
+     * listener events
      */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_set:
                 if (MyApp.isFastMode && model.contains(UHFManager.FACTORY_XINLIAN)) {
-                    //开启快速模式禁用设置
+                    //开启快速模式禁用设置  Disable Settings if fast mode is enabled
                     ToastUtil.customToastView(this, getResources().getString(R.string.toast_stop_fast_tips), Toast.LENGTH_SHORT
                             , (TextView) LayoutInflater.from(this).inflate(R.layout.layout_toast, null));
                 } else {
-                    //设置
+                    //设置  Enter the Settings
                     Intent intent = new Intent(this, InvSetActivity.class);
                     startActivity(intent);
                 }
                 break;
             case R.id.bt_search:
-                //搜索
+                //搜索 search
                 String epc = mEtSearch.getText().toString();
                 Log.d("zzc", "epc:" + epc);
                 if (epc.isEmpty()) {
@@ -426,8 +405,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent1);
                 break;
             case R.id.btn_find:
-                //寻卡
-                //盘点选卡
+                //寻卡  inventory
                 if (inSearch) {
                     stopUhf();
                 } else {
@@ -435,7 +413,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.btn_export:
-                //导出
+                //导出  export
                 kProgressHUD = KProgressHUD.create(this)
                         .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                         .setCancellable(false)
@@ -490,7 +468,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        //初始化声音线程
+        //初始化声音线程  Initializes the sound thread
         initSoundPool();
         MyApp.isOpenServer = false;
     }
@@ -501,6 +479,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         MyApp.isOpenServer = true;
         if (iuhfService != null) {
             //更新回调
+            //Update the callback
             sendUpddateService();
         }
         super.onPause();
@@ -508,6 +487,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 上电开串口
+     * Power on and open serial port
      */
     private boolean openDev() {
         if (!MyApp.isOpenDev) {
@@ -533,6 +513,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 更新显示数据
+     * Update display data
      */
     private void updateRateCount() {
         Log.e("zzc", "==updateRateCount==");
@@ -614,21 +595,27 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 从时间(毫秒)中提取出时间(时:分:秒)
+     * extract time from time (ms) (hours: minutes: seconds)
      * 时间格式:  时:分:秒.毫秒
+     * time format: time: minutes: seconds. Milliseconds
      *
-     * @param millisecond 毫秒
-     * @return 时间字符串
+     * @param millisecond 毫秒 Milliseconds
+     * @return 时间字符串 Time string
      */
     public static String getTimeFromMillisecond(Long millisecond) {
         String milli;
         int num = 100;
         //根据时间差来计算小时数
+        //Calculate the hours according to the time difference
         long hours = millisecond / (60 * 60 * 1000);
         //根据时间差来计算分钟数
+        //Calculate the minutes according to the time difference
         long minutes = (millisecond - hours * (60 * 60 * 1000)) / (60 * 1000);
         //根据时间差来计算秒数
+        //Calculate the seconds according to the time difference
         long second = (millisecond - hours * (60 * 60 * 1000) - minutes * (60 * 1000)) / 1000;
-        //根据时间差来计算秒数
+        //根据时间差来计算毫秒数
+        //Calculate the milliseconds according to the time difference
         long milliSecond = millisecond - hours * (60 * 60 * 1000) - minutes * (60 * 1000) - second * 1000;
         if (milliSecond < num) {
             milli = "0" + milliSecond;
@@ -657,17 +644,17 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             if (epcBeanList.size() > 0) {
                 try {
                     ExcelUtils.getInstance()
-                            //设置表格名称
+                            //设置表格名称    Set table name
                             .setSHEET_NAME("UHFMsg")
-                            //设置标题字体颜色
+                            //设置标题字体颜色  Set the title font color
                             .setFONT_COLOR(Colour.BLUE)
-                            //设置标题字体大小
+                            //设置标题字体大小  Set the font size of the title
                             .setFONT_TIMES(8)
-                            //设置标题字体是否斜体
+                            //设置标题字体是否斜体    Sets whether the title font is italic or not
                             .setFONT_BOLD(true)
-                            //设置标题背景颜色
+                            //设置标题背景颜色      Set the title background color
                             .setBACKGROND_COLOR(Colour.GRAY_25)
-                            //设置excel内容
+                            //设置excel内容     Set excel content
                             .setContent_list_Strings(epcBeanList)
                             .setWirteExcelPath(Environment.getExternalStorageDirectory() + File.separator + "UHFMsg.xls")
                             .createExcel(NewMainActivity.this);
@@ -701,6 +688,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 MyApp.isOpenDev = openDev();
                 if (MyApp.isOpenDev) {
                     MyApp.getInstance().initParam();
+                } else {
+                    return;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

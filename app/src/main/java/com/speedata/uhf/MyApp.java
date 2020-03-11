@@ -29,7 +29,7 @@ import java.io.IOException;
  */
 public class MyApp extends Application {
     /**
-     * 单例
+     * 单例   Single case
      */
     private static MyApp m_application;
     private IUHFService iuhfService;
@@ -43,10 +43,12 @@ public class MyApp extends Application {
     public static boolean isLongDown = false;
     /**
      * 程序启动初始化一次的标志，运行过程中不再初始化
+     * The flag that the program starts and initializes once, not again during execution
      */
     public static boolean isFirstInit = true;
     /**
      * 是否启动快速模式
+     * Whether to start fast mode
      */
     public static boolean isFastMode = false;
     public final static String UHF_FREQ = "uhf_freq";
@@ -66,14 +68,14 @@ public class MyApp extends Application {
         Log.d("APP", "onCreate");
         m_application = this;
         Context context = getApplicationContext();
-        // 获取当前包名
+        // 获取当前包名   Gets the current package name
         String packageName = context.getPackageName();
-        // 获取当前进程名
+        // 获取当前进程名  Gets the current process name
         String processName = getProcessName(android.os.Process.myPid());
-        // 设置是否为上报进程
+        // 设置是否为上报进程    Set whether it is an escalation process
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        // 初始化Bugly
+        // 初始化Bugly     Initialize Bugly
         Bugly.init(getApplicationContext(), "d39e936d74", true, strategy);
 
         Log.d("UHFService", "MyApp onCreate");
@@ -138,6 +140,7 @@ public class MyApp extends Application {
 
     /**
      * 获取进程号对应的进程名
+     * Gets the process name corresponding to the process number
      *
      * @param pid 进程号
      * @return 进程名

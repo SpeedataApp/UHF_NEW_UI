@@ -20,6 +20,7 @@ import java.util.Objects;
 
 /**
  * 当前卡片
+ * The current card
  * Created by 张智超 on 2019/3/7
  *
  * @author 张智超

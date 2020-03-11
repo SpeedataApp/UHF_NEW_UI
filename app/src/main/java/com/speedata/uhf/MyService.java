@@ -36,6 +36,9 @@ import java.util.TimerTask;
 
 /**
  * 接受广播  触发盘点，返回EPC
+ * Receive broadcasting
+ * Trigger inventory
+ * Returns the EPC
  *
  * @author My_PC
  */
@@ -43,15 +46,12 @@ public class MyService extends Service {
 
     /**
      * 按设备侧键触发的扫描广播
+     * Scan broadcast triggered by pressing device side key
      */
     public static final String START_SCAN = "com.spd.action.start_uhf";
     public static final String STOP_SCAN = "com.spd.action.stop_uhf";
-    /**
-     * 按设备侧键触发的扫描广播
-     */
-    public static final String SCAN_BARCODE = "com.geomobile.se4500barcode";
+
     public static final String ACTION_SEND_EPC = "com.se4500.onDecodeComplete";
-    public static final String ACTION_SEND_DATA = "com.spd.action.data";
     public static final String UPDATE = "uhf.update";
     private static final String TAG = "UHFService";
     private SoundPool soundPool;
@@ -59,10 +59,12 @@ public class MyService extends Service {
     private boolean isStart = false;
     /**
      * 超高频单次模式
+     * UHF single mode
      */
     public final int MODE_UHF = 2;
     /**
      * 超高频重复模式
+     * UHF more mode
      */
     public final int MODE_UHF_RE = 3;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -91,7 +93,7 @@ public class MyService extends Service {
             if (MyApp.isOpenServer) {
                 switch (Objects.requireNonNull(action)) {
                     case START_SCAN:
-                        //启动超高频扫描
+                        //启动超高频扫描   start
                         if (openDev()) {
                             startScan();
                             if (MyApp.isLoop) {
@@ -101,7 +103,7 @@ public class MyService extends Service {
                         break;
                     case STOP_SCAN:
                         if (MyApp.isLongDown) {
-                            //停止盘点
+                            //停止盘点      stop
                             MyApp.getInstance().getIuhfService().inventoryStop();
                             MyApp.isStart = false;
                             cancelTimer();
@@ -135,14 +137,13 @@ public class MyService extends Service {
             Log.d("MyService", "getProgress executed");
             return 0;
         }
-        //在服务中自定义getProgress()方法，待会活动中调用此方法
 
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
-    }//普通服务的不同之处，onBind()方法不在打酱油，而是会返回一个实例
+    }
 
     private Timer timer;
     private TimerTask myTimerTask;
@@ -200,7 +201,6 @@ public class MyService extends Service {
         if (soundPool == null) {
             soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
             soundId = soundPool.load("/system/media/audio/ui/VideoRecord.ogg", 0);
-            Log.w("as3992_6C", "id is " + soundId);
         }
         Log.e(TAG, "initUHF");
         if (MyApp.getInstance().getIuhfService() != null) {
@@ -263,7 +263,7 @@ public class MyService extends Service {
                     ListThread listThread = new ListThread();
                     listThread.start();
                     if (finalIsOnce) {
-                        //停止盘点
+                        //停止盘点 stop
                         MyApp.getInstance().getIuhfService().inventoryStop();
                         MyApp.isStart = false;
                     }
@@ -337,6 +337,7 @@ public class MyService extends Service {
 
     /**
      * 上电开串口
+     * Power on and open serial port
      */
     private boolean openDev() {
         Log.d("zzc", "==MyService==openDev==" + MyApp.isOpenDev);
