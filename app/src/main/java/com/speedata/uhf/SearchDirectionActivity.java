@@ -103,7 +103,7 @@ public class SearchDirectionActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onInventoryStatus(int status) {
-
+                iuhfService.inventoryStart();
             }
         });
     }

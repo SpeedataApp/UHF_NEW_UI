@@ -276,9 +276,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                 case -1:
                     int status = (int) msg.obj;
                     if (cn) {
-                        Toast.makeText(NewMainActivity.this, "盘点失败:" + status, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewMainActivity.this, "盘点中断:" + status, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(NewMainActivity.this, "Inventory Failed:" + status, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewMainActivity.this, "Inventory interrupt:" + status, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:
