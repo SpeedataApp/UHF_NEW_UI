@@ -16,11 +16,13 @@ import android.widget.Toast;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
+import com.speedata.libuhf.bean.DynamicQParams;
+import com.speedata.libuhf.bean.FixedQParams;
 import com.speedata.libuhf.utils.SharedXmlUtil;
 import com.speedata.uhf.MyApp;
 import com.speedata.uhf.R;
-import com.uhf.structures.DynamicQParams;
-import com.uhf.structures.FixedQParams;
+//import com.uhf.structures.DynamicQParams;
+//import com.uhf.structures.FixedQParams;
 
 /**
  * R2000模块唯一的盘点设置选项，旗连模块没有本页面

@@ -18,7 +18,6 @@
     <!--其他模块频段-->
     <string-array name="freq">
         <item>840_845</item>
-        <item>920_925</item>
         <item>902_928</item>
         <item>865_868</item>
     </string-array>

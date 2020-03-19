@@ -118,7 +118,7 @@ public class MyApp extends Application {
 
     public void initParam() {
         int i;
-        i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 2));
+        i = iuhfService.setFreqRegion(SharedXmlUtil.getInstance(this).read(MyApp.UHF_FREQ, 1));
         Log.d("zzc:", "===isFirstInit===setFreqRegion:" + i);
         SystemClock.sleep(600);
         Log.d("zzc:", "===isFirstInit===setFreqRegion:" + iuhfService.getFreqRegion());

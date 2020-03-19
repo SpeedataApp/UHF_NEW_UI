@@ -245,7 +245,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 etFreqPoint.setText(String.valueOf(new DecimalFormat("0.000").format(freqRegion / 1000.0)));
             }
         } else if (model.contains(UHFManager.FACTORY_XINLIAN)) {
-            if (freqRegion >= 0 && freqRegion <= 3) {
+            if (freqRegion >= 0 && freqRegion <= 2) {
                 tvSetFreq.setText(getResources().getStringArray(R.array.freq)[freqRegion]);
             } else {
                 tvSetFreq.setText("...");
