@@ -627,7 +627,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 //设置盘点内容
                 iuhfService.cancelMask();
                 SharedXmlUtil.getInstance(InvSetActivity.this).write("U8", false);
-                int caddr = 0, csize = 6;
+                int caddr = 0, csize = 12;
                 int mode = iuhfService.setInvMode(w, caddr, csize);
                 if (mode == 0) {
                     SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_CON, w);
