@@ -57,7 +57,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     Intent intent;
     Bundle bundle;
     private IUHFService iuhfService;
-    private ToggleButton checkBoxService, openFloatWindow;
+    private ToggleButton checkBoxService, openFloatWindow, openSound;
     private String model;
     private int freqRegion, s2Region, invConRegion;
     private TableLayout tableLayoutInvCon;
@@ -74,6 +74,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private TextView mVersionTv;
     private RelativeLayout rlFloatSwitch;
     private LinearLayout setTimeLayout2;
+    private EditText etCustomAction, etCustomKeyEpc, etCustomKeyTid, etCustomKeyRssi;
 
 
     @Override
@@ -230,6 +231,18 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         mVersionTv = (TextView) findViewById(R.id.tv_version_model);
         mVersionTv.setText(CommonUtils.getAppVersionName(this));
         setTimeLayout2 = findViewById(R.id.set_tab2);
+        etCustomAction = findViewById(R.id.et_custom_action);
+        etCustomKeyEpc = findViewById(R.id.et_custom_key1);
+        etCustomKeyTid = findViewById(R.id.et_custom_key2);
+        etCustomKeyRssi = findViewById(R.id.et_custom_key3);
+        findViewById(R.id.btn_set_action).setOnClickListener(this);
+        openSound = findViewById(R.id.toggle_set_sound);
+        openSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedXmlUtil.getInstance(InvSetActivity.this).write("server_sound", isChecked);
+            }
+        });
     }
 
     private void getFreq() {
@@ -361,6 +374,16 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 FloatWindow.get("FloatListTag").hide();
             }
         }
+        SharedXmlUtil sharedXmlUtil = SharedXmlUtil.getInstance(this);
+        String action = sharedXmlUtil.read(MyApp.ACTION_SEND_CUSTOM, "");
+        String keyEpc = sharedXmlUtil.read(MyApp.ACTION_KEY_EPC, "");
+        String keyTid = sharedXmlUtil.read(MyApp.ACTION_KEY_TID, "");
+        String keyRssi = sharedXmlUtil.read(MyApp.ACTION_KEY_RSSI, "");
+        etCustomAction.setText(action);
+        etCustomKeyEpc.setText(keyEpc);
+        etCustomKeyTid.setText(keyTid);
+        etCustomKeyRssi.setText(keyRssi);
+        openSound.setChecked(SharedXmlUtil.getInstance(InvSetActivity.this).read("server_sound", true));
     }
 
     @Override
@@ -436,9 +459,23 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 String sleep = etSleep.getText().toString();
                 setInvTime(time, sleep);
                 break;
+            case R.id.btn_set_action:
+                setCustomAction();
+                break;
             default:
                 break;
         }
+    }
+
+    private void setCustomAction() {
+        String action = etCustomAction.getText().toString();
+        String key1 = etCustomKeyEpc.getText().toString();
+        String key2 = etCustomKeyTid.getText().toString();
+        String key3 = etCustomKeyRssi.getText().toString();
+        SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.ACTION_SEND_CUSTOM, action);
+        SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.ACTION_KEY_EPC, key1);
+        SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.ACTION_KEY_TID, key2);
+        SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.ACTION_KEY_RSSI, key3);
     }
 
 

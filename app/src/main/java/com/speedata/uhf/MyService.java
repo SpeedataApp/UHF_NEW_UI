@@ -52,6 +52,7 @@ public class MyService extends Service {
     public static final String STOP_SCAN = "com.spd.action.stop_uhf";
 
     public static final String ACTION_SEND_EPC = "com.se4500.onDecodeComplete";
+    public static final String ACTION_SEND_DATA = "com.spd.action.data";
     public static final String UPDATE = "uhf.update";
     private static final String TAG = "UHFService";
     private SoundPool soundPool;
@@ -160,7 +161,7 @@ public class MyService extends Service {
 
     private void creatTimer() {
         if (timer == null) {
-            if (MyApp.mLoopTime.isEmpty() || MyApp.mLoopTime == null || "".equals(MyApp.mLoopTime)) {
+            if (MyApp.mLoopTime == null || MyApp.mLoopTime.isEmpty()) {
                 MyApp.mLoopTime = "0";
             }
             final int loopTime = Integer.parseInt(MyApp.mLoopTime);
@@ -258,6 +259,7 @@ public class MyService extends Service {
                 String epc = var1.getEpc();
                 if (!epc.isEmpty() && MyApp.isStart && !linkedList.contains(var1.getEpc())) {
                     sendEpc(epc);
+                    sendData(var1);
                     linkedList.addLast(var1.getEpc());
 //                    Log.d("zzcEpc", "= add =" + epc);
                     ListThread listThread = new ListThread();
@@ -292,8 +294,43 @@ public class MyService extends Service {
         }
     }
 
+    private void sendData(SpdInventoryData var1) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SEND_DATA);
+        Bundle bundle = new Bundle();
+        bundle.putString("epc", var1.getEpc());
+        bundle.putString("tid", var1.getTid());
+        bundle.putString("rssi", var1.getRssi());
+        intent.putExtras(bundle);
+        sendBroadcast(intent);
+
+        SharedXmlUtil sharedXmlUtil = SharedXmlUtil.getInstance(MyService.this);
+        String action = sharedXmlUtil.read(MyApp.ACTION_SEND_CUSTOM, "");
+        String keyEpc = sharedXmlUtil.read(MyApp.ACTION_KEY_EPC, "");
+        String keyTid = sharedXmlUtil.read(MyApp.ACTION_KEY_TID, "");
+        String keyRssi = sharedXmlUtil.read(MyApp.ACTION_KEY_RSSI, "");
+        if (!action.isEmpty()) {
+            Intent intentCustom = new Intent(action);
+            Bundle bundle1 = new Bundle();
+            if (!keyEpc.isEmpty()) {
+                bundle1.putString(keyEpc, var1.getEpc());
+            }
+            if (!keyTid.isEmpty()) {
+                bundle1.putString(keyTid, var1.getTid());
+            }
+            if (!keyRssi.isEmpty()) {
+                bundle1.putString(keyRssi, var1.getRssi());
+            }
+            intentCustom.putExtras(bundle1);
+            sendBroadcast(intentCustom);
+        }
+        Log.d(TAG, "===sendData===" + action);
+    }
+
     private void sendEpc(String epc) {
-        soundPool.play(soundId, 1, 1, 0, 0, 1);
+        if (SharedXmlUtil.getInstance(MyService.this).read("server_sound", true)) {
+            soundPool.play(soundId, 1, 1, 0, 0, 1);
+        }
         switch (MyApp.mPrefix) {
             case 0:
                 epc = "\n" + epc;

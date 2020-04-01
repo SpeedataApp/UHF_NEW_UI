@@ -284,7 +284,8 @@
     <string name="item_left">Left Button</string>
     <string name="item_right">Right Button</string>
     <string name="item_qb">Pikestaff Button</string>
-    <string name="tv_open_float">Open the suspension window</string>
+    <string name="tv_open_float">Open or close the suspension window</string>
+    <string name="tv_open_sound">Turn the sound on or off</string>
 
     <string name="power_tips">range 5 ~ 30</string>
     <string name="low_power">Low power UHF is forbidden</string>
@@ -312,4 +313,15 @@
     <string name="tv_s0_mode">s0 Fast mode</string>
     <string name="tv_s1_mode">s1 Fast mode</string>
     <string name="toast_stop_fast_tips">Please turn off fast mode first</string>
+
+    <string name="btn_set_action">Set up custom broadcasts</string>
+    <string name="custom_action">Custom broadcast</string>
+    <string name="custom_key_epc">Custom epc key value</string>
+    <string name="custom_key_tid">Custom tid key value</string>
+    <string name="custom_key_rssi">Custom RSSI key value</string>
+    <string name="custom_action_hint">action value</string>
+    <string name="custom_key_epc_hint">epc key value</string>
+    <string name="custom_key_tid_hint">tid key value</string>
+    <string name="custom_key_rssi_hint">RSSI key value</string>
+
 </resources>

@@ -57,6 +57,10 @@ public class MyApp extends Application {
     public final static String UHF_INV_CON = "uhf_inv_con";
     public final static String UHF_INV_TIME = "uhf_inv_time";
     public final static String UHF_INV_SLEEP = "uhf_inv_sleep";
+    public final static String ACTION_SEND_CUSTOM = "action_send_custom";
+    public final static String ACTION_KEY_EPC = "action_key_epc";
+    public final static String ACTION_KEY_TID = "action_key_tid";
+    public final static String ACTION_KEY_RSSI = "action_key_rssi";
 
     public static MyApp getInstance() {
         return m_application;

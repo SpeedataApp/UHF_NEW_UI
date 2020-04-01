@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">UHF</string>
+    <!--    <string name="app_name">UHF</string>-->
+    <string name="app_name">BigSunUHF</string>
 
     <string name="check_box_close">退出时关闭焦点扫描EPC</string>
     <string name="check_box_close_service">退出时关闭快捷盘点服务</string>
@@ -278,8 +279,9 @@
     <string name="item_left">左侧按键</string>
     <string name="item_right">右侧按键</string>
     <string name="item_qb">枪柄按键</string>
-    <string name="tv_open_float">打开悬浮框</string>
-    
+    <string name="tv_open_float">打开或关闭悬浮框</string>
+    <string name="tv_open_sound">打开或关闭声音</string>
+
     <string name="power_tips">范围5~30</string>
     <string name="low_power">电量低禁用超高频</string>
     <string name="high_temp">温度过高禁用超高频</string>
@@ -308,4 +310,14 @@
     <string name="tv_s0_mode">s0 快速模式</string>
     <string name="tv_s1_mode">s1 快速模式</string>
     <string name="toast_stop_fast_tips">请先关闭快速模式</string>
+
+    <string name="btn_set_action">设置自定义广播</string>
+    <string name="custom_action">自定义广播</string>
+    <string name="custom_key_epc">自定义epc键值</string>
+    <string name="custom_key_tid">自定义tid键值</string>
+    <string name="custom_key_rssi">自定义信号强度键值</string>
+    <string name="custom_action_hint">广播值</string>
+    <string name="custom_key_epc_hint">epc键值</string>
+    <string name="custom_key_tid_hint">tid键值</string>
+    <string name="custom_key_rssi_hint">rssi键值</string>
 </resources>

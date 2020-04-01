@@ -249,9 +249,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                     }
                     if (j == uhfCardBeanList.size()) {
                         uhfCardBeanList.add(new UhfCardBean(var1.epc, 1, var1.rssi, var1.tid));
-                        if (!mTbtnSound.isChecked()) {
-                            soundPool.play(soundId, 1, 1, 0, 0, 1);
-                        }
+//                        if (mTbtnSound.isChecked()) {
+//                            soundPool.play(soundId, 1, 1, 0, 0, 1);
+//                        }
                     }
                     uhfCardAdapter.notifyDataSetChanged();
                     updateRateCount();

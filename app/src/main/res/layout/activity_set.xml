@@ -128,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@null"
+                        android:background="@color/text_white3"
                         android:gravity="center_vertical"
                         android:hint="@string/power_tips"
                         android:inputType="number"
@@ -181,10 +181,12 @@
                 android:layout_below="@+id/set_tab1"
                 android:layout_marginTop="10dp"
                 android:background="@color/text_white">
+
                 <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
+
                     <TableRow android:id="@+id/set_tr_timeout">
 
                         <TextView
@@ -201,7 +203,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            android:background="@null"
+                            android:background="@color/text_white3"
                             android:gravity="center_vertical"
                             android:hint="@string/set_read_time"
                             android:inputType="number"
@@ -237,7 +239,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            android:background="@null"
+                            android:background="@color/text_white3"
                             android:gravity="center_vertical"
                             android:hint="@string/set_sleep"
                             android:inputType="number"
@@ -453,6 +455,35 @@
                         android:textOn="" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/rl_sound_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/tv_open_sound"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_set_sound"
+                        style="@style/MyToggleBtn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/transparent"
+                        android:gravity="center_vertical"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:textOff=""
+                        android:textOn="" />
+                </RelativeLayout>
+
             </TableLayout>
 
             <TableLayout
@@ -551,7 +582,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@null"
+                        android:background="@color/text_white3"
                         android:gravity="center_vertical"
                         android:hint="@string/set_server_loop_time"
                         android:inputType="number"
@@ -589,6 +620,122 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:checked="false" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/custom_action"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_custom_action"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@color/text_white3"
+                        android:gravity="center_vertical"
+                        android:hint="@string/custom_action_hint"
+                        android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
+                        android:textColorHint="@color/text_gray"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/custom_key_epc"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_custom_key1"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@color/text_white3"
+                        android:gravity="center_vertical"
+                        android:hint="@string/custom_key_epc_hint"
+                        android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
+                        android:textColorHint="@color/text_gray"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/custom_key_tid"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_custom_key2"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@color/text_white3"
+                        android:gravity="center_vertical"
+                        android:hint="@string/custom_key_tid_hint"
+                        android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
+                        android:textColorHint="@color/text_gray"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/custom_key_rssi"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_custom_key3"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@color/text_white3"
+                        android:gravity="center_vertical"
+                        android:hint="@string/custom_key_rssi_hint"
+                        android:padding="14dp"
+                        android:textColor="@color/text_set_dark"
+                        android:textColorHint="@color/text_gray"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp">
+
+                    <Button
+                        android:id="@+id/btn_set_action"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_b_g_select"
+                        android:text="@string/btn_set_action"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
                 </TableRow>
             </TableLayout>
         </RelativeLayout>
