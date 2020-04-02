@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">UHF</string>
-    <!--<string name="app_name">BigSunUHF</string>-->
     <string name="check_box_close">Exit  with close quick scan</string>
     <string name="check_box_close_service">Exit  with close quick inventory service</string>
     <string name="Search_Btn_T">SEARCH</string>

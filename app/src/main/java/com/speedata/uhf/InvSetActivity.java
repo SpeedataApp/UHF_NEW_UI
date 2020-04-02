@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -247,6 +248,9 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         etBlock = findViewById(R.id.et_block);
         checkBoxFocusShow = findViewById(R.id.check_focus_show);
         checkBoxFocusShow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SystemProperties.set("persist.sys.keyreportshow", "true");
+            }
             SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.IS_FOCUS_SHOW, isChecked);
         });
         checkBoxFocusShow.setChecked(SharedXmlUtil.getInstance(InvSetActivity.this).read(MyApp.IS_FOCUS_SHOW, false));
