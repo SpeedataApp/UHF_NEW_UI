@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">UHF</string>
-
+    <!--<string name="app_name">BigSunUHF</string>-->
     <string name="check_box_close">退出时关闭焦点扫描EPC</string>
     <string name="check_box_close_service">退出时关闭快捷盘点服务</string>
     <string name="Search_Btn_T">选卡</string>
@@ -122,17 +122,19 @@
     <string name="set_inv">盘点内容</string>
     <string name="set_freq_point">设置频点</string>
     <string name="set_freq_point_hint">设置频点大小</string>
-    <string name="set_addr">地址</string>
+    <string name="set_addr">起始地址</string>
     <string name="set_addr_hint">填写地址位置</string>
     <string name="set_count">块数</string>
     <string name="set_count_hint">填写块数信息</string>
     <string name="btn_ok">确认</string>
     <string name="set_server_prefix">前缀</string>
     <string name="set_server_suffix">后缀</string>
-    <string name="set_server_loop">循环</string>
+    <string name="set_server_loop">循环(配合循环超时使用)</string>
     <string name="set_server_loop_time">设置循环超时时间</string>
     <string name="set_loop_s">秒</string>
     <string name="set_long_down">长按连扫</string>
+    <string name="set_filter">是否过滤</string>
+    <string name="set_focus_show">是否焦点显示epc</string>
     <!--主界面-->
     <string name="search_dialog_item">请先寻卡</string>
     <string name="search_dialog_title">选择要寻找的卡片</string>

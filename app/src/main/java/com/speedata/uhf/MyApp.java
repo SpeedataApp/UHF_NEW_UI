@@ -42,6 +42,10 @@ public class MyApp extends Application {
     public static String mLoopTime = "0";
     public static boolean isLongDown = false;
     /**
+     * 是否过滤
+     */
+    public static boolean isFilter = false;
+    /**
      * 程序启动初始化一次的标志，运行过程中不再初始化
      * The flag that the program starts and initializes once, not again during execution
      */
@@ -61,6 +65,10 @@ public class MyApp extends Application {
     public final static String ACTION_KEY_EPC = "action_key_epc";
     public final static String ACTION_KEY_TID = "action_key_tid";
     public final static String ACTION_KEY_RSSI = "action_key_rssi";
+    /**
+     * 是否焦点显示epc
+     */
+    public final static String IS_FOCUS_SHOW = "isFocusShow";
 
     public static MyApp getInstance() {
         return m_application;
@@ -133,7 +141,7 @@ public class MyApp extends Application {
             i = iuhfService.setQueryTagGroup(0, SharedXmlUtil.getInstance(this).read(MyApp.UHF_SESSION, 0), 0);
             Log.d("zzc:", "===isFirstInit===setQueryTagGroup:" + i);
             SystemClock.sleep(100);
-            i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0), 0, 6);
+            i = iuhfService.setInvMode(SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 1), 0, 12);
             Log.d("zzc:", "===isFirstInit===setInvMode:" + i);
         }
         if (UHFManager.getUHFModel().contains(UHFManager.FACTORY_XINLIAN)) {

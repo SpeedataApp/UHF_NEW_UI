@@ -316,7 +316,9 @@
                         android:textSize="14sp" />
                 </TableRow>
 
-                <TableRow android:visibility="gone">
+                <TableRow
+                    android:id="@+id/tr_address"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -328,18 +330,23 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_address"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@null"
+                        android:background="@color/text_white3"
                         android:gravity="center_vertical"
                         android:hint="@string/set_addr_hint"
+                        android:inputType="number"
                         android:padding="14dp"
+                        android:text="0"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
                 </TableRow>
 
-                <TableRow android:visibility="gone">
+                <TableRow
+                    android:id="@+id/tr_block"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -351,13 +358,16 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_block"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@null"
+                        android:background="@color/text_white3"
                         android:gravity="center_vertical"
                         android:hint="@string/set_count_hint"
+                        android:inputType="number"
                         android:padding="14dp"
+                        android:text="12"
                         android:textColorHint="@color/text_gray"
                         android:textSize="14sp" />
                 </TableRow>
@@ -495,7 +505,25 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/text_white"
                 android:visibility="visible">
+                <TableRow>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/set_focus_show"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/check_focus_show"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:checked="false" />
+                </TableRow>
                 <TableRow>
 
                     <TextView
@@ -615,6 +643,26 @@
 
                     <CheckBox
                         android:id="@+id/check_long_down"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:checked="false" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/set_filter"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/check_filter"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"

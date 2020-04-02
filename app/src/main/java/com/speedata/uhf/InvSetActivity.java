@@ -66,15 +66,16 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private Button setFreqBtn, setSessionBtn, setPowerBtn, setInvConBtn;
     private TextView tvPrefix, tvSuffix;
     private EditText etLoopTime;
-    private CheckBox checkBoxLoop, checkBoxLongDown;
+    private CheckBox checkBoxLoop, checkBoxLongDown, checkBoxFilter, checkBoxFocusShow;
     private TableLayout tableLayout5, tableLayout6;
-    private TableRow trSession;
+    private TableRow trSession, trAddress, trBlock;
     private EditText etReadTime, etSleep;
     private Button setTimeBtn;
     private TextView mVersionTv;
     private RelativeLayout rlFloatSwitch;
     private LinearLayout setTimeLayout2;
-    private EditText etCustomAction, etCustomKeyEpc, etCustomKeyTid, etCustomKeyRssi;
+    private EditText etCustomAction, etCustomKeyEpc, etCustomKeyTid, etCustomKeyRssi,
+            etAddress, etBlock;
 
 
     @Override
@@ -201,27 +202,24 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         tableLayout5 = findViewById(R.id.set_tab5);
         rlFloatSwitch = findViewById(R.id.rl_float_switch);
         openFloatWindow = findViewById(R.id.toggle_set_float);
-        openFloatWindow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    FloatBallManager.getInstance(getApplicationContext());
-                    if (FloatBallManager.getFloatBallManager() != null) {
-                        FloatWindow.get("FloatBallTag").show();
-                    }
-                    if (FloatListManager.getFloatListManager() != null) {
-                        FloatWindow.get("FloatListTag").hide();
-                    }
-                    SharedXmlUtil.getInstance(InvSetActivity.this).write("floatWindow", "open");
-                } else {
-                    if (FloatBallManager.getFloatBallManager() != null) {
-                        FloatBallManager.getFloatBallManager().closeFloatBall();
-                    }
-                    if (FloatListManager.getFloatListManager() != null) {
-                        FloatListManager.getFloatListManager().closeFloatList();
-                    }
-                    SharedXmlUtil.getInstance(InvSetActivity.this).write("floatWindow", "close");
+        openFloatWindow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                FloatBallManager.getInstance(getApplicationContext());
+                if (FloatBallManager.getFloatBallManager() != null) {
+                    FloatWindow.get("FloatBallTag").show();
                 }
+                if (FloatListManager.getFloatListManager() != null) {
+                    FloatWindow.get("FloatListTag").hide();
+                }
+                SharedXmlUtil.getInstance(InvSetActivity.this).write("floatWindow", "open");
+            } else {
+                if (FloatBallManager.getFloatBallManager() != null) {
+                    FloatBallManager.getFloatBallManager().closeFloatBall();
+                }
+                if (FloatListManager.getFloatListManager() != null) {
+                    FloatListManager.getFloatListManager().closeFloatList();
+                }
+                SharedXmlUtil.getInstance(InvSetActivity.this).write("floatWindow", "close");
             }
         });
         etReadTime = findViewById(R.id.set_read_time);
@@ -237,12 +235,21 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         etCustomKeyRssi = findViewById(R.id.et_custom_key3);
         findViewById(R.id.btn_set_action).setOnClickListener(this);
         openSound = findViewById(R.id.toggle_set_sound);
-        openSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedXmlUtil.getInstance(InvSetActivity.this).write("server_sound", isChecked);
-            }
+        openSound.setOnCheckedChangeListener((buttonView, isChecked) -> SharedXmlUtil.getInstance(InvSetActivity.this).write("server_sound", isChecked));
+        checkBoxFilter = findViewById(R.id.check_filter);
+        checkBoxFilter.setOnCheckedChangeListener((buttonView, isChecked) ->
+                MyApp.isFilter = isChecked
+        );
+        checkBoxFilter.setChecked(MyApp.isFilter);
+        trAddress = findViewById(R.id.tr_address);
+        trBlock = findViewById(R.id.tr_block);
+        etAddress = findViewById(R.id.et_address);
+        etBlock = findViewById(R.id.et_block);
+        checkBoxFocusShow = findViewById(R.id.check_focus_show);
+        checkBoxFocusShow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.IS_FOCUS_SHOW, isChecked);
         });
+        checkBoxFocusShow.setChecked(SharedXmlUtil.getInstance(InvSetActivity.this).read(MyApp.IS_FOCUS_SHOW, false));
     }
 
     private void getFreq() {
@@ -322,6 +329,13 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             invConRegion = SharedXmlUtil.getInstance(this).read(MyApp.UHF_INV_CON, 0);
         }
         tvSetInvCon.setText(getResources().getStringArray(R.array.inv_con)[invConRegion]);
+        if (invConRegion == 0) {
+            trAddress.setVisibility(View.GONE);
+            trBlock.setVisibility(View.GONE);
+        } else {
+            trAddress.setVisibility(View.VISIBLE);
+            trBlock.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -628,6 +642,12 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                 iuhfService.cancelMask();
                 SharedXmlUtil.getInstance(InvSetActivity.this).write("U8", false);
                 int caddr = 0, csize = 12;
+                String addr = etAddress.getText().toString().trim();
+                String block = etBlock.getText().toString().trim();
+                if (!TextUtils.isEmpty(addr) && !TextUtils.isEmpty(block)) {
+                    caddr = Integer.parseInt(addr);
+                    csize = Integer.parseInt(block);
+                }
                 int mode = iuhfService.setInvMode(w, caddr, csize);
                 if (mode == 0) {
                     SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.UHF_INV_CON, w);
@@ -702,6 +722,13 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
                     //选择的盘点内容列表位置
                     invConRegion = bundle.getInt("position");
                     tvSetInvCon.setText(invCon);
+                    if (invConRegion == 0) {
+                        trAddress.setVisibility(View.GONE);
+                        trBlock.setVisibility(View.GONE);
+                    } else {
+                        trAddress.setVisibility(View.VISIBLE);
+                        trBlock.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case 4:

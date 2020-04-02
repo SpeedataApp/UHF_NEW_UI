@@ -28,8 +28,10 @@ import com.speedata.uhf.floatball.ModeManager;
 import com.yhao.floatwindow.FloatWindow;
 
 import java.text.Format;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -224,25 +226,25 @@ public class MyService extends Service {
         registerReceiver(receiver, filter);
     }
 
-    private class ListThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            try {
-                sleep(60000);
-                if (linkedList != null) {
-                    if (!linkedList.isEmpty()) {
-                        String epc = (String) linkedList.removeFirst();
-                        Log.d("zzcEpc", "= remove =" + epc);
-                    }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    private class ListThread extends Thread {
+//        @Override
+//        public void run() {
+//            super.run();
+//            try {
+//                sleep(60000);
+//                if (linkedList != null) {
+//                    if (!linkedList.isEmpty()) {
+//                        String epc = (String) linkedList.removeFirst();
+//                        Log.d("zzcEpc", "= remove =" + epc);
+//                    }
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    private LinkedList linkedList;
+    private List<String> linkedList;
 
     private void startScan() {
         int modeLeft = SharedXmlUtil.getInstance(this).read("current_mode_left", 6);
@@ -258,12 +260,16 @@ public class MyService extends Service {
             public void getInventoryData(SpdInventoryData var1) {
                 String epc = var1.getEpc();
                 if (!epc.isEmpty() && MyApp.isStart && !linkedList.contains(var1.getEpc())) {
-                    sendEpc(epc);
+                    if (MyApp.isFilter) {
+                        linkedList.add(var1.getEpc());
+                    }
+                    if (SharedXmlUtil.getInstance(MyService.this).read("server_sound", true)) {
+                        soundPool.play(soundId, 1, 1, 0, 0, 1);
+                    }
+                    if (SharedXmlUtil.getInstance(MyService.this).read(MyApp.IS_FOCUS_SHOW, false)) {
+                        sendEpc(epc);
+                    }
                     sendData(var1);
-                    linkedList.addLast(var1.getEpc());
-//                    Log.d("zzcEpc", "= add =" + epc);
-                    ListThread listThread = new ListThread();
-                    listThread.start();
                     if (finalIsOnce) {
                         //停止盘点 stop
                         MyApp.getInstance().getIuhfService().inventoryStop();
@@ -280,7 +286,7 @@ public class MyService extends Service {
         if (MyApp.getInstance().getIuhfService() != null) {
             if (!MyApp.isStart) {
                 MyApp.getInstance().getIuhfService().inventoryStart();
-                linkedList = new LinkedList();
+                linkedList = new ArrayList<>();
                 MyApp.isStart = true;
             } else {
                 MyApp.getInstance().getIuhfService().inventoryStop();
@@ -328,9 +334,6 @@ public class MyService extends Service {
     }
 
     private void sendEpc(String epc) {
-        if (SharedXmlUtil.getInstance(MyService.this).read("server_sound", true)) {
-            soundPool.play(soundId, 1, 1, 0, 0, 1);
-        }
         switch (MyApp.mPrefix) {
             case 0:
                 epc = "\n" + epc;
