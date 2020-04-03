@@ -226,24 +226,6 @@ public class MyService extends Service {
         registerReceiver(receiver, filter);
     }
 
-//    private class ListThread extends Thread {
-//        @Override
-//        public void run() {
-//            super.run();
-//            try {
-//                sleep(60000);
-//                if (linkedList != null) {
-//                    if (!linkedList.isEmpty()) {
-//                        String epc = (String) linkedList.removeFirst();
-//                        Log.d("zzcEpc", "= remove =" + epc);
-//                    }
-//                }
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
     private List<String> linkedList;
 
     private void startScan() {
