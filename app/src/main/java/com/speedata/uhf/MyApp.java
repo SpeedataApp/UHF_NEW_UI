@@ -12,6 +12,8 @@ import android.util.Log;
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.uhf.adapter.UhfCardBean;
+import com.speedata.uhf.adapter.UhfInfoBean;
 import com.speedata.uhf.floatball.FloatBallManager;
 import com.speedata.uhf.floatball.FloatListManager;
 import com.speedata.uhf.floatball.FloatWarnManager;
@@ -22,6 +24,8 @@ import com.yhao.floatwindow.FloatWindow;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 张明_
@@ -69,6 +73,10 @@ public class MyApp extends Application {
      * 是否焦点显示epc
      */
     public final static String IS_FOCUS_SHOW = "isFocusShow";
+    /**
+     * 缓存列表
+     */
+    public static List<UhfInfoBean> list = new ArrayList<>();
 
     public static MyApp getInstance() {
         return m_application;

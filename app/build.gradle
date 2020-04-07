@@ -51,4 +51,5 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.github.yhaolpz:FloatWindow:1.0.9'
+    implementation 'com.koushikdutta.async:androidasync:2.2.1'
 }

@@ -23,8 +23,11 @@ import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.interfaces.OnSpdBanMsgListener;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.utils.SharedXmlUtil;
+import com.speedata.uhf.adapter.UhfCardBean;
+import com.speedata.uhf.adapter.UhfInfoBean;
 import com.speedata.uhf.floatball.FloatWarnManager;
 import com.speedata.uhf.floatball.ModeManager;
+import com.speedata.uhf.httpserver.ArtemisHttpServer;
 import com.yhao.floatwindow.FloatWindow;
 
 import java.text.Format;
@@ -159,6 +162,7 @@ public class MyService extends Service {
         setBuilder();
         initReceive();
         initUHF();
+        ArtemisHttpServer.getInstance().start();
     }
 
     private void creatTimer() {
@@ -283,6 +287,13 @@ public class MyService extends Service {
     }
 
     private void sendData(SpdInventoryData var1) {
+        if (MyApp.list != null) {
+            if (MyApp.list.size() > 5000) {
+                MyApp.list.clear();
+            }
+            MyApp.list.add(new UhfInfoBean(var1.getEpc(), var1.getTid(), var1.getRssi()));
+        }
+
         Intent intent = new Intent();
         intent.setAction(ACTION_SEND_DATA);
         Bundle bundle = new Bundle();
@@ -412,11 +423,12 @@ public class MyService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Log.d(TAG, "===onDestroy===");
+        ArtemisHttpServer.getInstance().stop();
         soundPool.release();
         if (receiver != null) {
             unregisterReceiver(receiver);
         }
+        super.onDestroy();
     }
 }
