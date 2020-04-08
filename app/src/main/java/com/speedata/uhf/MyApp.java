@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.WebView;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
@@ -73,6 +74,7 @@ public class MyApp extends Application {
      * 是否焦点显示epc
      */
     public final static String IS_FOCUS_SHOW = "isFocusShow";
+    public final static String EPC_OR_TID = "focus_switch_tid";
     /**
      * 缓存列表
      */

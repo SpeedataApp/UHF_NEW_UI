@@ -129,11 +129,13 @@
     <string name="set_server_prefix">前缀</string>
     <string name="set_server_suffix">后缀</string>
     <string name="set_server_loop">循环(配合循环超时使用)</string>
+    <string name="set_loop">循环</string>
     <string name="set_server_loop_time">设置循环超时时间</string>
     <string name="set_loop_s">秒</string>
     <string name="set_long_down">长按连扫</string>
     <string name="set_filter">是否过滤</string>
     <string name="set_focus_show">是否焦点显示epc</string>
+    <string name="set_focus_show_tid">焦点切换显示tid</string>
     <!--主界面-->
     <string name="search_dialog_item">请先寻卡</string>
     <string name="search_dialog_title">选择要寻找的卡片</string>

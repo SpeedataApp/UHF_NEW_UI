@@ -67,7 +67,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
     private Button setFreqBtn, setSessionBtn, setPowerBtn, setInvConBtn;
     private TextView tvPrefix, tvSuffix;
     private EditText etLoopTime;
-    private CheckBox checkBoxLoop, checkBoxLongDown, checkBoxFilter, checkBoxFocusShow;
+    private CheckBox checkBoxLoop, checkBoxLongDown, checkBoxFilter, checkBoxFocusShow, checkBoxTid;
     private TableLayout tableLayout5, tableLayout6;
     private TableRow trSession, trAddress, trBlock;
     private EditText etReadTime, etSleep;
@@ -247,6 +247,7 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
         etAddress = findViewById(R.id.et_address);
         etBlock = findViewById(R.id.et_block);
         checkBoxFocusShow = findViewById(R.id.check_focus_show);
+        checkBoxTid = findViewById(R.id.check_focus_show_tid);
         checkBoxFocusShow.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 SystemProperties.set("persist.sys.keyreportshow", "true");
@@ -254,6 +255,10 @@ public class InvSetActivity extends BaseActivity implements View.OnClickListener
             SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.IS_FOCUS_SHOW, isChecked);
         });
         checkBoxFocusShow.setChecked(SharedXmlUtil.getInstance(InvSetActivity.this).read(MyApp.IS_FOCUS_SHOW, false));
+        checkBoxTid.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedXmlUtil.getInstance(InvSetActivity.this).write(MyApp.EPC_OR_TID, isChecked);
+        });
+        checkBoxTid.setChecked(SharedXmlUtil.getInstance(InvSetActivity.this).read(MyApp.EPC_OR_TID, false));
     }
 
     private void getFreq() {

@@ -1,5 +1,11 @@
 package com.speedata.uhf.adapter;
 
+/**
+ * epc信息实体类
+ * 用于本地网络请求缓存
+ *
+ * @author zzc
+ */
 public class UhfInfoBean {
     private String epc;
     private String tid;

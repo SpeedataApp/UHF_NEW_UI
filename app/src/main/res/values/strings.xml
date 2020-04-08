@@ -131,11 +131,13 @@
     <string name="set_server_prefix">prefix</string>
     <string name="set_server_suffix">suffix</string>
     <string name="set_server_loop">loop</string>
+    <string name="set_loop">loop</string>
     <string name="set_server_loop_time">set the cycle timeout</string>
     <string name="set_loop_s">s</string>
     <string name="set_long_down">long press the sweep</string>
     <string name="set_filter">Whether the filter</string>
     <string name="set_focus_show">Whether focus display epc</string>
+    <string name="set_focus_show_tid">Focus switch display tid</string>
     <!--主界面-->
     <string name="search_dialog_item">Please find the card</string>
     <string name="search_dialog_title">Select the card to look for</string>

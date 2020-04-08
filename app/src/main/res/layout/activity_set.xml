@@ -527,6 +527,25 @@
                 <TableRow>
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:text="@string/set_focus_show_tid"
+                        android:textColor="@color/commom_text_color"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/check_focus_show_tid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:checked="false" />
+                </TableRow>
+                <TableRow>
+
+                    <TextView
                         android:layout_width="100dp"
                         android:layout_height="50dp"
                         android:gravity="center_vertical"

@@ -162,6 +162,7 @@ public class MyService extends Service {
         setBuilder();
         initReceive();
         initUHF();
+        //开启网络监听request请求
         ArtemisHttpServer.getInstance().start();
     }
 
@@ -253,7 +254,7 @@ public class MyService extends Service {
                         soundPool.play(soundId, 1, 1, 0, 0, 1);
                     }
                     if (SharedXmlUtil.getInstance(MyService.this).read(MyApp.IS_FOCUS_SHOW, false)) {
-                        sendEpc(epc);
+                        sendEpc(var1);
                     }
                     sendData(var1);
                     if (finalIsOnce) {
@@ -326,7 +327,11 @@ public class MyService extends Service {
         Log.d(TAG, "===sendData===" + action);
     }
 
-    private void sendEpc(String epc) {
+    private void sendEpc(SpdInventoryData var1) {
+        String epc = var1.getEpc();
+        if (SharedXmlUtil.getInstance(MyService.this).read(MyApp.EPC_OR_TID, false)) {
+            epc = var1.getTid();
+        }
         switch (MyApp.mPrefix) {
             case 0:
                 epc = "\n" + epc;
