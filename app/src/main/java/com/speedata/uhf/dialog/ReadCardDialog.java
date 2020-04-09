@@ -6,9 +6,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -141,7 +143,8 @@ public class ReadCardDialog extends Dialog implements
                     public void run() {
                         int readArea = iuhfService.readArea(whichChoose, addr, count, strPasswd);
                         if (readArea != 0) {
-                            handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+                            String err = mContext.getResources().getString(R.string.read_fail) + ":" + ErrorStatus.getErrorStatus(mContext, readArea) + "\n";
+                            handler.sendMessage(handler.obtainMessage(1, err));
                         }
                     }
                 }).start();

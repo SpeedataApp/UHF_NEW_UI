@@ -220,7 +220,9 @@ public class WriteCardDialog extends Dialog implements
                 isSuccess = false;
                 int writeArea = iuhfService.writeArea(whichChoose, addr, count, strPasswd, write);
                 if (writeArea != 0) {
-                    handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+//                    handler.sendMessage(handler.obtainMessage(1, mContext.getResources().getString(R.string.toast2)));
+                    String err = mContext.getResources().getString(R.string.write_fail) + ":" + ErrorStatus.getErrorStatus(mContext, writeArea) + "\n";
+                    handler.sendMessage(handler.obtainMessage(1, err));
                 }
                 Log.d("zzc:", "==write==" + i++);
                 try {

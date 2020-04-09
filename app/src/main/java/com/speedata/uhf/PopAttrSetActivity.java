@@ -214,13 +214,12 @@ public class PopAttrSetActivity extends BaseActivity {
         final int which = whichint;
 
         isSuccess = false;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int setPassword = iuhfService.setPassword(which, curpass, newpass);
-                if (setPassword != 0) {
-                    handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.toast2)));
-                }
+        new Thread(() -> {
+            int setPassword = iuhfService.setPassword(which, curpass, newpass);
+            if (setPassword != 0) {
+                String err = getResources().getString(R.string.set_failed) + ":" + ErrorStatus.getErrorStatus(PopAttrSetActivity.this, setPassword) + "\n";
+                handler.sendMessage(handler.obtainMessage(2, err));
+//                    handler.sendMessage(handler.obtainMessage(2, getResources().getString(R.string.toast2)));
             }
         }).start();
     }
@@ -251,7 +250,9 @@ public class PopAttrSetActivity extends BaseActivity {
             public void run() {
                 int writeArea = iuhfService.setNewEpc(password, epcLen, write);
                 if (writeArea != 0) {
-                    handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.toast2)));
+                    String err = getResources().getString(R.string.set_failed) + ":" + ErrorStatus.getErrorStatus(PopAttrSetActivity.this, writeArea) + "\n";
+                    handler.sendMessage(handler.obtainMessage(3, err));
+//                    handler.sendMessage(handler.obtainMessage(3, getResources().getString(R.string.toast2)));
                 }
             }
         }).start();
@@ -287,7 +288,9 @@ public class PopAttrSetActivity extends BaseActivity {
             public void run() {
                 int reval = iuhfService.setLock(lockType, lockSpace, lockNewPwd);
                 if (reval != 0) {
-                    handler.sendMessage(handler.obtainMessage(4, getResources().getString(R.string.toast2)));
+                    String err = getResources().getString(R.string.set_failed) + ":" + ErrorStatus.getErrorStatus(PopAttrSetActivity.this, reval) + "\n";
+                    handler.sendMessage(handler.obtainMessage(4, err));
+//                    handler.sendMessage(handler.obtainMessage(4, getResources().getString(R.string.toast2)));
                 }
             }
         }).start();
